@@ -19,6 +19,7 @@ export default {
       fontFamily: {
         sans: ['"Noto Sans TC"', 'sans-serif'],
         serif: ['"Roboto Slab"', 'serif'],
+        handwriting: ['cursive'],
       },
     },
   },

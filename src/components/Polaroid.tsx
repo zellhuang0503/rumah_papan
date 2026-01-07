@@ -17,10 +17,10 @@ export const Polaroid: React.FC<PolaroidProps> = ({
 }) => {
     return (
         <div
-            className={`bg-white p-4 shadow-lg transform transition-transform hover:scale-105 hover:z-10 ${className}`}
+            className={`bg-[#EAE1D4] p-4 shadow-lg transform transition-transform duration-300 hover:scale-105 hover:z-50 ${className}`}
             style={style}
         >
-            <div className="aspect-[4/3] w-full overflow-hidden bg-gray-200 mb-4">
+            <div className="aspect-[4/5] w-full overflow-hidden bg-gray-200 mb-4 filter sepia-[.15]">
                 <img
                     src={src}
                     alt={alt}
@@ -28,7 +28,7 @@ export const Polaroid: React.FC<PolaroidProps> = ({
                 />
             </div>
             {caption && (
-                <div className="text-center font-handwriting text-gray-600 text-sm"> {/* Assuming a handwriting font style for caption */}
+                <div className="text-center font-serif italic text-[#242527] text-sm tracking-wide">
                     {caption}
                 </div>
             )}
