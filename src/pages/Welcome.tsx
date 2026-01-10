@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, ArrowRight, Menu } from 'lucide-react';
-import { Polaroid } from '../components/Polaroid';
+import { ArrowRight, Mail, Menu } from 'lucide-react';
 import { BrandLogo } from '../components/BrandLogo';
+import { GuidelineLayer } from '../components/GuidelineLayer';
+import { Polaroid } from '../components/Polaroid';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,32 +30,72 @@ export const Welcome: React.FC = () => {
         window.addEventListener('resize', handleResize);
         handleResize();
 
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    // Use useLayoutEffect for GSAP to ensure DOM is fully updated with new scale before calculating triggers
+    useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            // Desktop Animations
-            const polaroids = document.querySelectorAll('.polaroid-item');
-            polaroids.forEach((item) => {
-                gsap.fromTo(item,
-                    { opacity: 0, y: 150 },
-                    {
-                        opacity: 1, y: 0,
-                        duration: 1.2,
-                        ease: "power2.out",
-                        scrollTrigger: {
-                            trigger: item,
-                            start: "top 85%",
-                            end: "top 60%",
-                            scrub: 1,
-                        }
+            // 1. Set Initial States (Static Visible Items)
+            // P1, P2, and Line 1 (P1->P2) are ALWAYS visible.
+            gsap.set([".polaroid-1", ".polaroid-2"], { autoAlpha: 1 });
+            gsap.set("#mask-path-1", { strokeDashoffset: 0 }); // Show Line 1
+
+            // 2. Set Initial Hidden States for Scroll Items (P3+)
+            // Hide P3-P7 and their incoming lines (2-7)
+            gsap.set([".polaroid-3", ".polaroid-4", ".polaroid-5", ".polaroid-6", ".polaroid-7", ".cta-button"], { autoAlpha: 0, y: 50 });
+            gsap.set(["#mask-path-2", "#mask-path-3", "#mask-path-4", "#mask-path-5", "#mask-path-6", "#mask-path-7"], { strokeDashoffset: 10000 });
+
+            // 3. Define Scroll Reveal Helper
+            const revealItem = (triggerClass: string, lineId: string | null, targetClass: string) => {
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: triggerClass, // Trigger when this polaroid hits the view
+                        start: "top 80%",      // When top of polaroid hits 80% viewport height
+                        end: "top 50%",
+                        toggleActions: "play none none reverse" // Play on enter, reverse on leave up
                     }
-                );
-            });
+                });
+
+                // If there's a connecting line, draw it first
+                if (lineId) {
+                    tl.to(lineId, { strokeDashoffset: 0, duration: 1.5, ease: "power1.inOut" });
+                }
+
+                // Then fade in the polaroid
+                tl.to(targetClass, { autoAlpha: 1, y: 0, duration: 0.8 }, lineId ? "<+=0.5" : 0); // Overlap slightly
+            };
+
+            // 4. Register Animations
+            // P3 (with Line 2 from P2)
+            revealItem(".polaroid-3", "#mask-path-2", ".polaroid-3");
+
+            // P4 (with Line 3 from P3)
+            revealItem(".polaroid-4", "#mask-path-3", ".polaroid-4");
+
+            // P5 (with Line 4 from P4)
+            revealItem(".polaroid-5", "#mask-path-4", ".polaroid-5");
+
+            // P6 (with Line 5 from P5)
+            revealItem(".polaroid-6", "#mask-path-5", ".polaroid-6");
+
+            // P7 (with Line 6 from P6)
+            revealItem(".polaroid-7", "#mask-path-6", ".polaroid-7");
+
+            // CTA (with Line 7 from P7)
+            revealItem(".cta-button", "#mask-path-7", ".cta-button");
+
+            // Force ScrollTrigger to refresh positions after setup
+            ScrollTrigger.refresh();
+
         }, containerRef);
 
         return () => {
             ctx.revert();
-            window.removeEventListener('resize', handleResize);
         };
-    }, []);
+    }, [scale]);
 
     // Image assets (using placeholders for now based on user code)
     const images = [
@@ -70,7 +112,7 @@ export const Welcome: React.FC = () => {
             {/* ================= MOBILE VIEW (< 1024px) ================= */}
             <div className="lg:hidden relative">
                 {/* Navigation Mobile */}
-                <nav className="fixed top-0 w-full h-auto py-4 bg-white/90 backdrop-blur-md z-50 flex items-center justify-between px-6 shadow-sm">
+                <nav className="fixed top-0 w-full h-auto py-4 bg-transparent z-50 flex items-center justify-between px-6">
                     <div className="flex items-center gap-3">
                         <BrandLogo className="w-10 h-10 text-[#181818]" />
                         <div className="flex flex-col">
@@ -93,178 +135,255 @@ export const Welcome: React.FC = () => {
                         <h2 className="font-serif font-semibold text-4xl text-[#F1592C] mt-1">Rumah Papan</h2>
                     </div>
 
-                    {/* Polaroids Mobile (Simplified Stack) */}
-                    {images.slice(0, 3).map((img, i) => (
-                        <div key={i} className="bg-white p-3 pb-8 shadow-xl transform rotate-1">
-                            <img src={img} className="w-full aspect-[4/5] object-cover bg-gray-200" alt="Story" />
-                            <div className="text-center mt-4">
-                                <h4 className="font-bold text-xl text-[#101828]">技能換宿</h4>
-                                <p className="text-sm text-[#364153] mt-1">白天幫忙打理故事館，夜裡在班達馬蘭星空下交換故事。</p>
+                    {/* Polaroids Mobile (Simplified Stack) - 7 Items, 240px width */}
+                    {[
+                        { src: images[1], caption: "班厝故事館", desc: "班厝故事館" },
+                        { src: images[0], caption: "走進新村", desc: "走進新村" },
+                        { src: images[2], caption: "傳統習俗", desc: "傳統習俗" },
+                        { src: images[3], caption: "技能換宿", desc: "技能換宿" },
+                        { src: images[0], caption: "節慶活動", desc: "節慶活動" },
+                        { src: images[4], caption: "肉骨茶", desc: "肉骨茶" },
+                        { src: images[1], caption: "木鱉果", desc: "木鱉果" },
+                    ].map((item, i) => (
+                        <div key={i} className="pointer-events-auto flex justify-center w-full">
+                            {/* Wrapper: Width 240px. Original 465x523. Scale needed: 240/465 ≈ 0.516. Height ≈ 270px */}
+                            <div style={{ width: '240px', height: '270px', position: 'relative' }}>
+                                {/* Inner renders at full size (465x523) then scales down */}
+                                <div style={{ width: '465px', height: '523px', transform: 'scale(0.5161)', transformOrigin: 'top left' }}>
+                                    <Polaroid
+                                        src={item.src}
+                                        alt={item.caption}
+                                        caption={item.caption}
+                                        description={item.desc}
+                                        className="w-full h-full shadow-xl transform rotate-1"
+                                    />
+                                </div>
                             </div>
                         </div>
                     ))}
 
                     {/* CTA Mobile */}
-                    <div className="flex justify-center">
-                        <button className="bg-[#F3E3CB] border-2 border-[#242527] px-6 py-3 rounded-full font-bold text-xl">進入新村</button>
+                    <div className="flex justify-center pb-8">
+                        <Link to="/home" className="bg-[#F3E3CB] border-2 border-[#242527] px-6 py-3 rounded-full font-bold text-xl text-[#242527]">進入新村</Link>
                     </div>
+                </div>
+
+                {/* Mobile Fixed Bottom Right Buttons */}
+                <div className="lg:hidden fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-auto">
+                    <div className="w-14 h-14 bg-neutral-800 rounded-full flex justify-center items-center shadow-xl cursor-pointer active:scale-95 transition-transform">
+                        <span className="text-orange-100 text-lg font-medium font-serif">中文</span>
+                    </div>
+                    <Link to="/home" className="w-14 h-14 bg-neutral-800 rounded-full flex justify-center items-center shadow-xl cursor-pointer active:scale-95 transition-transform border-[2px] border-[#F1592C]">
+                        <ArrowRight className="w-6 h-6 text-[#F1592C]" />
+                    </Link>
                 </div>
             </div>
 
 
             {/* ================= DESKTOP VIEW (>= 1024px) ================= */}
-            {/* Consuming User's Exact HTML Export relative to 1920px width */}
-            <div className="hidden lg:block relative origin-top-left" style={{ width: '1920px', height: '100%', transform: `scale(${scale})` }}>
+            {/* Wrapper to handle the flow height of the scaled content */}
+            <div className="hidden lg:block relative" style={{ height: `${5200 * scale}px` }}> {/* Dynamically adjust height */}
+                <div className="absolute top-0 left-0 origin-top-left" style={{ width: '1920px', height: '5200px', transform: `scale(${scale})` }}>
 
-                {/* Background Container */}
-                <div className="w-[1920px] h-[4900px] left-0 top-[282px] absolute">
+                    {/* Background Container */}
+                    <div className="w-[1920px] h-[4900px] left-0 top-[282px] absolute">
 
-                    {/* Variant 4: Top Group */}
-                    <div data-property-1="Variant4" className="w-[1920px] h-[1204px] left-0 top-0 absolute">
-                        {/* Decorative Dashed Box */}
+                        {/* Dashed Guideline Layer */}
+                        <GuidelineLayer />
 
-
-
-                        {/* Polaroid 1: 班厝故事館 (Right, Top) */}
-                        <Polaroid
-                            src={images[1]}
-                            alt="班厝故事館"
-                            caption="班厝故事館"
-                            rotation={6}
-                            className="absolute left-[1144.62px] top-[10px] w-[465px] h-[523px] origin-top-left"
-                        />
-
-                        {/* Polaroid 2: 走進新村 (Left, Bottom) */}
-                        <Polaroid
-                            src={images[0]}
-                            alt="走進新村"
-                            caption="走進新村"
-                            rotation={-10.61}
-                            className="absolute left-[331px] top-[110px] w-[465px] h-[523px] origin-top-left"
-                        />
-                    </div>
-
-                    {/* Variant 2: Middle Group (傳統習俗) */}
-                    <div data-property-1="Variant2" className="w-[220px] h-[712px] left-0 top-[976px] absolute">
+                        {/* Variant 4: Top Group */}
+                        <div data-property-1="Variant4" className="w-[1920px] h-[1204px] left-0 top-0 absolute">
+                            {/* Decorative Dashed Box */}
 
 
 
-                        <Polaroid
-                            src={images[2]}
-                            alt="傳統習俗"
-                            caption="傳統習俗"
-                            rotation={10.5}
-                            className="absolute left-[1212.25px] top-[300px] w-[465px] h-[523px] origin-top-left"
-                        />
-                    </div>
+                            {/* Polaroid 1: 班厝故事館 (Right, Top) */}
+                            <Polaroid
+                                src={images[1]}
+                                alt="班厝故事館"
+                                caption="班厝故事館"
+                                rotation={6}
+                                className="absolute left-[1144.62px] top-[10px] w-[465px] h-[523px] origin-top-left polaroid-1"
+                                disableEntryAnim={true}
+                            />
 
-                    {/* Variant 2: Middle Group (技能換宿) */}
-                    <div data-property-1="Variant2" className="w-[1920px] h-[597px] left-0 top-[1533px] absolute">
-
-
-
-                        <Polaroid
-                            src={images[3]}
-                            alt="技能換宿"
-                            caption="技能換宿"
-                            rotation={-7.6}
-                            className="absolute left-[316px] top-[346px] w-[465px] h-[523px] origin-top-left"
-                        />
-                    </div>
-
-                    {/* Variant 2: Bottom Group (肉骨茶 & 節慶活動) */}
-                    <div data-property-1="Variant2" className="w-[1939px] h-[982px] left-0 top-[1994px] absolute">
-
-
-
-
-
-                        {/* 肉骨茶 */}
-                        <Polaroid
-                            src={images[4]}
-                            alt="肉骨茶"
-                            caption="肉骨茶"
-                            rotation={-7.6}
-                            className="absolute left-[270px] top-[1131px] w-[465px] h-[523px] origin-top-left"
-                        />
-
-                        {/* 節慶活動 */}
-                        <Polaroid
-                            src={images[0]}
-                            alt="節慶活動"
-                            caption="節慶活動"
-                            rotation={6.91}
-                            className="absolute left-[1137.90px] top-[50px] w-[465px] h-[523px] origin-top-left"
-                        />
-                    </div>
-
-                    {/* Variant 2: Bottommost (木鱉果) */}
-                    <div data-property-1="Variant2" className="w-[1920px] h-[771px] left-0 top-[2940px] absolute">
-
-
-
-                        <Polaroid
-                            src={images[1]}
-                            alt="木鱉果"
-                            caption="木鱉果"
-                            rotation={6}
-                            className="absolute left-[928.63px] top-[808px] w-[465px] h-[523px] origin-top-left"
-                        />
-                    </div>
-
-                    {/* Bottom CTA Button */}
-                    <div data-property-1="Default" className="left-[822px] top-[4500px] absolute inline-flex flex-col justify-start items-center cursor-pointer hover:scale-105 transition-transform">
-                        <div className="self-stretch px-14 py-8 relative bg-orange-100 rounded-full outline outline-4 outline-offset-[-4.05px] outline-neutral-800 inline-flex justify-center items-center gap-3.5 overflow-hidden">
-                            <div className="w-7 h-36 left-[-27.03px] top-[-11.62px] absolute bg-red-500"></div>
-                            <div className="text-center justify-start text-black text-4xl font-medium font-sans leading-[54.86px]">進入新村</div>
+                            {/* Polaroid 2: 走進新村 (Left, Bottom) */}
+                            <Polaroid
+                                src={images[0]}
+                                alt="走進新村"
+                                caption="走進新村"
+                                rotation={-10.61}
+                                className="absolute left-[331px] top-[110px] w-[465px] h-[523px] origin-top-left polaroid-2"
+                                disableEntryAnim={true}
+                            />
                         </div>
-                    </div>
 
-                </div>
+                        {/* Variant 2: Middle Group (傳統習俗) */}
+                        <div data-property-1="Variant2" className="w-[220px] h-[712px] left-0 top-[976px] absolute">
 
-                {/* Header / Nav (Desktop) */}
-                <div className="w-[1920px] px-28 py-14 left-0 top-0 absolute inline-flex justify-between items-center overflow-hidden z-50">
-                    <div className="flex justify-start items-center gap-4">
-                        <div className="w-20 h-20 relative">
-                            <BrandLogo className="w-full h-full text-[#181818]" />
+
+
+                            <Polaroid
+                                src={images[2]}
+                                alt="傳統習俗"
+                                caption="傳統習俗"
+                                rotation={10.5}
+                                className="absolute left-[1212.25px] top-[300px] w-[465px] h-[523px] origin-top-left polaroid-3"
+                                disableEntryAnim={true}
+                            />
                         </div>
-                        <div className="flex flex-col justify-start items-start">
-                            <div className="whitespace-nowrap justify-start text-neutral-900 text-3xl font-bold font-sans leading-10">班厝故事館</div>
-                            <div className="whitespace-nowrap justify-start text-neutral-900 text-xl font-normal font-serif leading-7 tracking-[0.1em]">RUMAH PAPAN</div>
+
+                        {/* Variant 2: Middle Group (技能換宿) */}
+                        <div data-property-1="Variant2" className="w-[1920px] h-[597px] left-0 top-[1533px] absolute">
+
+
+
+                            <Polaroid
+                                src={images[3]}
+                                alt="技能換宿"
+                                caption="技能換宿"
+                                rotation={-7.6}
+                                className="absolute left-[316px] top-[346px] w-[465px] h-[523px] origin-top-left polaroid-4"
+                                disableEntryAnim={true}
+                            />
                         </div>
+
+                        {/* Variant 2: Bottom Group (肉骨茶 & 節慶活動) */}
+                        <div data-property-1="Variant2" className="w-[1939px] h-[982px] left-0 top-[1994px] absolute">
+
+
+
+
+
+                            {/* 肉骨茶 - This is Visually Lower, so it's P6 */}
+                            <Polaroid
+                                src={images[4]}
+                                alt="肉骨茶"
+                                caption="肉骨茶"
+                                rotation={-7.6}
+                                className="absolute left-[270px] top-[1131px] w-[465px] h-[523px] origin-top-left polaroid-6"
+                                disableEntryAnim={true}
+                            />
+
+                            {/* 節慶活動 - This is Visually Higher, so it's P5 */}
+                            <Polaroid
+                                src={images[0]}
+                                alt="節慶活動"
+                                caption="節慶活動"
+                                rotation={6.91}
+                                className="absolute left-[1137.90px] top-[50px] w-[465px] h-[523px] origin-top-left polaroid-5"
+                                disableEntryAnim={true}
+                            />
+                        </div>
+
+                        {/* Variant 2: Bottommost (木鱉果) */}
+                        <div data-property-1="Variant2" className="w-[1920px] h-[771px] left-0 top-[2940px] absolute pointer-events-none">
+
+
+
+                            <Polaroid
+                                src={images[1]}
+                                alt="木鱉果"
+                                caption="木鱉果"
+                                rotation={6}
+                                className="absolute left-[928.63px] top-[808px] w-[465px] h-[523px] origin-top-left pointer-events-auto polaroid-7"
+                                disableEntryAnim={true}
+                            />
+                        </div>
+
+                        {/* Bottom CTA Button */}
+                        <Link to="/home" data-property-1="Default" className="left-[822px] top-[4500px] absolute inline-flex flex-col justify-start items-center cursor-pointer hover:scale-105 transition-transform cta-button">
+                            <div className="self-stretch px-14 py-8 relative bg-orange-100 rounded-full outline outline-4 outline-offset-[-4.05px] outline-neutral-800 inline-flex justify-center items-center gap-3.5 overflow-hidden">
+                                <div className="w-7 h-36 left-[-27.03px] top-[-11.62px] absolute bg-[#F1592C]"></div>
+                                <div className="text-center justify-start text-black text-4xl font-medium font-sans leading-[54.86px]">進入新村</div>
+                            </div>
+                        </Link>
+
                     </div>
-                    <button className="px-8 py-4 bg-white/0 border-[3px] border-[#181818] rounded-full flex justify-center items-center gap-3 cursor-pointer hover:bg-[#181818] hover:text-white transition-all group">
-                        <Mail className="w-6 h-6 text-[#181818] group-hover:text-white fill-current" />
-                        <span className="justify-start text-neutral-900 text-2xl font-bold font-sans leading-8 group-hover:text-white">聯絡我們</span>
-                    </button>
-                </div>
 
-                {/* Hero Text Block */}
-                <div data-property-1="Variant2" className="w-[1920px] h-96 left-0 top-[313px] absolute z-20">
-                    <div className="w-16 left-[300px] top-[46.19px] absolute justify-start text-black/80 text-6xl font-bold font-sans leading-[66.30px]">歡<br />迎<br />來<br />到</div>
-                    <div className="left-[381.59px] top-[27px] absolute justify-start text-black/80 text-7xl font-semibold font-serif leading-[115.98px]">Welcome to </div>
-                    <div className="left-[300.39px] top-[300.97px] absolute justify-start text-red-500 text-7xl font-semibold font-serif leading-[114.31px]">Rumah Papan </div>
-                    <div className="left-[381.59px] top-[252.25px] absolute justify-start text-black/80 text-5xl font-semibold font-serif leading-[75.87px]">Selamat datang di </div>
-                    <div className="left-[379.52px] top-[112.45px] absolute justify-start text-red-500 text-9xl font-black font-sans leading-[161.39px]">班達馬蘭</div>
-                </div>
-
-                {/* Side Floating Text */}
-                <div className="w-6 h-[657px] left-[38px] top-[212px] absolute opacity-50 inline-flex flex-col justify-between items-start z-10">
-                    <div className="origin-top-left rotate-90 justify-start text-neutral-800 text-base font-medium font-serif capitalize leading-6 tracking-widest whitespace-nowrap mt-20">Chinese New Village</div>
-                    <div className="origin-top-left rotate-90 justify-start text-neutral-800 text-base font-medium font-serif capitalize leading-6 tracking-widest whitespace-nowrap mt-20">Bak Kut Teh</div>
-                    <div className="origin-top-left rotate-90 justify-start text-neutral-800 text-base font-medium font-serif capitalize leading-6 tracking-widest whitespace-nowrap mt-20">rumah papan</div>
-                </div>
-
-                {/* Bottom Right Floating Buttons */}
-                <div className="p-10 left-[1728px] top-[798px] fixed z-50 flex flex-col gap-4">
-                    <div className="w-28 h-28 bg-neutral-800 rounded-full flex justify-center items-center shadow-2xl cursor-pointer hover:scale-105 transition-transform">
-                        <span className="text-orange-100 text-4xl font-medium font-serif leading-[50.75px]">中文</span>
+                    {/* Header / Nav (Desktop) */}
+                    <div className="w-[1920px] px-28 py-14 left-0 top-0 absolute inline-flex justify-between items-center overflow-hidden z-50">
+                        <div className="flex justify-start items-center gap-4">
+                            <div className="w-20 h-20 relative">
+                                <BrandLogo className="w-full h-full text-[#181818]" />
+                            </div>
+                            <div className="flex flex-col justify-start items-start">
+                                <div className="whitespace-nowrap justify-start text-neutral-900 text-3xl font-bold font-sans leading-10">班厝故事館</div>
+                                <div className="whitespace-nowrap justify-start text-neutral-900 text-xl font-normal font-serif leading-7 tracking-[0.1em]">RUMAH PAPAN</div>
+                            </div>
+                        </div>
+                        <button className="px-8 py-4 bg-white/0 border-[3px] border-[#181818] rounded-full flex justify-center items-center gap-3 cursor-pointer hover:bg-[#181818] hover:text-white transition-all group">
+                            <Mail className="w-6 h-6 text-[#181818] group-hover:text-white fill-current" />
+                            <span className="justify-start text-neutral-900 text-2xl font-bold font-sans leading-8 group-hover:text-white">聯絡我們</span>
+                        </button>
                     </div>
-                    <div className="w-28 h-28 bg-neutral-800 rounded-full flex justify-center items-center shadow-2xl cursor-pointer hover:scale-105 transition-transform border-[3px] border-[#F1592C]">
-                        <ArrowRight className="w-10 h-10 text-[#F1592C]" />
+
+                    {/* Hero Text Block */}
+                    {/* Hero Text Block - Fixed Size Container 540x370 */}
+                    {/* Hero Text Block - Fixed Size Container 470px, Vertical Gap 10px */}
+                    <div
+                        data-property-1="Variant2"
+                        className="absolute left-[300px] top-[340px] z-20 w-[470px] flex flex-col gap-[10px] pointer-events-none"
+                        style={{ transform: 'scale(1.1)', transformOrigin: 'top left' }}
+                    >
+
+                        {/* Top Section: Vertical Text + Right Aligned Stack */}
+                        <div className="flex justify-start gap-[10px] items-stretch w-full pr-0 pointer-events-auto">
+                            {/* Left: Vertical Text (Justified to match Right Stack Height) */}
+                            <div className="flex flex-col justify-between h-full text-black/80 text-[56px] font-bold font-sans leading-none">
+                                <span>歡</span><span>迎</span><span>來</span><span>到</span>
+                            </div>
+
+                            {/* Right: Horizontal Text Stack - Flexible Width to fill remaining space of 470px */}
+                            <div className="flex flex-col flex-1 gap-1">
+                                {/* Line 1: Welcome to */}
+                                <div className="flex justify-between w-full text-black/80 text-7xl font-semibold font-serif leading-none">
+                                    <span>Welcome</span>
+                                    <span>to</span>
+                                </div>
+
+                                {/* Line 2: 班達馬蘭 */}
+                                <div className="flex justify-between w-full text-[#F1592C] text-8xl font-black font-sans leading-none mt-[-5px]">
+                                    <span>班</span><span>達</span><span>馬</span><span>蘭</span>
+                                </div>
+
+                                {/* Line 3: Selamat datang di */}
+                                <div className="flex justify-between w-full text-black/80 text-5xl font-semibold font-serif leading-none mt-1">
+                                    <span>Selamat</span>
+                                    <span>datang</span>
+                                    <span>di</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Bottom Section: Rumah Papan (Centered, 70px as compromise) */}
+                        <div className="w-[470px] text-center text-[#F1592C] text-[70px] font-semibold font-serif leading-none tracking-normal whitespace-nowrap">Rumah Papan</div>
                     </div>
+
+
+
+
+
                 </div>
 
+                {/* Side Floating Text - Fixed Position (Outside Scaled Container) */}
+                <div className="hidden lg:block fixed top-0 left-0 bg-transparent z-10 pointer-events-none" style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+                    <div className="w-6 h-[657px] left-[38px] top-[212px] absolute opacity-50 inline-flex flex-col justify-between items-start">
+                        <div className="origin-top-left rotate-90 justify-start text-neutral-800 text-base font-medium font-serif capitalize leading-6 tracking-widest whitespace-nowrap mt-20">Chinese New Village</div>
+                        <div className="origin-top-left rotate-90 justify-start text-neutral-800 text-base font-medium font-serif capitalize leading-6 tracking-widest whitespace-nowrap mt-20">Bak Kut Teh</div>
+                        <div className="origin-top-left rotate-90 justify-start text-neutral-800 text-base font-medium font-serif capitalize leading-6 tracking-widest whitespace-nowrap mt-20">rumah papan</div>
+                    </div>
+
+                    {/* Bottom Right Floating Buttons - Fixed Position */}
+                    <div className="p-10 left-[1728px] top-[798px] absolute z-50 flex flex-col gap-4 pointer-events-auto">
+                        <div className="w-28 h-28 bg-neutral-800 rounded-full flex justify-center items-center shadow-2xl cursor-pointer hover:scale-105 transition-transform">
+                            <span className="text-orange-100 text-4xl font-medium font-serif leading-[50.75px]">中文</span>
+                        </div>
+                        <Link to="/home" className="w-28 h-28 bg-neutral-800 rounded-full flex justify-center items-center shadow-2xl cursor-pointer hover:scale-105 transition-transform border-[3px] border-[#F1592C] flex justify-center items-center">
+                            <ArrowRight className="w-10 h-10 text-[#F1592C]" />
+                        </Link>
+                    </div>
+                </div>
             </div>
 
         </div>
