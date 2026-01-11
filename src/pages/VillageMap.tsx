@@ -32,7 +32,7 @@ export const VillageMap: React.FC = () => {
                     <MapViewer />
                 </section>
 
-                {/* Filter Section */}
+                {/* Filter/Legend Section - Visually matching design, acts as legend or quick filter for map */}
                 <section>
                     <MapFilter
                         activeCategory={activeCategory}
@@ -40,18 +40,60 @@ export const VillageMap: React.FC = () => {
                     />
                 </section>
 
-                {/* Locations Grid */}
-                <section className="flex flex-col gap-8">
-                    <h3 className="text-[2rem] font-bold text-[#242527] font-noto-sans-tc border-l-4 border-[#242527] pl-4">
+                {/* Locations Sections - Displaying ALL categories in order */}
+                <div className="flex flex-col gap-[80px]">
+                    <h3 className="text-[3rem] font-bold text-[#242527] font-noto-sans-tc">
                         旅遊地圖
                     </h3>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {filteredLocations.map(location => (
-                            <LocationCard key={location.id} item={location} />
-                        ))}
-                    </div>
-                </section>
+                    {/* Food Section */}
+                    <section className="flex flex-col gap-8">
+                        <div className="flex items-center gap-4">
+                            <span className="w-2 h-10 bg-[#242527]"></span>
+                            <h4 className="text-[2rem] font-bold text-[#242527] font-noto-sans-tc">
+                                肉骨茶
+                            </h4>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                            {villageLocations.filter(l => l.category === 'food').map(location => (
+                                <LocationCard key={location.id} item={location} />
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Temple Section */}
+                    <section className="flex flex-col gap-8">
+                        <div className="flex items-center gap-4">
+                            <span className="w-2 h-10 bg-[#242527]"></span>
+                            <h4 className="text-[2rem] font-bold text-[#242527] font-noto-sans-tc">
+                                廟宇
+                            </h4>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                            {villageLocations.filter(l => l.category === 'temple').map(location => (
+                                <LocationCard key={location.id} item={location} />
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Attraction Section */}
+                    <section className="flex flex-col gap-8">
+                        <div className="flex items-center gap-4">
+                            <span className="w-2 h-10 bg-[#242527]"></span>
+                            <h4 className="text-[2rem] font-bold text-[#242527] font-noto-sans-tc">
+                                景點
+                            </h4>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                            {villageLocations.filter(l => l.category === 'attraction').map(location => (
+                                <LocationCard key={location.id} item={location} />
+                            ))}
+                        </div>
+                    </section>
+                </div>
 
             </main>
 
