@@ -1,17 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, ArrowRight } from 'lucide-react';
+import { Mail } from 'lucide-react';
 // import { Polaroid } from './Polaroid'; // We'll build a custom structure or reuse it if fits
 
 gsap.registerPlugin(ScrollTrigger);
 
-const COLORS = {
-    bg: '#F3EFE9',        // Lighter cream background matching the image
-    primary: '#EA580C',   // Orange for text
-    text: '#1F2937',      // Dark gray/black
-    frame: '#FFFFFF',     // White frame for polaroid
-};
+// const COLORS = { ... } // Removed unused COLORS
 
 export const PolaroidHero: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);

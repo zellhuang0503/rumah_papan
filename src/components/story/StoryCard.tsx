@@ -1,6 +1,6 @@
 import React from 'react';
 import type { StoryItem } from '../../data/storyData';
-import { ArrowUpRight } from 'lucide-react';
+
 
 interface StoryCardProps {
     item: StoryItem;

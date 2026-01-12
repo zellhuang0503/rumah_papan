@@ -25,7 +25,7 @@ export const VillageMap: React.FC = () => {
     };
 
     useLayoutEffect(() => {
-        const ctx = gsap.context((self) => {
+        const ctx = gsap.context(() => {
             // Scoped selector
             const q = gsap.utils.selector(containerRef);
 
