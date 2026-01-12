@@ -1,16 +1,19 @@
-export type LocationCategory = 'food' | 'attraction' | 'temple';
+export type LocationCategory = 'food' | 'attraction' | 'temple' | 'all';
 
 export interface LocationItem {
     id: string;
     name: string;
-    subName?: string; // e.g., English name or secondary title
+    subName?: string;
     address: string;
     category: LocationCategory;
-    featureTitle?: string; // "特色"
-    featureDescription?: string[]; // Array of paragraphs for features
-    distanceInfo?: string; // "距離班厝..."
+    featureTitle?: string;
+    featureDescription?: string[];
+    distanceInfo?: string;
     coordinates?: { x: number; y: number };
 }
+
+export const MAP_PAGE_TITLE = "觀光地圖";
+export const MAP_PAGE_SUBTITLE = "人氣景點";
 
 export const villageLocations: LocationItem[] = [
     // --- Food (肉骨茶) ---
@@ -25,7 +28,8 @@ export const villageLocations: LocationItem[] = [
             '在地人非常愛，早上人多到爆棚那種。',
             '湯頭偏鹹香、帶一點點藥材甜味，不是那種很厚重的藥味型。'
         ],
-        distanceInfo: '距離班厝：同在 Pandamaran，開車大概 5 分鐘左右（Jalan Kemanis 出去轉去 Jalan Chan Ah Choo 那一帶）。'
+        distanceInfo: '距離班厝：同在 Pandamaran，開車大概 5 分鐘左右。',
+        coordinates: { x: 55, y: 40 }
     },
     {
         id: 'f2',
@@ -38,7 +42,8 @@ export const villageLocations: LocationItem[] = [
             '有湯的也有乾的，味道偏厚、藥材感比較重一點。',
             '很多人說湯很「有 punch」，肉也燉到很嫩。'
         ],
-        distanceInfo: '距離班厝：同一條 BKT 街上，跟三美在同一區域，從班厝過去一樣是幾分鐘車程。'
+        distanceInfo: '距離班厝：同一條 BKT 街上，跟三美在同一區域。',
+        coordinates: { x: 52, y: 45 }
     },
     {
         id: 'f3',
@@ -50,11 +55,12 @@ export const villageLocations: LocationItem[] = [
         featureDescription: [
             '是比較「濃縮型」的湯，湯不多但很稠、很濃，油飯也很香。',
             '下午／晚上營業那種，很多人專程去吃晚餐。'
-        ]
+        ],
+        coordinates: { x: 50, y: 50 }
     },
     {
         id: 'f4',
-        name: '海南茶室 1956', // Shortened for display, full name in desc if needed
+        name: '海南茶室 1956',
         subName: 'Choon Guan Hainan Coffee 1956',
         address: '5, Jalan Stesen, Kawasan 1, 41000 Klang, Selangor, Malaysia',
         category: 'food',
@@ -62,7 +68,8 @@ export const villageLocations: LocationItem[] = [
         featureDescription: [
             '招牌：海南咖啡、半熟蛋、烤麵包、麵線、咖哩麵、椰漿飯等。',
             '很適合寫在「來班厝前／後去哪裡吃早餐」的推薦裡。'
-        ]
+        ],
+        coordinates: { x: 60, y: 35 }
     },
     {
         id: 'f5',
@@ -74,10 +81,23 @@ export const villageLocations: LocationItem[] = [
         featureDescription: [
             '不是肉骨茶，是客家熱炒餐館。',
             '招牌：排骨王、亞參魚、咖哩羊、豬腳、鹹菜煲等'
-        ]
+        ],
+        coordinates: { x: 58, y: 38 }
+    },
+    {
+        id: 'a1',
+        name: '你家炸鸡',
+        subName: 'Nijia Fried Chicken (Main Branch)',
+        address: '1503 B, Jalan Young, Pandamaran, 42000 Pelabuhan Klang, Selangor, Malaysia',
+        category: 'food',
+        featureTitle: '特色',
+        featureDescription: [
+            '总行／Pandamaran 总店'
+        ],
+        coordinates: { x: 45, y: 55 }
     },
 
-    // --- Temples (廟宇) ---
+    // --- Temple (廟宇) ---
     {
         id: 't1',
         name: '觀天宮',
@@ -87,7 +107,8 @@ export const villageLocations: LocationItem[] = [
         featureDescription: [
             '位於 Jalan Kemanis 同一條路上。'
         ],
-        distanceInfo: '距離班厝步行幾分鐘'
+        distanceInfo: '距離班厝步行幾分鐘',
+        coordinates: { x: 70, y: 30 }
     },
     {
         id: 't2',
@@ -97,7 +118,8 @@ export const villageLocations: LocationItem[] = [
         featureTitle: '特色',
         featureDescription: [
             '巴生毗濕奴廟宇'
-        ]
+        ],
+        coordinates: { x: 75, y: 25 }
     },
     {
         id: 't3',
@@ -108,20 +130,33 @@ export const villageLocations: LocationItem[] = [
         featureTitle: '特色',
         featureDescription: [
             '斯里 Nagara Thandayuthapani 興都廟'
-        ]
+        ],
+        coordinates: { x: 80, y: 28 }
     },
 
-    // --- Attractions (景點) ---
+    // --- Attraction (景點) - Includes About/Story/Other spots ---
     {
-        id: 'a1',
-        name: '你家炸鸡',
-        subName: 'Nijia Fried Chicken (Main Branch)',
-        address: '1503 B, Jalan Young, Pandamaran, 42000 Pelabuhan Klang, Selangor, Malaysia',
+        id: 'ab1',
+        name: 'Rumah Papan',
+        subName: '班厝',
+        address: 'Pandamaran, Port Klang',
         category: 'attraction',
         featureTitle: '特色',
         featureDescription: [
-            '总行／Pandamaran 总店'
-        ]
+            '我們所在的板屋，是一間收集故事的厝。'
+        ],
+        coordinates: { x: 30, y: 70 }
+    },
+    {
+        id: 's1',
+        name: '故事交換點 A',
+        address: 'Pandamaran Village',
+        category: 'attraction',
+        featureTitle: '交換',
+        featureDescription: [
+            '在這裡交換你是這條街的故事。'
+        ],
+        coordinates: { x: 35, y: 75 }
     },
     {
         id: 'a2',
@@ -132,6 +167,8 @@ export const villageLocations: LocationItem[] = [
         featureTitle: '特色',
         featureDescription: [
             'GM Klang Wholesale City'
-        ]
+        ],
+        coordinates: { x: 20, y: 80 }
     }
 ];
+
