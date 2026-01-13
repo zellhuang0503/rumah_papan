@@ -30,10 +30,18 @@ export const SiteFooter: React.FC = () => {
                             {FOOTER_DATA.description}
                         </p>
 
-                        {/* Social Circles */}
-                        <div className="w-[132px] flex justify-between items-center">
-                            {[1, 2, 3].map((i) => (
-                                <div key={i} className="w-[36px] h-[36px] bg-red-400 rounded-full" />
+                        {/* Social Icons */}
+                        <div className="flex justify-start items-center gap-[18px]">
+                            {(FOOTER_DATA as any).socials?.map((social: any) => (
+                                <a
+                                    key={social.id}
+                                    href={social.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-orange-100 hover:text-red-400 transition-colors flex items-center justify-center p-2"
+                                >
+                                    <i className={`${social.icon} text-[24px]`} />
+                                </a>
                             ))}
                         </div>
                     </div>

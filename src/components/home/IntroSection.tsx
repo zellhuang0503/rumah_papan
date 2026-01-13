@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { INTRO_SLIDES } from '../../data/homeData';
+import { getIntroSlides } from '../../data/homeData';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const IntroSection: React.FC = () => {
+    const { language } = useLanguage();
+    const slides = getIntroSlides(language);
+
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const nextSlide = () => {
-        setCurrentSlide((prev) => (prev + 1) % INTRO_SLIDES.length);
+        setCurrentSlide((prev) => (prev + 1) % slides.length);
     };
 
     const prevSlide = () => {
-        setCurrentSlide((prev) => (prev - 1 + INTRO_SLIDES.length) % INTRO_SLIDES.length);
+        setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
     };
 
     return (
@@ -18,7 +22,7 @@ export const IntroSection: React.FC = () => {
             {/* Carousel Container */}
             <div className="relative w-[1260px] h-[600px] bg-white rounded-[18px] overflow-hidden group">
                 {/* Slides */}
-                {INTRO_SLIDES.map((slide, index) => (
+                {slides.map((slide, index) => (
                     <div
                         key={index}
                         className={`absolute inset-0 transition-opacity duration-500 ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
@@ -41,7 +45,7 @@ export const IntroSection: React.FC = () => {
 
                 {/* Navigation Dots */}
                 <div className="absolute left-[528.75px] top-[544.5px] flex gap-[12px] z-20">
-                    {INTRO_SLIDES.map((_, idx) => (
+                    {slides.map((_, idx) => (
                         <button
                             key={idx}
                             onClick={() => setCurrentSlide(idx)}

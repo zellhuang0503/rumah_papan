@@ -1,49 +1,16 @@
 import React, { useState } from 'react';
 import { ArrowDown } from 'lucide-react';
 import { BubbleLink } from '../BubbleLink';
-
-// Define content type
-type ContentData = {
-    title: string;
-    body: string;
-};
-
-// Content Map with Keys
-const contentMap: Record<string, ContentData> = {
-    about: {
-        title: "一間為新村存放記憶的厝",
-        body: "班厝是一間收集故事的厝，牆上是老照片，桌上是新朋友，讓一條班達馬蘭新村的記憶持續被看見。"
-    },
-    bkt: {
-        title: "來碗班達馬蘭肉骨茶",
-        body: "在班達馬蘭新村，清晨不是咖啡香，而是一鍋熱騰騰的肉骨茶，陪你慢慢開始一天的新村步調。"
-    },
-    walk: {
-        title: "用腳一步一步讀完班達馬蘭",
-        body: "跟著導覽在巷口轉彎，廟前停下，聽人把班達馬蘭的過去現在，慢慢說成你聽得懂的故事。"
-    },
-    sustainability: {
-        title: "把永續活在每天的小事裡",
-        body: "班厝，永續不是口號，而是一起把廚餘變養分、果皮變酵素、菜園當作共同的責任。"
-    },
-    exchange: {
-        title: "來班厝，換一個故事回去",
-        body: "有人帶著旅程來，有人帶著生活來，在班厝，每次聊天都多一個人，記得這條班達馬蘭新村。"
-    },
-    festivals: {
-        title: "一起過節好嗎？",
-        body: "設香案、掛燈籠、桌椅排滿街；在班達馬蘭新村，過節就是整條街一起動起來，你來就多一副筷子。"
-    },
-    stay: {
-        title: "技能換宿",
-        body: "有人幫忙除草澆花，有人拿相機記錄；你把時間和專長留在這裡，新村就慢慢把你當自己人。"
-    }
-};
+import { getHeroContentMap } from '../../data/homeData';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const HeroSection: React.FC = () => {
+    const { language } = useLanguage();
+    const contentMap = getHeroContentMap(language);
+
     // State tracks KEY
     const [activeKey, setActiveKey] = useState<string>('about');
-    const activeContent = contentMap[activeKey];
+    const activeContent = contentMap[activeKey as keyof typeof contentMap];
 
     const handleBubbleClick = (key: string) => {
         setActiveKey(key);

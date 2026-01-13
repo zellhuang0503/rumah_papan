@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Search, ChevronDown, Mail } from 'lucide-react';
+import { Search, ChevronDown } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 import { NavbarSubmenu } from './NavbarSubmenu';
 import { ABOUT_SUBMENU_ITEMS, VILLAGE_SUBMENU_ITEMS } from '../data/mockNavigation';
 
+import { useLanguage } from '../contexts/LanguageContext';
+
 export const HomeNavbar: React.FC = () => {
+    const { language, setLanguage } = useLanguage();
     return (
         <nav className="fixed top-0 left-0 w-full px-[120px] py-[52px] flex justify-between items-center z-50 pointer-events-none">
             {/* Logo Section - Left */}
@@ -56,17 +59,27 @@ export const HomeNavbar: React.FC = () => {
                 </div>
 
                 {/* Language Switch */}
-                <div className="flex items-center gap-2 border-[#181818] pl-6">
-                    <span className="font-bold text-[#181818] text-sm cursor-pointer">CH</span>
+                <div className="flex items-center gap-2 border-[#181818] pl-6 pointer-events-auto">
+                    <button
+                        onClick={() => setLanguage('zh')}
+                        className={`font-bold text-sm cursor-pointer transition-colors ${language === 'zh' ? 'text-[#181818]' : 'text-[#181818]/40 hover:text-[#181818]'}`}
+                    >
+                        CH
+                    </button>
                     <span className="text-[#181818]/40 text-sm">|</span>
-                    <span className="font-serif text-[#181818]/60 text-sm cursor-pointer hover:text-[#181818] transition-colors">EN</span>
+                    <button
+                        onClick={() => setLanguage('en')}
+                        className={`font-serif text-sm cursor-pointer transition-colors ${language === 'en' ? 'text-[#181818]' : 'text-[#181818]/60 hover:text-[#181818]'}`}
+                    >
+                        EN
+                    </button>
                 </div>
             </div>
 
             {/* Right Section: Contact Button */}
-            <Link to="/contact" className="pointer-events-auto bg-transparent border-[1.5px] border-[#181818] rounded-full px-5 py-2 flex items-center gap-2 hover:bg-[#181818] hover:text-white transition-all z-50">
-                <Mail className="w-4 h-4 fill-current" />
-                <span className="font-bold text-base">聯絡我們</span>
+            <Link to="/contact" className="pointer-events-auto bg-transparent border-[2px] border-[#181818] rounded-full px-5 py-2 flex items-center gap-2 hover:bg-[#F1592C] transition-all duration-300 z-50 group">
+                <i className="fi fi-br-envelope text-[16px] text-[#181818] transition-colors" />
+                <span className="font-bold text-base text-[#181818]">聯絡我們</span>
             </Link>
         </nav>
     );

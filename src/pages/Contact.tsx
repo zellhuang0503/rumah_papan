@@ -2,7 +2,6 @@ import React from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
 import { FOUNDER_DATA, CONTACT_LINKS } from '../data/contactData';
-import { Facebook, Instagram, Phone } from 'lucide-react'; // Placeholder icons, will use specific ones if needed
 
 export const Contact: React.FC = () => {
     // Layout Rules:
@@ -49,18 +48,19 @@ export const Contact: React.FC = () => {
                                 </p>
                             </div>
 
-                            {/* Decorative Squares */}
+                            {/* Social Icons */}
                             <div className="w-[160px] self-stretch flex justify-end items-end gap-[15px]">
-                                <div className="w-[42px] h-[42px] relative bg-neutral-800/10"> {/* Placeholder for square 1 */}
-                                    <div className="w-[36px] h-[36px] absolute left-[3px] top-[3px] bg-neutral-800"></div>
-                                </div>
-                                <div className="w-[42px] h-[42px] relative bg-neutral-800/10"> {/* Placeholder for square 2 */}
-                                    <div className="w-[36px] h-[36px] absolute left-[3px] top-[3px] bg-neutral-800"></div>
-                                </div>
-                                <div className="w-[42px] h-[42px] relative bg-neutral-800/10"> {/* Placeholder for square 3 */}
-                                    <div className="absolute left-[20px] top-[38px] w-[2px] h-[1px] bg-black"></div> {/* Minuscule detail from snippet */}
-                                    <div className="w-[36px] h-[36px] absolute left-[3px] top-[3px] bg-neutral-800"></div>
-                                </div>
+                                {(FOUNDER_DATA as any).socials.map((social: any) => (
+                                    <a
+                                        key={social.id}
+                                        href={social.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-[42px] h-[42px] relative flex justify-center items-center transition-colors"
+                                    >
+                                        <i className={`${social.icon} text-[24px] text-neutral-800`} />
+                                    </a>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -90,7 +90,7 @@ export const Contact: React.FC = () => {
                         <div className="w-full bg-white px-[24px] py-[9px] rounded-[18px] flex flex-col items-start gap-[6px]">
                             <div className="flex items-center gap-[6px]">
                                 <span className="text-black text-[18px] font-medium font-['Roboto_Slab']">Facebook</span>
-                                <Facebook className="w-4 h-4 text-black" />
+                                <i className="fi fi-brands-facebook text-[16px] text-black" />
                             </div>
                             <h3 className="text-black/80 text-[36px] font-bold font-['Noto_Sans_TC'] leading-tight">
                                 {CONTACT_LINKS[0].value}
@@ -105,7 +105,7 @@ export const Contact: React.FC = () => {
                         <div className="w-full bg-white px-[24px] py-[9px] rounded-[18px] flex flex-col items-start gap-[6px]">
                             <div className="flex items-center gap-[6px]">
                                 <span className="text-black/80 text-[18px] font-medium font-['Roboto_Slab']">Instagram</span>
-                                <Instagram className="w-4 h-4 text-black" />
+                                <i className="fi fi-brands-instagram text-[16px] text-black" />
                             </div>
                             <h3 className="text-black/80 text-[36px] font-bold font-['Noto_Sans_TC'] leading-tight">
                                 {CONTACT_LINKS[1].value}
@@ -119,7 +119,7 @@ export const Contact: React.FC = () => {
                         <div className="w-full bg-white px-[24px] py-[9px] rounded-[18px] flex flex-col items-start gap-[6px]">
                             <div className="flex items-center gap-[6px]">
                                 <span className="text-black/80 text-[18px] font-medium font-['Roboto_Slab']">WhatsApp</span>
-                                <Phone className="w-4 h-4 text-black" />
+                                <i className="fi fi-brands-whatsapp text-[16px] text-black" />
                             </div>
                             <h3 className="text-black/80 text-[36px] font-bold font-['Noto_Sans_TC'] leading-tight">
                                 {CONTACT_LINKS[2].value}
