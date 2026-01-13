@@ -23,7 +23,7 @@ const HERO_CONTENT_MAP_ZH = {
     sustainability: { title: "把永續活在每天的小事裡", body: "班厝，永續不是口號，而是一起把廚餘變養分、果皮變酵素、菜園當作共同的責任。" },
     exchange: { title: "來班厝，換一個故事回去", body: "有人帶著旅程來，有人帶著生活來，在班厝，每次聊天都多一個人，記得這條班達馬蘭新村。" },
     festivals: { title: "一起過節好嗎？", body: "設香案、掛燈籠、桌椅排滿街；在班達馬蘭新村，過節就是整條街一起動起來，你來就多一副筷子。" },
-    stay: { title: "技能換宿", body: "有人幫忙除草澆花，有人拿相機記錄；你把時間和專長留在這裡，新村就慢慢把你當自己人。" }
+    stay: { title: "帶著你的專長找到更多可能，換一段新村生活", body: "有人幫忙除草澆花，有人拿相機記錄；你把時間和專長留在這裡，新村就慢慢把你當自己人。" }
 };
 
 const HERO_CONTENT_MAP_EN = {
@@ -33,7 +33,7 @@ const HERO_CONTENT_MAP_EN = {
     sustainability: { title: "Living Sustainability in Daily Small Things", body: "At Rumah Papan, sustainability is not a slogan, but a shared responsibility to turn food waste into nutrients, fruit peels into enzymes, and the vegetable garden into a common duty." },
     exchange: { title: "Come to Rumah Papan, Exchange a Story", body: "Some come with a journey, some come with life. At Rumah Papan, every chat adds one more person who remembers this Pandamaran New Village." },
     festivals: { title: "Shall We Celebrate Together?", body: "Setting up incense tables, hanging lanterns, tables and chairs filling the streets; in Pandamaran New Village, celebrating means the whole street moves together, and you are just one pair of chopsticks away." },
-    stay: { title: "Work Swap", body: "Some help with weeding and watering, some record with cameras; you leave your time and expertise here, and the village slowly treats you as one of its own." }
+    stay: { title: "Bring your skills to find more possibilities, exchange for a period of village life", body: "Some help with weeding and watering, some record with cameras; you leave your time and expertise here, and the village slowly treats you as one of its own." }
 };
 
 export const getHeroContentMap = (lang: 'zh' | 'en') => lang === 'zh' ? HERO_CONTENT_MAP_ZH : HERO_CONTENT_MAP_EN;

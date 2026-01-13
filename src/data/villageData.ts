@@ -160,14 +160,29 @@ const TRAFFIC_DATA_ZH = {
     title: "如何抵達",
     methods: [
         {
-            type: "自駕",
-            title: "自行開車",
-            steps: [{ id: "01", action: "導航", desc: "使用 Waze / Google Maps 搜尋 Rumah Papan" }, { id: "02", action: "抵達", desc: "依指示行駛抵達" }]
+            type: "機場",
+            title: "從吉隆坡國際機場出發（KLIA / KLIA2）",
+            steps: [
+                { id: "01", action: "搭乘巴士", desc: "KLIA / KLIA2 → Aeon Mall Bukit Tinggi, Klang（約 1 小時）" },
+                { id: "02", action: "轉乘 Grab 計程車", desc: "Aeon Mall Bukit Tinggi → 班厝故事館（約 15 分鐘 / 5 km）" }
+            ]
         },
         {
-            type: "大眾運輸",
-            title: "搭乘火車",
-            steps: [{ id: "01", action: "KTM", desc: "搭乘 KTM 到 Klang Station" }, { id: "02", action: "轉乘", desc: "轉乘 Grab / Taxi" }]
+            type: "車站",
+            title: "從吉隆坡中央車站出發（KL Sentral）",
+            steps: [
+                { id: "01", action: "搭乘 KTM 電動火車", desc: "KL Sentral → KTM Station Kampung Raja Uda" },
+                { id: "02", action: "轉乘 Grab 計程車", desc: "Kampung Raja Uda 站 → 班厝故事館（約 7–12 分鐘 / 2 km）" }
+            ]
+        },
+        {
+            type: "接駁巴士",
+            title: "免費接駁巴士 → KTM Klang",
+            steps: [
+                { id: "01", action: "步行至 Free Shuttle Bus", desc: "出站後步行至 Free Shuttle Bus 免費接駁巴士月台" },
+                { id: "02", action: "搭乘免費接駁巴士", desc: "Subang → KTM Klang（巴士站）（約 30 分鐘）" }
+            ],
+            note: "（此接駁為鐵路維修期間的暫時性服務，建議出發前先確認班次）"
         }
     ]
 };
@@ -176,14 +191,29 @@ const TRAFFIC_DATA_EN = {
     title: "How to Get Here",
     methods: [
         {
-            type: "Driving",
-            title: "Driving",
-            steps: [{ id: "01", action: "Navigate", desc: "Search Rumah Papan on Waze / Google Maps" }, { id: "02", action: "Arrive", desc: "Follow directions" }]
+            type: "Airport",
+            title: "Departing from KLIA / KLIA2",
+            steps: [
+                { id: "01", action: "Take Bus", desc: "KLIA / KLIA2 → Aeon Mall Bukit Tinggi, Klang (approx. 1 hour)" },
+                { id: "02", action: "Transfer to Grab", desc: "Aeon Mall Bukit Tinggi → Rumah Papan (approx. 15 mins / 5 km)" }
+            ]
         },
         {
-            type: "Public Transport",
-            title: "By Train",
-            steps: [{ id: "01", action: "KTM", desc: "Take KTM to Klang Station" }, { id: "02", action: "Transfer", desc: "Transfer via Grab / Taxi" }]
+            type: "Station",
+            title: "Departing from KL Sentral",
+            steps: [
+                { id: "01", action: "Take KTM Train", desc: "KL Sentral → KTM Station Kampung Raja Uda" },
+                { id: "02", action: "Transfer to Grab", desc: "Kampung Raja Uda Station → Rumah Papan (approx. 7–12 mins / 2 km)" }
+            ]
+        },
+        {
+            type: "Shuttle Bus",
+            title: "Free Shuttle Bus → KTM Klang",
+            steps: [
+                { id: "01", action: "Walk to Shuttle Bus", desc: "Walk to Free Shuttle Bus platform after exiting station" },
+                { id: "02", action: "Take Free Bus", desc: "Subang → KTM Klang (Bus Station) (approx. 30 mins)" }
+            ],
+            note: "(Temporary service during railway maintenance, please check schedule beforehand)"
         }
     ]
 };

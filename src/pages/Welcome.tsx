@@ -87,6 +87,21 @@ export const Welcome: React.FC = () => {
             // CTA (with Line 7 from P7)
             revealItem(".cta-button", "#mask-path-7", ".cta-button");
 
+            // 5. Hero Text Entrance Animation (Wave Effect)
+            // Initial State: Hidden and shifted left
+            gsap.set([".hero-text-vertical", ".hero-text-row-1", ".hero-text-row-2", ".hero-text-row-3", ".hero-text-row-4"], { autoAlpha: 0, x: -50 });
+
+            const textTl = gsap.timeline({ defaults: { ease: "power3.out", duration: 1 } });
+
+            // Animate Vertical Text first
+            textTl.to(".hero-text-vertical", { autoAlpha: 1, x: 0 })
+                // Then the horizontal rows sequentially with overlapping stagger (wave effect)
+                .to([".hero-text-row-1", ".hero-text-row-2", ".hero-text-row-3", ".hero-text-row-4"], {
+                    autoAlpha: 1,
+                    x: 0,
+                    stagger: 0.15
+                }, "-=0.5"); // Start slightly before vertical text finishes
+
             // Force ScrollTrigger to refresh positions after setup
             ScrollTrigger.refresh();
 
@@ -330,25 +345,25 @@ export const Welcome: React.FC = () => {
                         {/* Top Section: Vertical Text + Right Aligned Stack */}
                         <div className="flex justify-start gap-[10px] items-stretch w-full pr-0 pointer-events-auto">
                             {/* Left: Vertical Text (Justified to match Right Stack Height) */}
-                            <div className="flex flex-col justify-between h-full text-black/80 text-[56px] font-bold font-sans leading-none">
+                            <div className="hero-text-vertical flex flex-col justify-between h-full text-black/80 text-[56px] font-bold font-sans leading-none">
                                 <span>歡</span><span>迎</span><span>來</span><span>到</span>
                             </div>
 
                             {/* Right: Horizontal Text Stack - Flexible Width to fill remaining space of 470px */}
                             <div className="flex flex-col flex-1 gap-1">
                                 {/* Line 1: Welcome to */}
-                                <div className="flex justify-between w-full text-black/80 text-7xl font-semibold font-serif leading-none">
+                                <div className="hero-text-row-1 flex justify-between w-full text-black/80 text-7xl font-semibold font-serif leading-none">
                                     <span>Welcome</span>
                                     <span>to</span>
                                 </div>
 
                                 {/* Line 2: 班達馬蘭 */}
-                                <div className="flex justify-between w-full text-[#F1592C] text-8xl font-black font-sans leading-none mt-[-5px]">
+                                <div className="hero-text-row-2 flex justify-between w-full text-[#F1592C] text-8xl font-black font-sans leading-none mt-[-5px]">
                                     <span>班</span><span>達</span><span>馬</span><span>蘭</span>
                                 </div>
 
                                 {/* Line 3: Selamat datang di */}
-                                <div className="flex justify-between w-full text-black/80 text-5xl font-semibold font-serif leading-none mt-1">
+                                <div className="hero-text-row-3 flex justify-between w-full text-black/80 text-5xl font-semibold font-serif leading-none mt-1">
                                     <span>Selamat</span>
                                     <span>datang</span>
                                     <span>di</span>
@@ -357,7 +372,7 @@ export const Welcome: React.FC = () => {
                         </div>
 
                         {/* Bottom Section: Rumah Papan (Centered, 70px as compromise) */}
-                        <div className="w-[470px] text-center text-[#F1592C] text-[70px] font-semibold font-serif leading-none tracking-normal whitespace-nowrap">Rumah Papan</div>
+                        <div className="hero-text-row-4 w-[470px] text-center text-[#F1592C] text-[70px] font-semibold font-serif leading-none tracking-normal whitespace-nowrap">Rumah Papan</div>
                     </div>
 
 

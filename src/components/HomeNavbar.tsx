@@ -10,7 +10,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 export const HomeNavbar: React.FC = () => {
     const { language, setLanguage } = useLanguage();
     return (
-        <nav className="fixed top-0 left-0 w-full px-[120px] py-[52px] flex justify-between items-center z-50 pointer-events-none">
+        <nav className="fixed top-0 left-0 w-full px-[120px] py-[52px] flex justify-between items-center z-50 bg-orange-100/90 backdrop-blur-sm transition-all duration-300">
             {/* Logo Section - Left */}
             <Link to="/home" className="pointer-events-auto flex items-center gap-2 z-50">
                 <BrandLogo className="w-10 h-10 text-[#181818]" />
