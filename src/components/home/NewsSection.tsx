@@ -1,13 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
-import { NEWS_DATA } from '../../data/homeData';
+import { getNewsData } from '../../data/homeData';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const NewsSection: React.FC = () => {
+    const { language } = useLanguage();
+    const newsData = getNewsData(language);
+
     return (
         <section className="w-full h-[600px] relative bg-orange-100 flex justify-center items-start">
             <div className="w-[1275px] flex flex-col justify-center items-center">
-                {NEWS_DATA.map((news, index) => (
+                {newsData.map((news, index) => (
                     <Link
                         key={index}
                         to={news.path}

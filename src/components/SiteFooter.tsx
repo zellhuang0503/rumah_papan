@@ -1,8 +1,12 @@
 import React from 'react';
 import { BrandLogo } from './BrandLogo';
-import { FOOTER_DATA } from '../data/homeData';
+import { getFooterData } from '../data/homeData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const SiteFooter: React.FC = () => {
+    const { language } = useLanguage();
+    const footerData = getFooterData(language);
+
     // Scaled dimensions
     // Width 1808 -> 1356px
     // Padding pl-28 (112) -> 84px. pr-24 (96) -> 72px. py-40 (160) -> 120px.
@@ -18,21 +22,21 @@ export const SiteFooter: React.FC = () => {
                             <BrandLogo className="w-[60px] h-[48px] text-orange-100" />
                             <div className="flex flex-col items-start">
                                 <span className="text-orange-100 text-[22.5px] font-bold font-['Noto_Sans_TC'] leading-[30px]">
-                                    {FOOTER_DATA.title}
+                                    {footerData.title}
                                 </span>
                                 <span className="text-orange-100 text-[15px] font-normal font-['Roboto_Slab'] leading-[21px]">
-                                    {FOOTER_DATA.subtitle}
+                                    {footerData.subtitle}
                                 </span>
                             </div>
                         </div>
 
                         <p className="text-orange-100 text-[18px] font-bold font-['Noto_Sans_TC'] leading-[24px]">
-                            {FOOTER_DATA.description}
+                            {footerData.description}
                         </p>
 
                         {/* Social Icons */}
                         <div className="flex justify-start items-center gap-[18px]">
-                            {(FOOTER_DATA as any).socials?.map((social: any) => (
+                            {(footerData as any).socials?.map((social: any) => (
                                 <a
                                     key={social.id}
                                     href={social.url}
@@ -54,7 +58,7 @@ export const SiteFooter: React.FC = () => {
                                     服務區域
                                 </h4>
                                 <p className="text-red-400 text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide">
-                                    {FOOTER_DATA.contact.region}
+                                    {footerData.contact.region}
                                 </p>
                             </div>
                             <div className="flex flex-col gap-[12px]">
@@ -62,7 +66,7 @@ export const SiteFooter: React.FC = () => {
                                     行動電話
                                 </h4>
                                 <p className="text-red-400 text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide">
-                                    {FOOTER_DATA.contact.phone}
+                                    {footerData.contact.phone}
                                 </p>
                             </div>
                             <div className="flex flex-col gap-[12px]">
@@ -70,7 +74,7 @@ export const SiteFooter: React.FC = () => {
                                     Email
                                 </h4>
                                 <p className="text-red-400 text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide">
-                                    {FOOTER_DATA.contact.email}
+                                    {footerData.contact.email}
                                 </p>
                             </div>
                         </div>
@@ -80,7 +84,7 @@ export const SiteFooter: React.FC = () => {
                                 地址
                             </h4>
                             <p className="text-red-400 text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide">
-                                {FOOTER_DATA.contact.address}
+                                {footerData.contact.address}
                             </p>
                         </div>
                     </div>

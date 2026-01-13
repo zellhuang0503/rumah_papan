@@ -58,13 +58,13 @@ export const getHeroData = (lang: 'zh' | 'en') => lang === 'zh' ? HERO_DATA_ZH :
 export const HERO_DATA = HERO_DATA_ZH;
 
 const FEATURES_DATA_ZH = [
-    { title: "新村導覽", subtitle: "rumah papan", path: "/services/tour" },
+    { title: "進入新村裡的觀光地圖", subtitle: "rumah papan", path: "/services/tour" },
     { title: "住宿體驗", subtitle: "rumah papan", path: "/services/stay" },
     { title: "技能換宿", subtitle: "rumah papan", path: "/services/work-swap" }
 ];
 
 const FEATURES_DATA_EN = [
-    { title: "Village Tour", subtitle: "rumah papan", path: "/services/tour" },
+    { title: "Enter Village Map", subtitle: "rumah papan", path: "/services/tour" },
     { title: "Home Stay", subtitle: "rumah papan", path: "/services/stay" },
     { title: "Work Swap", subtitle: "rumah papan", path: "/services/work-swap" }
 ];
@@ -73,7 +73,7 @@ export const getFeaturesData = (lang: 'zh' | 'en') => lang === 'zh' ? FEATURES_D
 // For backward compatibility
 export const FEATURES_DATA = FEATURES_DATA_ZH;
 
-export const TESTIMONIALS_DATA = [
+const TESTIMONIALS_DATA_ZH = [
     {
         name: "Lai Sook Yin",
         content: "很用心守護新村與文化的地方，介紹歷史又常辦活動，來這裡走走，很快就會喜歡上班厝。"
@@ -100,7 +100,38 @@ export const TESTIMONIALS_DATA = [
     }
 ];
 
-export const NEWS_DATA = [
+const TESTIMONIALS_DATA_EN = [
+    {
+        name: "Lai Sook Yin",
+        content: "A place dedicated to preserving the new village and its culture. They introduce history and often host events. Visit here, and you'll quickly fall in love with Rumah Papan."
+    },
+    {
+        name: "Alexis",
+        content: "As a foreigner, I could deeply understand the historical changes and local culture of the new village through the tour. Highly recommended for travelers who want to know Malaysia."
+    },
+    {
+        name: "Li Bing",
+        content: "When I came three years ago, everything was just starting. Lush greenery, strong human touch. Revisiting Rumah Papan feels like coming home, feeling the founder silently guarding the culture."
+    },
+    {
+        name: "Jiing Min Wah",
+        content: "Arranged a kindergarten graduation trip to Rumah Papan. The children had fun and learned many stories, sharing them with their parents constantly. Very grateful for the attentive tour."
+    },
+    {
+        name: "Han Ching",
+        content: "Originally had no expectations, but was won over by the passionate owner and long talks. Stayed for a long time without realizing it. Rumah Papan became the most memorable stop of this trip."
+    },
+    {
+        name: "Jenny Tan",
+        content: "In the nostalgic atmosphere of the new village, seeing my hometown again and happily interacting with friends from different backgrounds—it's a journey of rediscovering oneself."
+    }
+];
+
+export const getTestimonialsData = (lang: 'zh' | 'en') => lang === 'zh' ? TESTIMONIALS_DATA_ZH : TESTIMONIALS_DATA_EN;
+// Backward compatibility
+export const TESTIMONIALS_DATA = TESTIMONIALS_DATA_ZH;
+
+const NEWS_DATA_ZH = [
     {
         date: "2025.12.02",
         isNew: true,
@@ -127,6 +158,37 @@ export const NEWS_DATA = [
     }
 ];
 
+const NEWS_DATA_EN = [
+    {
+        date: "2025.12.02",
+        isNew: true,
+        title: "\"New Village Play+\" Market Enters Pandamaran! Explore 77 Selangor New Village Stories in Two Days",
+        path: "/news/1"
+    },
+    {
+        date: "2025.12.01",
+        isNew: true,
+        title: "Walk into Malaysia's Largest Hokkien New Village: 12/6 Free Village Tour",
+        path: "/news/2"
+    },
+    {
+        date: "2025.11.21",
+        isNew: true,
+        title: "Let's Go Long Gai! Bring Cardboard and Fabric to YouKui Together!",
+        path: "/news/3"
+    },
+    {
+        date: "2025.11.06",
+        isNew: true,
+        title: "Live in the Story Village: 2 Days 1 Night Rumah Papan Stay Experience",
+        path: "/news/4"
+    }
+];
+
+export const getNewsData = (lang: 'zh' | 'en') => lang === 'zh' ? NEWS_DATA_ZH : NEWS_DATA_EN;
+// Backward compatibility
+export const NEWS_DATA = NEWS_DATA_ZH;
+
 const INTRO_SLIDES_ZH = [
     { title: "雞公碗", desc: "馬來西亞最大的華人新村入口，用一碗白飯和雞公碗，向每個來訪的人打招呼。" },
     { title: "拜天公", desc: "神壇、供品和煙火，把幾代福建人對天公與祖先的心意都放在這一夜。" },
@@ -150,7 +212,7 @@ const INTRO_SLIDES_EN = [
 export const getIntroSlides = (lang: 'zh' | 'en') => lang === 'zh' ? INTRO_SLIDES_ZH : INTRO_SLIDES_EN;
 export const INTRO_SLIDES = INTRO_SLIDES_ZH;
 
-export const FOOTER_DATA = {
+const FOOTER_DATA_ZH = {
     title: "班厝故事館",
     subtitle: "RUMAH PAPAN",
     description: "在班達馬蘭新村，收集故事和人情的一間厝。",
@@ -166,3 +228,23 @@ export const FOOTER_DATA = {
         { id: 'whatsapp', url: '#', icon: 'fi fi-brands-whatsapp' }
     ]
 };
+
+const FOOTER_DATA_EN = {
+    title: "Rumah Papan Story House",
+    subtitle: "RUMAH PAPAN",
+    description: "A house in Pandamaran New Village that collects stories and human warmth.",
+    contact: {
+        region: "Malaysia Selangor Klang",
+        phone: "+60 16-219 8920",
+        email: "rumahpapanklang@gmail.com",
+        address: "124, Jalan Kemanis, 42000 Pelabuhan Klang, Klang, Malaysia, 42000"
+    },
+    socials: [
+        { id: 'facebook', url: '#', icon: 'fi fi-brands-facebook' },
+        { id: 'instagram', url: '#', icon: 'fi fi-brands-instagram' },
+        { id: 'whatsapp', url: '#', icon: 'fi fi-brands-whatsapp' }
+    ]
+};
+
+export const getFooterData = (lang: 'zh' | 'en') => lang === 'zh' ? FOOTER_DATA_ZH : FOOTER_DATA_EN;
+export const FOOTER_DATA = FOOTER_DATA_ZH;
