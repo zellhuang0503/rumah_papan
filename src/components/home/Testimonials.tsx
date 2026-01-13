@@ -1,16 +1,12 @@
 import React from 'react';
-import { getTestimonialsData } from '../../data/homeData';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { TESTIMONIALS_DATA } from '../../data/homeData';
 
 export const Testimonials: React.FC = () => {
-    const { language } = useLanguage();
-    const testimonials = getTestimonialsData(language);
-
     return (
         <section className="w-full h-[288px] relative overflow-hidden bg-orange-100">
             <div className="absolute left-[77.25px] top-[31.5px] w-[calc(100%-77px)] overflow-x-auto no-scrollbar pb-10">
                 <div className="inline-flex justify-start items-center gap-[48px] pr-[120px]">
-                    {testimonials.map((item, index) => (
+                    {TESTIMONIALS_DATA.map((item, index) => (
                         <div key={index} className="relative w-[453.75px] inline-flex flex-col justify-start items-start shrink-0 group">
                             <div className="self-stretch px-[24px] py-[30px] bg-white rounded-[22.5px] flex flex-col justify-start items-start gap-[30px] shadow-[0px_10.5px_14px_0px_rgba(0,0,0,0.17)] transition-transform hover:-translate-y-1">
                                 <div className="self-stretch flex flex-col justify-start items-start gap-[9px]">

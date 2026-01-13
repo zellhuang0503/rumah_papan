@@ -1,9 +1,13 @@
 import React from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
-import { STAY_DATA } from '../data/villageData';
+import { getStayData } from '../data/villageData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const VillageStay: React.FC = () => {
+    const { language } = useLanguage();
+    const STAY_DATA = getStayData(language);
+
     // Scaling Rules (1920 -> 1440, 0.75x)
     // Global Spacing: 160px
     // Fonts: 72->54, 60->45, 48->36, 30->22.5, 24->18

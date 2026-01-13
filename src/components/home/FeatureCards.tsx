@@ -1,7 +1,7 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { getFeaturesData } from '../../data/homeData';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { ArrowUpRight } from 'lucide-react';
 
 export const FeatureCards: React.FC = () => {
     const { language } = useLanguage();
@@ -21,10 +21,9 @@ export const FeatureCards: React.FC = () => {
                         <div className="absolute w-[120px] h-[120px] left-[-109.5px] top-[87px] bg-red-500 rounded-full" />
 
                         <div className="absolute left-[352.5px] top-[31.5px] p-[6px] rounded-full inline-flex justify-start items-center gap-[7.5px]">
-                            <div className="relative w-[30px] h-[30px]">
-                                <div className="absolute left-[6.5px] top-[5.25px] w-[18px] h-[21px] flex items-center justify-center border-[1.125px] border-neutral-900 group-hover:border-white group-active:border-white rounded-full transition-colors duration-300">
-                                    <i className="fi fi-br-arrow-up-right text-[12px] text-neutral-900 group-hover:text-white group-active:text-white transition-colors duration-300" />
-                                </div>
+                            {/* Arrow Icon without border as requested */}
+                            <div className="w-[36px] h-[36px] flex items-center justify-center">
+                                <ArrowUpRight className="w-6 h-6 text-neutral-900 group-hover:text-white group-active:text-white transition-colors duration-300" />
                             </div>
                         </div>
 
