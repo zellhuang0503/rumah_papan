@@ -13,7 +13,7 @@ export const HomeSearchModal: React.FC<HomeSearchModalProps> = ({ isOpen, onClos
     const { language } = useLanguage();
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<SearchResult[]>([]);
-    const [activeCategory, setActiveCategory] = useState<string>('all');
+    const [results, setResults] = useState<SearchResult[]>([]);
 
     // Load recommendations on open
     useEffect(() => {
@@ -55,8 +55,8 @@ export const HomeSearchModal: React.FC<HomeSearchModalProps> = ({ isOpen, onClos
             {/* Backdrop */}
             <div className="absolute inset-0 bg-neutral-900/40 backdrop-blur-sm transition-opacity" onClick={onClose} />
 
-            {/* Modal Window - Scaled 1196px * 0.75 = 897px */}
-            <div className="relative w-full desktop:w-[897px] min-h-[600px] max-h-[90vh] bg-white rounded-[18px] desktop:rounded-[24px] overflow-hidden flex flex-col shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            {/* Modal Window - Scaled 1196px * 0.75 = 897px, Height fixed 600px */}
+            <div className="relative w-full desktop:w-[897px] min-h-[500px] desktop:h-[600px] bg-white rounded-[18px] desktop:rounded-[24px] overflow-hidden flex flex-col shadow-2xl animate-in fade-in zoom-in-95 duration-200">
 
                 {/* Header / Search Input */}
                 <div className="w-full bg-white px-6 py-6 desktop:px-[24px] desktop:py-[24px] border-b border-neutral-100 flex items-center justify-between gap-4 sticky top-0 z-10">
