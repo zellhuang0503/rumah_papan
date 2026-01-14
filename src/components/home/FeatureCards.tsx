@@ -16,7 +16,7 @@ export const FeatureCards: React.FC = () => {
                     <Link
                         key={index}
                         to={feature.path}
-                        className="relative w-full desktop:w-[408px] h-[108px] bg-white rounded-[18px] overflow-hidden group hover:shadow-xl hover:bg-[#F1592C] active:scale-95 active:bg-[#F1592C] transition-all duration-300"
+                        className="relative w-full desktop:w-[408px] h-[140px] bg-white rounded-[18px] overflow-hidden group hover:shadow-xl hover:bg-[#F1592C] active:scale-95 active:bg-[#F1592C] transition-all duration-300"
                     >
                         <div className="absolute w-[120px] h-[120px] left-[-109.5px] top-[87px] bg-red-500 rounded-full" />
 
