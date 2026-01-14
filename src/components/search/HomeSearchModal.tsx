@@ -155,9 +155,8 @@ export const HomeSearchModal: React.FC<HomeSearchModalProps> = ({ isOpen, onClos
                                             </div>
 
                                             {/* Arrow Icon Box */}
-                                            <div className="w-[36px] h-[36px] desktop:w-[48px] desktop:h-[48px] relative flex-shrink-0">
-                                                <div className="absolute inset-0 border-[2.5px] border-black group-hover:border-orange-600 transition-colors" />
-                                                <ArrowUpRight className="absolute top-[6px] left-[6px] desktop:top-[8px] desktop:left-[8px] w-5 h-5 desktop:w-6 desktop:h-6 text-black group-hover:text-orange-600 transition-colors" />
+                                            <div className="w-[36px] h-[36px] desktop:w-[48px] desktop:h-[48px] flex items-center justify-center flex-shrink-0">
+                                                <ArrowUpRight className="w-5 h-5 desktop:w-6 desktop:h-6 text-black group-hover:text-orange-600 transition-colors" />
                                             </div>
                                         </Link>
                                     ))}
