@@ -33,7 +33,7 @@ export const Contact: React.FC = () => {
                             <h2 className="w-full text-black text-lg md:text-2xl desktop:text-[54px] font-semibold font-['Roboto_Slab'] leading-[1.45]">
                                 {FOUNDER_DATA.name}
                             </h2>
-                            <p className="w-full text-black/80 text-xs md:text-sm desktop:text-[18px] font-medium font-['Noto_Sans_TC'] leading-[1.6] line-clamp-4 desktop:line-clamp-none">
+                            <p className="w-full text-black/80 text-xs md:text-sm desktop:text-[18px] font-medium font-['Noto_Sans_TC'] leading-[1.6] desktop:leading-[1.35] line-clamp-4 desktop:line-clamp-none">
                                 {FOUNDER_DATA.bio}
                             </p>
                         </div>
