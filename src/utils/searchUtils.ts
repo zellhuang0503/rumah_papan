@@ -1,6 +1,7 @@
 import { NEWS_DATA, getFeaturesData } from '../data/homeData';
 import { stories, STORY_CATEGORIES } from '../data/storyData';
 import { getStayData, getActivitiesData, getWorkSwapData } from '../data/villageData';
+import { ABOUT_SUBMENU_ITEMS, VILLAGE_SUBMENU_ITEMS } from '../data/mockNavigation';
 
 export interface SearchResult {
     id: string;
@@ -146,6 +147,31 @@ export const searchContent = (query: string, language: 'zh' | 'en' = 'zh'): Sear
                 path: news.path,
                 isHot: news.isNew
             });
+        }
+    });
+
+    // 6. Navigation Items (About, etc.)
+    const isAboutQuery = normalizedQuery.includes('關於') || normalizedQuery.includes('about');
+
+    ABOUT_SUBMENU_ITEMS.forEach((item, idx) => {
+        if (isAboutQuery || isMatch(item.title)) {
+            results.push({
+                id: `nav-about-${idx}`,
+                title: item.title,
+                description: language === 'zh' ? '關於班厝' : 'About Rumah Papan',
+                category: language === 'zh' ? '關於班厝' : 'About',
+                path: item.path,
+                isHot: isAboutQuery
+            });
+        }
+    });
+
+    VILLAGE_SUBMENU_ITEMS.forEach((item, idx) => {
+        if (isMatch(item.title)) {
+            // deduplicate if already covered by feature/village data? 
+            // It's okay to have duplicates or we can check simple ID collision logic if needed.
+            // For now, let's just add them as "Navigation" fallback if not found elsewhere.
+            // But actually most are covered. Let's stick to About for now as requested.
         }
     });
 
