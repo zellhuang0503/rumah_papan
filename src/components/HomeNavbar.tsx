@@ -38,14 +38,14 @@ export const HomeNavbar: React.FC = () => {
                     </Link>
 
                     {/* Centered Group: Search, Nav Links, Lang */}
-                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-6 pointer-events-auto">
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-4 desktop:gap-6 pointer-events-auto">
                         <button className="p-2 hover:bg-neutral-100/50 rounded-full transition-colors">
                             <Search className="w-5 h-5 text-[#181818]" />
                         </button>
 
-                        <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-4 desktop:gap-6">
                             <div className="relative group h-full flex items-center">
-                                <Link to="/about" className="flex items-center gap-1 cursor-pointer">
+                                <Link to="/about" className="flex items-center gap-1 cursor-pointer whitespace-nowrap">
                                     <span className="font-bold text-[#181818] text-base">關於班厝</span>
                                     <ChevronDown className="w-3.5 h-3.5 text-[#181818] group-hover:translate-y-0.5 transition-transform" />
                                 </Link>
@@ -56,7 +56,7 @@ export const HomeNavbar: React.FC = () => {
                             </div>
 
                             <div className="relative group h-full flex items-center">
-                                <div className="flex items-center gap-1 cursor-pointer">
+                                <div className="flex items-center gap-1 cursor-pointer whitespace-nowrap">
                                     <span className="font-bold text-[#181818] text-base">走進新村</span>
                                     <ChevronDown className="w-3.5 h-3.5 text-[#181818] group-hover:translate-y-0.5 transition-transform" />
                                 </div>
@@ -66,17 +66,17 @@ export const HomeNavbar: React.FC = () => {
                                 </div>
                             </div>
 
-                            <Link to="/village/traffic" className="font-bold text-[#181818] text-base hover:text-[#F1592C] transition-colors">
+                            <Link to="/village/traffic" className="font-bold text-[#181818] text-base hover:text-[#F1592C] transition-colors whitespace-nowrap">
                                 交通方式
                             </Link>
 
-                            <Link to="/contact" className="font-bold text-[#181818] text-base hover:text-[#F1592C] transition-colors">
+                            <Link to="/contact" className="font-bold text-[#181818] text-base hover:text-[#F1592C] transition-colors whitespace-nowrap">
                                 聯絡我們
                             </Link>
                         </div>
 
                         {/* Language Switch */}
-                        <div className="flex items-center gap-2 border-[#181818] pl-6 pointer-events-auto">
+                        <div className="flex items-center gap-2 border-[#181818] pl-6 pointer-events-auto whitespace-nowrap">
                             <button
                                 onClick={() => setLanguage('zh')}
                                 className={`font-bold text-sm cursor-pointer transition-colors ${language === 'zh' ? 'text-[#181818]' : 'text-[#181818]/40 hover:text-[#181818]'}`}
@@ -94,7 +94,7 @@ export const HomeNavbar: React.FC = () => {
                     </div>
 
                     {/* Right Section: Contact Button */}
-                    <Link to="/contact" className="pointer-events-auto bg-transparent border-[2px] border-[#181818] rounded-full px-5 py-2 flex justify-center items-center gap-2 hover:bg-[#F1592C] transition-all duration-300 z-50 group">
+                    <Link to="/contact" className="pointer-events-auto bg-transparent border-[2px] border-[#181818] rounded-full px-5 py-2 flex justify-center items-center gap-2 hover:bg-[#F1592C] transition-all duration-300 z-50 group whitespace-nowrap">
                         <Mail className="w-4 h-4 text-[#181818] group-hover:text-white transition-colors" />
                         <span className="font-bold text-base text-[#181818] leading-none group-hover:text-white pt-[2px]">聯絡我們</span>
                     </Link>
