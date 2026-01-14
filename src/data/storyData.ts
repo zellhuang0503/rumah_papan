@@ -5,7 +5,8 @@ export interface StoryItem {
     category: StoryCategory;
     title: string;
     description: string;
-    images: string[]; // Changed from imageUrl?: string
+    imageUrl?: string; // Restored for backward compatibility
+    images: string[];
     tags: string[];
     variant: 'banner' | 'standard' | 'text-overlay' | 'text-highlight' | 'compact';
     size: 'full' | 'large' | 'medium' | 'small';
@@ -27,6 +28,7 @@ export const stories: StoryItem[] = [
         category: 'history',
         title: '巴生最大，全馬傳奇：班達馬蘭',
         description: '班達馬蘭新村（班村），成立於 1951 年，前身是「巴生港口新村」，1953 年改名為 Kampung Baru Pandamaran，作為巴生最大華人新村，班達馬蘭不只佔地廣闊，更承載著全馬數一數二的福建人口密度與文化信仰。',
+        imageUrl: 'https://placehold.co/1255x836',
         images: ['https://placehold.co/1255x836', 'https://placehold.co/1255x836/orange/white', 'https://placehold.co/1255x836/black/white'],
         tags: ['#班達馬蘭新村史'],
         variant: 'banner',
@@ -72,6 +74,7 @@ export const stories: StoryItem[] = [
         category: 'history',
         title: '班達馬蘭的新村日常',
         description: '無論是早市此起彼落的叫賣聲、夜晚圓桌上的家常飯香，還是天公誕繚繞的虔誠香火。這裡的每一幀畫面都沒有彩排，而是班達馬蘭最真實、最滾燙的日常風景。',
+        imageUrl: 'https://placehold.co/1307x852',
         images: ['https://placehold.co/1307x852', 'https://placehold.co/1307x852/333/fff'],
         tags: [],
         variant: 'standard',
@@ -118,6 +121,7 @@ export const stories: StoryItem[] = [
         category: 'about',
         title: '帶著未知而來，裝滿故事而歸',
         description: '不同國家、不同背景的人，在班厝一起生活、一起學習。輪播的每張照片，都是換宿者在這裡被安放、被陪伴，也悄悄長出變化的那一刻。',
+        imageUrl: 'https://placehold.co/1307x852',
         images: ['https://placehold.co/1307x852'],
         tags: [],
         variant: 'standard',
@@ -165,12 +169,14 @@ export const stories: StoryItem[] = [
         category: 'exchange',
         title: '班厝故事館：\n班達馬蘭的新村客廳',
         description: '班厝坐落在班達馬蘭新村，是村裡第一家故事館。以一棟老木板屋為基地，收集生活物件、照片和口述歷史，讓每一位走進來的人，都能在最日常的場景裡，聽見這座新村的故事。',
+        imageUrl: 'https://placehold.co/1255x836',
         images: ['https://placehold.co/1255x836', 'https://placehold.co/1255x836/222/eee'],
         tags: ['#關於班厝'],
         variant: 'banner',
         size: 'full'
     },
 
+    // Row 1: Overlay(408) + Highlight(514) + Compact(288) = Row
     // 16. Overlay
     {
         id: '16',
@@ -211,6 +217,7 @@ export const stories: StoryItem[] = [
         category: 'exchange',
         title: '志工生活日記',
         description: '從除草到導覽，從怕生到熟稔。每一位志工的日記裡，都寫滿了關於成長的秘密。',
+        imageUrl: 'https://placehold.co/1255x836',
         images: ['https://placehold.co/1255x836'],
         tags: ['#故事交換'],
         variant: 'standard',
@@ -253,6 +260,7 @@ export const stories: StoryItem[] = [
         category: 'food',
         title: '一桌肉骨茶，一整條新村的故事',
         description: '有人剛下夜班補一鍋，有人帶著家人慢慢吃。輪播的每張照片，都在告訴你：肉骨茶不只是料理，也是班達馬蘭人一起過日子的方式。',
+        imageUrl: 'https://placehold.co/1307x852',
         images: ['https://placehold.co/1307x852'],
         tags: [],
         variant: 'standard',
