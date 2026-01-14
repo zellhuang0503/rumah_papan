@@ -121,9 +121,9 @@ export const Stories: React.FC = () => {
                    
                    * Note: Partial rows will align left due to flex-wrap + gap.
                 */}
-                <div className="w-full max-w-[1260px] flex flex-wrap gap-[24px]">
+                <div className="w-full px-6 desktop:px-0 desktop:max-w-[1260px] flex flex-wrap gap-6 desktop:gap-[24px]">
                     {filteredStories.map((story) => (
-                        <div key={story.id} className="story-card-item">
+                        <div key={story.id} className="story-card-item w-full desktop:w-auto">
                             <StoryCard item={story} />
                         </div>
                     ))}

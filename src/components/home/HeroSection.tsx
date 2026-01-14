@@ -23,23 +23,33 @@ export const HeroSection: React.FC = () => {
     // Fonts: text-5xl, text-xl
 
     return (
-        <section className="relative w-full min-h-[634px] bg-orange-100 pt-[208px] pb-24 flex justify-center">
+        <section className="relative w-full min-h-[634px] bg-orange-100 pt-40 pb-12 desktop:pt-36 desktop:pb-24 flex justify-center transition-all duration-300">
             {/* Centered Container Max Width 1440px */}
-            <div className="w-full max-w-[1440px] px-[120px] flex items-center justify-between">
+            <div className="w-full max-w-[1440px] px-6 desktop:px-[120px] flex flex-col desktop:flex-row items-center justify-between gap-12 desktop:gap-0">
                 {/* LEFT CONTENT */}
-                <div className="flex flex-col items-start max-w-[600px] z-20 transition-all duration-300 gap-6">
+                <div className="flex flex-col items-center desktop:items-start w-full desktop:max-w-[600px] z-20 transition-all duration-300 gap-6 text-center desktop:text-left">
                     {/* Removed min-h-[220px] so button follows text */}
-                    <div className="flex flex-col items-start gap-2">
-                        <h1 className="text-[#242527] font-bold text-5xl leading-tight tracking-tight mb-2 min-h-[1.2em]">
+                    <div className="flex flex-col items-center desktop:items-start gap-2">
+                        <h1 className="text-[#242527] font-bold text-3xl desktop:text-5xl leading-tight tracking-tight mb-2 min-h-[1.2em]">
                             {activeContent.title}
                         </h1>
-                        <p className="text-[#364153] text-xl font-medium leading-relaxed min-h-[3em]">
+                        <p className="text-[#364153] text-lg desktop:text-xl font-medium leading-relaxed min-h-[3em]">
                             {activeContent.body}
                         </p>
                     </div>
 
                     {/* CTA - Gap changed to 16px (gap-4) */}
-                    <div className="flex flex-col items-center gap-4 cursor-pointer group">
+                    <div
+                        className="flex flex-col items-center gap-4 cursor-pointer group"
+                        onClick={() => {
+                            const introSection = document.getElementById('intro-carousel');
+                            if (introSection) {
+                                const yOffset = -100; // Offset for fixed navbar
+                                const y = introSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                                window.scrollTo({ top: y, behavior: 'smooth' });
+                            }
+                        }}
+                    >
                         <div className="w-16 h-16 rounded-full border-2 border-[#181818] flex items-center justify-center group-hover:bg-[#181818] group-hover:text-white transition-all">
                             <ArrowDown className="w-8 h-8" />
                         </div>
@@ -50,7 +60,7 @@ export const HeroSection: React.FC = () => {
                 </div>
 
                 {/* RIGHT CONTENT - BUBBLE CLUSTER */}
-                <div className="flex flex-wrap content-center justify-center gap-x-[16px] gap-y-[40px] w-[720px] z-10 pt-10">
+                <div className="flex flex-wrap content-center justify-center gap-4 desktop:gap-x-[16px] desktop:gap-y-[40px] w-full desktop:w-[720px] z-10 pt-0 desktop:pt-10">
                     <BubbleLink
                         text="關於班厝"
                         onClick={() => handleBubbleClick('about')}

@@ -12,6 +12,7 @@ import { VillageTraffic } from './pages/VillageTraffic';
 import { Stories } from './pages/Stories';
 import { Services } from './pages/Services';
 import { Contact } from './pages/Contact';
+import { BookingStay } from './pages/BookingStay'; // Added BookingStay import
 
 import { ScrollToTop } from './components/ScrollToTop';
 import { VillageMap } from './pages/VillageMap';
@@ -38,6 +39,7 @@ function App() {
                 <Route path="/village/traffic" element={<VillageTraffic />} />
                 <Route path="/village/map" element={<VillageMap />} />
                 <Route path="/products" element={<AboutProducts />} />
+                <Route path="/booking/stay" element={<BookingStay />} /> {/* Added BookingStay route */}
                 <Route path="/contact" element={<Contact />} />
             </Routes>
         </Router>

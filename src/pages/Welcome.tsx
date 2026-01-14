@@ -89,14 +89,14 @@ export const Welcome: React.FC = () => {
 
             // 5. Hero Text Entrance Animation (Wave Effect)
             // Initial State: Hidden and shifted left
-            gsap.set([".hero-text-vertical", ".hero-text-row-1", ".hero-text-row-2", ".hero-text-row-3", ".hero-text-row-4"], { autoAlpha: 0, x: -50 });
+            gsap.set([".hero-text-vertical", ".hero-text-row-1", ".hero-text-row-2", ".hero-text-row-3", ".hero-text-row-4", ".hero-text-vertical-mobile", ".hero-text-row-1-mobile", ".hero-text-row-2-mobile", ".hero-text-row-3-mobile", ".hero-text-row-4-mobile"], { autoAlpha: 0, x: -50 });
 
             const textTl = gsap.timeline({ defaults: { ease: "power3.out", duration: 1 } });
 
             // Animate Vertical Text first
-            textTl.to(".hero-text-vertical", { autoAlpha: 1, x: 0 })
+            textTl.to([".hero-text-vertical", ".hero-text-vertical-mobile"], { autoAlpha: 1, x: 0 })
                 // Then the horizontal rows sequentially with overlapping stagger (wave effect)
-                .to([".hero-text-row-1", ".hero-text-row-2", ".hero-text-row-3", ".hero-text-row-4"], {
+                .to([".hero-text-row-1", ".hero-text-row-2", ".hero-text-row-3", ".hero-text-row-4", ".hero-text-row-1-mobile", ".hero-text-row-2-mobile", ".hero-text-row-3-mobile", ".hero-text-row-4-mobile"], {
                     autoAlpha: 1,
                     x: 0,
                     stagger: 0.15
@@ -138,16 +138,16 @@ export const Welcome: React.FC = () => {
                     <button className="p-2"><Menu className="w-6 h-6 text-[#181818]" /></button>
                 </nav>
 
-                <div className="pt-24 px-6 pb-20 flex flex-col gap-12">
-                    {/* Hero Mobile */}
-                    <div className="text-center flex flex-col items-center">
-                        <div className="flex gap-2 mb-2 font-bold text-2xl text-[#181818]">
+                <div className="pt-24 px-6 pb-20 flex flex-col md:grid md:grid-cols-2 gap-12 md:gap-8 items-center md:items-start max-w-[768px] mx-auto">
+                    {/* Hero Mobile (Spans 2 cols on Tablet) */}
+                    <div className="md:col-span-2 text-center flex flex-col items-center mb-4">
+                        <div className="hero-text-vertical-mobile flex gap-2 mb-2 font-bold text-2xl text-[#181818]">
                             <span>歡</span><span>迎</span><span>來</span><span>到</span>
                         </div>
-                        <h2 className="font-serif font-semibold text-3xl text-[#000000cc]">Welcome to</h2>
-                        <h1 className="font-black text-5xl text-[#F1592C] mt-1">班達馬蘭</h1>
-                        <h3 className="font-serif font-semibold text-xl text-[#000000cc] mt-2">Selamat datang di</h3>
-                        <h2 className="font-serif font-semibold text-4xl text-[#F1592C] mt-1">Rumah Papan</h2>
+                        <h2 className="hero-text-row-1-mobile font-serif font-semibold text-3xl text-[#000000cc]">Welcome to</h2>
+                        <h1 className="hero-text-row-2-mobile font-black text-5xl text-[#F1592C] mt-1">班達馬蘭</h1>
+                        <h3 className="hero-text-row-3-mobile font-serif font-semibold text-xl text-[#000000cc] mt-2">Selamat datang di</h3>
+                        <h2 className="hero-text-row-4-mobile font-serif font-semibold text-4xl text-[#F1592C] mt-1">Rumah Papan</h2>
                     </div>
 
                     {/* Polaroids Mobile (Simplified Stack) - 7 Items, 240px width */}
@@ -328,8 +328,8 @@ export const Welcome: React.FC = () => {
                             </div>
                         </div>
                         <button className="px-8 py-4 bg-white/0 border-[3px] border-[#181818] rounded-full flex justify-center items-center gap-3 cursor-pointer hover:bg-[#181818] hover:text-white transition-all group">
-                            <Mail className="w-6 h-6 text-[#181818] group-hover:text-white fill-current" />
-                            <span className="justify-start text-neutral-900 text-2xl font-bold font-sans leading-8 group-hover:text-white">聯絡我們</span>
+                            <Mail className="w-6 h-6 text-[#181818] group-hover:text-white transition-colors" />
+                            <span className="justify-start text-neutral-900 text-2xl font-bold font-sans leading-none group-hover:text-white pt-[3px]">聯絡我們</span>
                         </button>
                     </div>
 
