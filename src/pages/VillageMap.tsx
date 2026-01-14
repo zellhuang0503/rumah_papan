@@ -112,11 +112,11 @@ export const VillageMap: React.FC = () => {
         <div ref={containerRef} className="min-h-screen w-full bg-[#F3E3CB] relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white">
             <HomeNavbar />
 
-            <main className="w-full max-w-[1440px] mx-auto px-[60px] md:px-[120px] pt-[165px] pb-[80px] flex flex-col gap-[80px]">
+            <main className="w-full max-w-[1440px] mx-auto px-6 md:px-[60px] desktop:px-[120px] pt-32 desktop:pt-[165px] pb-[80px] flex flex-col gap-[40px] desktop:gap-[80px]">
 
                 {/* Header Section */}
                 <div className="text-center flex flex-col gap-6 items-center anim-header">
-                    <h1 className="text-[3.375rem] font-bold text-[#242527] font-noto-sans-tc">
+                    <h1 className="text-3xl md:text-[3.375rem] font-bold text-[#242527] font-noto-sans-tc leading-tight">
                         {MAP_PAGE_TITLE}
                     </h1>
                 </div>
@@ -125,7 +125,7 @@ export const VillageMap: React.FC = () => {
                 <div className="flex flex-col gap-[40px] w-full">
                     {/* Subtitle / Map Intro */}
                     <div className="flex flex-col gap-8 w-full anim-subtitle">
-                        <h2 className="text-[2.5rem] font-bold text-[#242527] font-noto-sans-tc text-left">
+                        <h2 className="text-2xl md:text-[2.5rem] font-bold text-[#242527] font-noto-sans-tc text-left">
                             {MAP_PAGE_SUBTITLE}
                         </h2>
 
@@ -145,18 +145,18 @@ export const VillageMap: React.FC = () => {
                 </div>
 
                 {/* Locations Sections */}
-                <div className="flex flex-col gap-[80px]">
+                <div className="flex flex-col gap-12 desktop:gap-[80px]">
 
                     {/* Food Section */}
                     {shouldShowSection('food') && (
                         <section className="flex flex-col gap-8 content-section">
                             <div className="flex items-center gap-4 section-title">
-                                <span className="w-2 h-10 bg-[#242527]"></span>
-                                <h4 className="text-[2rem] font-bold text-[#242527] font-noto-sans-tc">
+                                <span className="w-2 h-8 md:h-10 bg-[#242527]"></span>
+                                <h4 className="text-2xl md:text-[2rem] font-bold text-[#242527] font-noto-sans-tc">
                                     肉骨茶
                                 </h4>
                             </div>
-                            <div className="flex flex-wrap gap-x-[20px] gap-y-[48px]">
+                            <div className="flex flex-wrap gap-x-[20px] gap-y-6 md:gap-y-[48px]">
                                 {villageLocations.filter(l => l.category === 'food').map(location => (
                                     <LocationCard key={location.id} item={location} />
                                 ))}
@@ -168,12 +168,12 @@ export const VillageMap: React.FC = () => {
                     {shouldShowSection('attraction') && (
                         <section className="flex flex-col gap-8 content-section">
                             <div className="flex items-center gap-4 section-title">
-                                <span className="w-2 h-10 bg-[#242527]"></span>
-                                <h4 className="text-[2rem] font-bold text-[#242527] font-noto-sans-tc">
+                                <span className="w-2 h-8 md:h-10 bg-[#242527]"></span>
+                                <h4 className="text-2xl md:text-[2rem] font-bold text-[#242527] font-noto-sans-tc">
                                     景點
                                 </h4>
                             </div>
-                            <div className="flex flex-wrap gap-x-[20px] gap-y-[48px]">
+                            <div className="flex flex-wrap gap-x-[20px] gap-y-6 md:gap-y-[48px]">
                                 {villageLocations.filter(l => l.category === 'attraction').map(location => (
                                     <LocationCard key={location.id} item={location} />
                                 ))}
@@ -185,12 +185,12 @@ export const VillageMap: React.FC = () => {
                     {shouldShowSection('temple') && (
                         <section className="flex flex-col gap-8 content-section">
                             <div className="flex items-center gap-4 section-title">
-                                <span className="w-2 h-10 bg-[#242527]"></span>
-                                <h4 className="text-[2rem] font-bold text-[#242527] font-noto-sans-tc">
+                                <span className="w-2 h-8 md:h-10 bg-[#242527]"></span>
+                                <h4 className="text-2xl md:text-[2rem] font-bold text-[#242527] font-noto-sans-tc">
                                     廟宇
                                 </h4>
                             </div>
-                            <div className="flex flex-wrap gap-x-[20px] gap-y-[48px]">
+                            <div className="flex flex-wrap gap-x-[20px] gap-y-6 md:gap-y-[48px]">
                                 {villageLocations.filter(l => l.category === 'temple').map(location => (
                                     <LocationCard key={location.id} item={location} />
                                 ))}

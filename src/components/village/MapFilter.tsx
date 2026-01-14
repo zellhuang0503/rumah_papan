@@ -16,15 +16,15 @@ export const MapFilter: React.FC<MapFilterProps> = ({ activeCategory, onCategory
     ];
 
     return (
-        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             {categories.map((cat) => (
                 <button
                     key={cat.id}
                     onClick={() => onCategoryChange(activeCategory === cat.id ? 'all' : cat.id)}
                     className={`
-                        relative overflow-hidden group rounded-[20px] px-8 py-10
+                        relative overflow-hidden group rounded-[20px] px-6 py-6 md:px-8 md:py-10
                         flex items-center justify-between
-                        text-[2rem] font-bold tracking-wider font-noto-sans-tc
+                        text-2xl md:text-[2rem] font-bold tracking-wider font-noto-sans-tc
                         border-[2px] transition-all duration-300
                         ${activeCategory === cat.id
                             ? 'bg-[#242527] text-[#F3E3CB] border-[#242527]'
