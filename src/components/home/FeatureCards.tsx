@@ -16,23 +16,23 @@ export const FeatureCards: React.FC = () => {
                     <Link
                         key={index}
                         to={feature.path}
-                        className="relative w-full desktop:w-[408px] h-[140px] bg-white rounded-[18px] overflow-hidden group hover:shadow-xl hover:bg-[#F1592C] active:scale-95 active:bg-[#F1592C] transition-all duration-300"
+                        className="relative w-full desktop:w-[408px] min-h-[108px] h-auto bg-white rounded-[18px] overflow-hidden group hover:shadow-xl hover:bg-[#F1592C] active:scale-95 active:bg-[#F1592C] transition-all duration-300 flex flex-row items-center justify-between p-[18px] gap-2"
                     >
-                        <div className="absolute w-[120px] h-[120px] left-[-109.5px] top-[87px] bg-red-500 rounded-full" />
+                        <div className="absolute w-[120px] h-[120px] left-[-109.5px] top-[87px] bg-red-500 rounded-full transition-colors duration-300 group-hover:bg-white/20" />
 
-                        <div className="absolute right-[18px] top-[31.5px] p-[6px] rounded-full inline-flex justify-start items-center gap-[7.5px]">
-                            {/* Arrow Icon without border as requested */}
-                            <div className="w-[36px] h-[36px] flex items-center justify-center">
-                                <ArrowUpRight className="w-6 h-6 text-neutral-900 group-hover:text-white group-active:text-white transition-colors duration-300" />
+                        <div className="flex flex-col justify-center items-start z-10 max-w-[calc(100%-50px)]">
+                            <div className="text-neutral-900 group-hover:text-white group-active:text-white text-[10.5px] font-medium font-['Roboto_Slab'] leading-[15px] transition-colors duration-300">
+                                {feature.subtitle}
+                            </div>
+                            <div className="text-neutral-900 group-hover:text-white group-active:text-white text-[27px] font-bold font-['Noto_Sans_TC'] leading-tight transition-colors duration-300 mt-1">
+                                {feature.title}
                             </div>
                         </div>
 
-                        <div className="absolute left-[18px] top-[27px] w-[150px] inline-flex flex-col justify-start items-start">
-                            <div className="self-stretch justify-start text-neutral-900 group-hover:text-white group-active:text-white text-[10.5px] font-medium font-['Roboto_Slab'] leading-[15px] transition-colors duration-300">
-                                {feature.subtitle}
-                            </div>
-                            <div className="self-stretch justify-start text-neutral-900 group-hover:text-white group-active:text-white text-[27px] font-bold font-['Noto_Sans_TC'] leading-[36.75px] transition-colors duration-300">
-                                {feature.title}
+                        <div className="p-[6px] rounded-full inline-flex justify-center items-center z-10 flex-none self-start desktop:self-center">
+                            {/* Arrow Icon without border as requested */}
+                            <div className="w-[36px] h-[36px] flex items-center justify-center">
+                                <ArrowUpRight className="w-6 h-6 text-neutral-900 group-hover:text-white group-active:text-white transition-colors duration-300" />
                             </div>
                         </div>
                     </Link>
