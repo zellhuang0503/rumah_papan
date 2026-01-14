@@ -76,11 +76,11 @@ export const Contact: React.FC = () => {
                 {/* Contact Grid Section */}
                 <section className="w-full max-w-[1200px] flex flex-col desktop:flex-row flex-wrap content-start gap-6 desktop:gap-[18px]">
                     {/* Card 1: Contact Title */}
-                    <div className="w-full desktop:w-[288px] h-[240px] desktop:h-[344px] bg-white rounded-[27px] relative overflow-hidden flex flex-col justify-end p-6 desktop:p-[30px]">
-                        <div className="absolute top-[30px] desktop:top-[230px] left-[30px] flex items-center gap-[6px]">
+                    <div className="w-full desktop:w-[288px] h-[240px] desktop:h-[344px] bg-white rounded-[27px] relative overflow-hidden flex flex-col justify-end p-6 desktop:p-[30px] gap-3">
+                        <div className="flex items-center gap-[6px]">
                             <span className="text-black text-[18px] font-medium font-['Roboto_Slab']">Contact us</span>
                         </div>
-                        <h2 className="text-black/80 text-3xl desktop:text-[36px] font-bold font-['Noto_Sans_TC'] leading-tight mt-[10px]">
+                        <h2 className="text-black/80 text-3xl desktop:text-[36px] font-bold font-['Noto_Sans_TC'] leading-tight">
                             聯絡方式
                         </h2>
                     </div>
