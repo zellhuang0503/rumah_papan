@@ -35,19 +35,19 @@ export const HomeSearchModal: React.FC<HomeSearchModalProps> = ({ isOpen, onClos
 
     // Define Recommended Tags
     const RECOMMENDED_TAGS = language === 'zh' ? [
-        { label: '關於班厝', path: '/about' },
-        { label: '觀光地圖', path: '/village/map' },
-        { label: '住宿體驗', path: '/services/stay' },
-        { label: '技能換宿', path: '/services/work-swap' },
-        { label: '肉骨茶', path: '/food' },
-        { label: '故事誌', path: '/stories' },
+        { label: '關於班厝' },
+        { label: '觀光地圖' },
+        { label: '住宿體驗' },
+        { label: '技能換宿' },
+        { label: '肉骨茶' },
+        { label: '故事誌' },
     ] : [
-        { label: 'About', path: '/about' },
-        { label: 'Map', path: '/village/map' },
-        { label: 'Stay', path: '/services/stay' },
-        { label: 'Work Swap', path: '/services/work-swap' },
-        { label: 'Bak Kut Teh', path: '/food' },
-        { label: 'Stories', path: '/stories' },
+        { label: 'About' },
+        { label: 'Map' },
+        { label: 'Stay' },
+        { label: 'Work Swap' },
+        { label: 'Bak Kut Teh' },
+        { label: 'Stories' },
     ];
 
     // Group results by category for "Section" view (similar to design)
@@ -99,16 +99,15 @@ export const HomeSearchModal: React.FC<HomeSearchModalProps> = ({ isOpen, onClos
                         </h3>
                         <div className="flex flex-wrap gap-3">
                             {RECOMMENDED_TAGS.map((tag) => (
-                                <Link
-                                    key={tag.path}
-                                    to={tag.path}
-                                    onClick={onClose}
+                                <button
+                                    key={tag.label}
+                                    onClick={() => setQuery(tag.label)}
                                     className="px-6 py-2 rounded-full border border-neutral-800 flex justify-center items-center gap-2 hover:bg-neutral-800 hover:text-white transition-all duration-300 group"
                                 >
                                     <span className="text-sm font-medium font-['Noto_Sans_TC']">
                                         {tag.label}
                                     </span>
-                                </Link>
+                                </button>
                             ))}
                         </div>
                     </div>
