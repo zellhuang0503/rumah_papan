@@ -3,6 +3,16 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { getIntroSlides } from '../../data/homeData';
 import { useLanguage } from '../../contexts/LanguageContext';
 
+import slide1 from '../../assets/images/Image_kampung.jpg';
+import slide2 from '../../assets/images/Image_20240716_884845.jpg';
+import slide3 from '../../assets/images/Image_2025020845188.jpeg';
+import slide4 from '../../assets/images/Image_2025032456812.jpg';
+import slide5 from '../../assets/images/Image_20240715_174225.jpg';
+import slide6 from '../../assets/images/Image_20240715_294449.jpg';
+import slide7 from '../../assets/images/Image_20240715_332276.jpg';
+
+const slideImages = [slide1, slide2, slide3, slide4, slide5, slide6, slide7];
+
 export const IntroSection: React.FC = () => {
     const { language } = useLanguage();
     const slides = getIntroSlides(language);
@@ -27,8 +37,20 @@ export const IntroSection: React.FC = () => {
                         key={index}
                         className={`absolute inset-0 transition-opacity duration-500 ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
                     >
-                        {/* Background Placeholder */}
-                        <div className="w-full h-full bg-gradient-to-b from-black/20 to-black/80 flex flex-col justify-end items-start px-6 pb-20 desktop:px-[54px] desktop:pb-[80px] gap-2 desktop:gap-6">
+                        {/* Image Background */}
+
+                        <img
+                            src={slideImages[index]}
+                            alt={slide.title}
+                            className={`absolute inset-0 w-full h-full object-cover ${index === 1 ? 'object-[85%_center] scale-110' :
+                                index === 3 ? 'object-[center_85%]' :
+                                    index === 4 ? 'object-[45%_bottom] scale-[1.3]' :
+                                        index === 6 ? 'object-[center_8%]' : ''
+                                }`}
+                        />
+
+                        {/* Background Gradient Overlay */}
+                        <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-transparent via-black/20 to-black/80 flex flex-col justify-end p-[54px] pb-[80px]">
                             {/* Title Position */}
                             <div className="w-full desktop:w-auto">
                                 <h3 className="text-white text-2xl desktop:text-[36px] font-bold font-['Noto_Sans_TC'] leading-tight desktop:leading-[52.5px] drop-shadow-md">

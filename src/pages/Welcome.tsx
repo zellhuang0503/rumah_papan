@@ -7,6 +7,20 @@ import { BrandLogo } from '../components/BrandLogo';
 import { GuidelineLayer } from '../components/GuidelineLayer';
 import { Polaroid } from '../components/Polaroid';
 
+import homePolaroid1 from '../assets/images/Image_20250204102256.jpg';
+import homePolaroid2 from '../assets/images/Image_kampung.jpg';
+import homePolaroid3 from '../assets/images/Image_20251213-wa0015.jpg';
+import homePolaroid4 from '../assets/images/Image_20240716_178448.jpg';
+import homePolaroid5 from '../assets/images/Image_20240716_491306.jpg';
+import homePolaroid6 from '../assets/images/Image_20240716_165357.png';
+import homePolaroid7 from '../assets/images/Image_20240716_472533.jpg';
+import { WELCOME_POLAROID_DATA } from '../data/welcomeData';
+
+const getPolaroidDesc = (caption: string) => {
+    const data = WELCOME_POLAROID_DATA.find(d => d.caption === caption);
+    return data ? data.description : caption;
+};
+
 gsap.registerPlugin(ScrollTrigger);
 
 export const Welcome: React.FC = () => {
@@ -114,11 +128,13 @@ export const Welcome: React.FC = () => {
 
     // Image assets (using placeholders for now based on user code)
     const images = [
-        "https://images.unsplash.com/photo-1512413914633-b5043f4041ea?auto=format&fit=crop&q=80&w=800",
-        "https://images.unsplash.com/photo-1525207934214-cdf79545aa2c?auto=format&fit=crop&q=80&w=800",
-        "https://images.unsplash.com/photo-1542640244-7e67286feb8f?auto=format&fit=crop&q=80&w=800",
-        "https://images.unsplash.com/photo-1517724395460-6dd82d6da0cd?auto=format&fit=crop&q=80&w=800",
-        "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&q=80&w=800"
+        homePolaroid2, // 0: 走進新村
+        homePolaroid1, // 1: 班厝故事館
+        homePolaroid3, // 2: 傳統習俗
+        homePolaroid4, // 3: 技能換宿
+        homePolaroid5, // 4: 節慶活動
+        homePolaroid6, // 5: 肉骨茶
+        homePolaroid7  // 6: 木鱉果
     ];
 
     return (
@@ -155,13 +171,13 @@ export const Welcome: React.FC = () => {
 
                     {/* Polaroids Mobile (Simplified Stack) - 7 Items, 240px width */}
                     {[
-                        { src: images[1], caption: "班厝故事館", desc: "班厝故事館" },
-                        { src: images[0], caption: "走進新村", desc: "走進新村" },
-                        { src: images[2], caption: "傳統習俗", desc: "傳統習俗" },
+                        { src: images[1], caption: "班厝故事館", desc: getPolaroidDesc("班厝故事館") },
+                        { src: images[0], caption: "走進新村", desc: getPolaroidDesc("走進新村") },
+                        { src: images[2], caption: "傳統習俗", desc: getPolaroidDesc("傳統習俗") },
                         { src: images[3], caption: "技能換宿", desc: "技能換宿" },
-                        { src: images[0], caption: "節慶活動", desc: "節慶活動" },
-                        { src: images[4], caption: "肉骨茶", desc: "肉骨茶" },
-                        { src: images[1], caption: "木鱉果", desc: "木鱉果" },
+                        { src: images[4], caption: "節慶活動", desc: "節慶活動" },
+                        { src: images[5], caption: "肉骨茶", desc: "肉骨茶" },
+                        { src: images[6], caption: "木鱉果", desc: "木鱉果" },
                     ].map((item, i) => (
                         <div key={i} className="pointer-events-auto flex justify-center w-full">
                             {/* Wrapper: Width 240px. Original 465x523. Scale needed: 240/465 ≈ 0.516. Height ≈ 270px */}
@@ -174,6 +190,11 @@ export const Welcome: React.FC = () => {
                                         caption={item.caption}
                                         description={item.desc}
                                         className="w-full h-full shadow-xl transform rotate-1"
+                                        imgPosition={
+                                            item.caption === "班厝故事館" ? "25% center" :
+                                                item.caption === "肉骨茶" ? "75% center" :
+                                                    "center"
+                                        }
                                     />
                                 </div>
                             </div>
@@ -220,9 +241,11 @@ export const Welcome: React.FC = () => {
                                 src={images[1]}
                                 alt="班厝故事館"
                                 caption="班厝故事館"
+                                description={getPolaroidDesc("班厝故事館")}
                                 rotation={6}
                                 className="absolute left-[1144.62px] top-[10px] w-[465px] h-[523px] origin-top-left polaroid-1"
                                 disableEntryAnim={true}
+                                imgPosition="25% center"
                             />
 
                             {/* Polaroid 2: 走進新村 (Left, Bottom) */}
@@ -230,6 +253,7 @@ export const Welcome: React.FC = () => {
                                 src={images[0]}
                                 alt="走進新村"
                                 caption="走進新村"
+                                description={getPolaroidDesc("走進新村")}
                                 rotation={-10.61}
                                 className="absolute left-[331px] top-[110px] w-[465px] h-[523px] origin-top-left polaroid-2"
                                 disableEntryAnim={true}
@@ -245,6 +269,7 @@ export const Welcome: React.FC = () => {
                                 src={images[2]}
                                 alt="傳統習俗"
                                 caption="傳統習俗"
+                                description={getPolaroidDesc("傳統習俗")}
                                 rotation={10.5}
                                 className="absolute left-[1212.25px] top-[300px] w-[465px] h-[523px] origin-top-left polaroid-3"
                                 disableEntryAnim={true}
@@ -260,6 +285,7 @@ export const Welcome: React.FC = () => {
                                 src={images[3]}
                                 alt="技能換宿"
                                 caption="技能換宿"
+                                description={getPolaroidDesc("技能換宿")}
                                 rotation={-7.6}
                                 className="absolute left-[316px] top-[346px] w-[465px] h-[523px] origin-top-left polaroid-4"
                                 disableEntryAnim={true}
@@ -275,19 +301,23 @@ export const Welcome: React.FC = () => {
 
                             {/* 肉骨茶 - This is Visually Lower, so it's P6 */}
                             <Polaroid
-                                src={images[4]}
+                                src={images[5]}
                                 alt="肉骨茶"
                                 caption="肉骨茶"
+                                description={getPolaroidDesc("肉骨茶")}
                                 rotation={-7.6}
                                 className="absolute left-[270px] top-[1131px] w-[465px] h-[523px] origin-top-left polaroid-6"
                                 disableEntryAnim={true}
+                                imgPosition="75% center"
+                                imgScale={1.3}
                             />
 
                             {/* 節慶活動 - This is Visually Higher, so it's P5 */}
                             <Polaroid
-                                src={images[0]}
+                                src={images[4]}
                                 alt="節慶活動"
                                 caption="節慶活動"
+                                description={getPolaroidDesc("節慶活動")}
                                 rotation={6.91}
                                 className="absolute left-[1137.90px] top-[50px] w-[465px] h-[523px] origin-top-left polaroid-5"
                                 disableEntryAnim={true}
@@ -300,9 +330,10 @@ export const Welcome: React.FC = () => {
 
 
                             <Polaroid
-                                src={images[1]}
+                                src={images[6]}
                                 alt="木鱉果"
                                 caption="木鱉果"
+                                description={getPolaroidDesc("木鱉果")}
                                 rotation={6}
                                 className="absolute left-[928.63px] top-[808px] w-[465px] h-[523px] origin-top-left pointer-events-auto polaroid-7"
                                 disableEntryAnim={true}
