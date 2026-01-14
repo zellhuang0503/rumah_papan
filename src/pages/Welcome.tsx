@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, Mail, Menu } from 'lucide-react';
+import { ArrowRight, Mail } from 'lucide-react';
 import { BrandLogo } from '../components/BrandLogo';
 import { GuidelineLayer } from '../components/GuidelineLayer';
 import { Polaroid } from '../components/Polaroid';
@@ -135,7 +135,10 @@ export const Welcome: React.FC = () => {
                             <span className="font-serif text-[10px] text-[#181818]">RUMAH PAPAN</span>
                         </div>
                     </div>
-                    <button className="p-2"><Menu className="w-6 h-6 text-[#181818]" /></button>
+                    <button className="px-4 py-2 bg-white/0 border-[2px] border-[#181818] rounded-full flex justify-center items-center gap-2 cursor-pointer active:bg-[#181818] active:text-white transition-all group">
+                        <Mail className="w-4 h-4 text-[#181818] group-hover:text-white transition-colors" />
+                        <span className="text-[#181818] text-sm font-bold font-sans leading-none group-hover:text-white pt-[1px]">聯絡我們</span>
+                    </button>
                 </nav>
 
                 <div className="pt-24 px-6 pb-20 flex flex-col md:grid md:grid-cols-2 gap-12 md:gap-8 items-center md:items-start max-w-[768px] mx-auto">
@@ -178,7 +181,7 @@ export const Welcome: React.FC = () => {
                     ))}
 
                     {/* CTA Mobile */}
-                    <div className="flex justify-center pb-8">
+                    <div className="flex justify-center pb-32 md:col-span-2 mt-8">
                         <Link to="/home" className="bg-[#F3E3CB] border-2 border-[#242527] px-6 py-3 rounded-full font-bold text-xl text-[#242527]">進入新村</Link>
                     </div>
                 </div>
