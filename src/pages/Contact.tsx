@@ -16,49 +16,49 @@ export const Contact: React.FC = () => {
             <main className="w-full relative flex flex-col items-center pt-32 desktop:pt-[165px] gap-12 desktop:gap-[96px] px-6 desktop:px-0">
 
                 {/* Founder Section */}
-                <section className="w-full max-w-[1200px] bg-white rounded-[18px] px-6 py-8 desktop:px-[24px] desktop:py-[15px] flex flex-col desktop:flex-row justify-center items-center gap-8 desktop:gap-[15px] overflow-hidden shadow-sm">
+                <section className="w-full max-w-[1200px] bg-white rounded-[18px] px-4 py-6 desktop:px-[24px] desktop:py-[15px] flex flex-row justify-center items-center gap-4 desktop:gap-[15px] overflow-hidden shadow-sm">
                     {/* Image Container */}
-                    <div className="w-full h-[300px] desktop:flex-1 desktop:h-full relative rounded-[18px] overflow-visible desktop:overflow-hidden desktop:self-stretch shrink-0">
+                    <div className="w-[130px] md:w-[200px] aspect-[3/4] desktop:flex-1 desktop:w-auto desktop:h-full desktop:aspect-auto relative rounded-[18px] overflow-hidden shrink-0">
                         {/* Image with specific styles */}
                         <img
                             src={FOUNDER_DATA.image}
                             alt={FOUNDER_DATA.name}
-                            className="w-full h-full desktop:w-[524px] desktop:absolute desktop:left-[-67px] desktop:top-0 rounded-[18px] shadow-[0px_2px_6px_0px_rgba(0,0,0,0.10)] shadow-[0px_0px_2px_0px_rgba(0,0,0,0.08)] shadow-[0px_0px_0px_1px_rgba(0,0,0,0.20)] outline outline-[6px] outline-white object-cover"
+                            className="w-full h-full object-cover object-center desktop:w-[524px] desktop:absolute desktop:left-[-67px] desktop:top-0 desktop:rounded-[18px] desktop:shadow-[0px_2px_6px_0px_rgba(0,0,0,0.10)] desktop:shadow-[0px_0px_2px_0px_rgba(0,0,0,0.08)] desktop:shadow-[0px_0px_0px_1px_rgba(0,0,0,0.20)] desktop:outline desktop:outline-[6px] desktop:outline-white"
                         />
                     </div>
 
                     {/* Content Container */}
-                    <div className="w-full desktop:w-[765px] h-auto desktop:h-[470px] desktop:p-[30px] flex flex-col justify-between items-start gap-8 desktop:gap-0">
-                        <div className="w-full flex flex-col justify-start items-start gap-4 desktop:gap-[9px]">
-                            <h2 className="w-full text-black text-3xl desktop:text-[54px] font-semibold font-['Roboto_Slab'] leading-[1.45]">
+                    <div className="flex-1 h-auto py-1 desktop:w-[765px] desktop:h-[470px] desktop:p-[30px] flex flex-col justify-between items-start gap-2 desktop:gap-0">
+                        <div className="w-full flex flex-col justify-start items-start gap-2 desktop:gap-[9px]">
+                            <h2 className="w-full text-black text-lg md:text-2xl desktop:text-[54px] font-semibold font-['Roboto_Slab'] leading-[1.45]">
                                 {FOUNDER_DATA.name}
                             </h2>
-                            <p className="w-full text-black/80 text-base desktop:text-[18px] font-medium font-['Noto_Sans_TC'] leading-[1.6]">
+                            <p className="w-full text-black/80 text-xs md:text-sm desktop:text-[18px] font-medium font-['Noto_Sans_TC'] leading-[1.5] line-clamp-4 desktop:line-clamp-none">
                                 {FOUNDER_DATA.bio}
                             </p>
                         </div>
 
-                        <div className="w-full flex flex-col desktop:flex-row justify-between items-start desktop:items-end gap-6 desktop:gap-0">
-                            <div className="flex flex-col justify-start items-start gap-1 desktop:gap-[3px]">
-                                <h3 className="w-full text-neutral-800 text-2xl desktop:text-[36px] font-bold font-['Noto_Sans_TC'] leading-[1.4]">
+                        <div className="w-full flex flex-col desktop:flex-row justify-between items-start desktop:items-end gap-2 desktop:gap-0">
+                            <div className="flex flex-col justify-start items-start desktop:gap-[3px]">
+                                <h3 className="w-full text-neutral-800 text-sm md:text-lg desktop:text-[36px] font-bold font-['Noto_Sans_TC'] leading-[1.4]">
                                     {FOUNDER_DATA.title}
                                 </h3>
-                                <p className="w-full text-neutral-800 text-lg desktop:text-[18px] font-bold font-['Noto_Sans_TC'] leading-[1.35]">
+                                <p className="w-full text-neutral-800 text-xs md:text-base desktop:text-[18px] font-bold font-['Noto_Sans_TC'] leading-[1.35]">
                                     {FOUNDER_DATA.subtitle}
                                 </p>
                             </div>
 
                             {/* Social Icons */}
-                            <div className="w-full desktop:w-[160px] flex justify-start desktop:justify-end items-center desktop:items-end gap-4 desktop:gap-[15px]">
+                            <div className="w-full desktop:w-[160px] flex justify-start desktop:justify-end items-center desktop:items-end gap-2 desktop:gap-[15px]">
                                 {(FOUNDER_DATA as any).socials.map((social: any) => (
                                     <a
                                         key={social.id}
                                         href={social.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="w-[42px] h-[42px] relative flex justify-center items-center transition-colors hover:opacity-70"
+                                        className="w-[28px] h-[28px] md:w-[32px] md:h-[32px] desktop:w-[42px] desktop:h-[42px] relative flex justify-center items-center transition-colors hover:opacity-70"
                                     >
-                                        <i className={`${social.icon} text-[24px] text-neutral-800`} />
+                                        <i className={`${social.icon} text-[16px] md:text-[18px] desktop:text-[24px] text-neutral-800`} />
                                     </a>
                                 ))}
                             </div>
