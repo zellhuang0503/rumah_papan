@@ -13,7 +13,6 @@ export const HomeSearchModal: React.FC<HomeSearchModalProps> = ({ isOpen, onClos
     const { language } = useLanguage();
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<SearchResult[]>([]);
-    const [results, setResults] = useState<SearchResult[]>([]);
 
     // Load recommendations on open
     useEffect(() => {
@@ -34,17 +33,25 @@ export const HomeSearchModal: React.FC<HomeSearchModalProps> = ({ isOpen, onClos
 
     if (!isOpen) return null;
 
-    // Filter categories for the "Chips"
-    const categories = ['all', ...Array.from(new Set(results.map(r => r.category)))];
-
-    const filteredResults = activeCategory === 'all'
-        ? results
-        : results.filter(r => r.category === activeCategory);
+    // Define Recommended Tags
+    const RECOMMENDED_TAGS = language === 'zh' ? [
+        { label: '關於班厝', path: '/about' },
+        { label: '觀光地圖', path: '/village/map' },
+        { label: '住宿體驗', path: '/services/stay' },
+        { label: '技能換宿', path: '/services/work-swap' },
+        { label: '肉骨茶', path: '/food' },
+        { label: '故事誌', path: '/stories' },
+    ] : [
+        { label: 'About', path: '/about' },
+        { label: 'Map', path: '/village/map' },
+        { label: 'Stay', path: '/services/stay' },
+        { label: 'Work Swap', path: '/services/work-swap' },
+        { label: 'Bak Kut Teh', path: '/food' },
+        { label: 'Stories', path: '/stories' },
+    ];
 
     // Group results by category for "Section" view (similar to design)
-    // The design shows specific headers like "關於班厝", "技能換宿", "肉骨茶"
-    // We can simulate this grouping.
-    const groupedResults = filteredResults.reduce((acc, item) => {
+    const groupedResults = results.reduce((acc, item) => {
         if (!acc[item.category]) acc[item.category] = [];
         acc[item.category].push(item);
         return acc;
@@ -85,32 +92,26 @@ export const HomeSearchModal: React.FC<HomeSearchModalProps> = ({ isOpen, onClos
                 {/* Main Content: Scrollable */}
                 <div className="flex-1 overflow-y-auto px-6 py-6 desktop:px-[48px] desktop:py-[36px]">
 
-                    {/* Category Chips */}
-                    {categories.length > 1 && (
-                        <div className="flex flex-wrap gap-2 mb-8">
-                            <button
-                                onClick={() => setActiveCategory('all')}
-                                className={`px-4 py-1.5 rounded-full text-sm font-bold transition-all border ${activeCategory === 'all'
-                                    ? 'bg-neutral-900 text-white border-neutral-900'
-                                    : 'bg-white text-neutral-600 border-neutral-200 hover:border-neutral-900'
-                                    }`}
-                            >
-                                {language === 'zh' ? '全部' : 'All'}
-                            </button>
-                            {categories.filter(c => c !== 'all').map(cat => (
-                                <button
-                                    key={cat}
-                                    onClick={() => setActiveCategory(cat)}
-                                    className={`px-4 py-1.5 rounded-full text-sm font-bold transition-all border ${activeCategory === cat
-                                        ? 'bg-neutral-900 text-white border-neutral-900'
-                                        : 'bg-white text-neutral-600 border-neutral-200 hover:border-neutral-900'
-                                        }`}
+                    {/* Recommended Tags Section */}
+                    <div className="flex flex-col gap-4 mb-10">
+                        <h3 className="text-zinc-500 text-base font-medium font-['Noto_Sans_TC']">
+                            {language === 'zh' ? '推薦搜尋標籤' : 'Recommended Tags'}
+                        </h3>
+                        <div className="flex flex-wrap gap-3">
+                            {RECOMMENDED_TAGS.map((tag) => (
+                                <Link
+                                    key={tag.path}
+                                    to={tag.path}
+                                    onClick={onClose}
+                                    className="px-6 py-2 rounded-full border border-neutral-800 flex justify-center items-center gap-2 hover:bg-neutral-800 hover:text-white transition-all duration-300 group"
                                 >
-                                    {cat}
-                                </button>
+                                    <span className="text-sm font-medium font-['Noto_Sans_TC']">
+                                        {tag.label}
+                                    </span>
+                                </Link>
                             ))}
                         </div>
-                    )}
+                    </div>
 
                     {/* Results Content */}
                     <div className="flex flex-col gap-10">
@@ -164,7 +165,7 @@ export const HomeSearchModal: React.FC<HomeSearchModalProps> = ({ isOpen, onClos
                             </div>
                         ))}
 
-                        {filteredResults.length === 0 && (
+                        {results.length === 0 && (
                             <div className="text-center py-12">
                                 <p className="text-neutral-400 text-lg">
                                     {language === 'zh' ? '找不到相關結果' : 'No results found'}
