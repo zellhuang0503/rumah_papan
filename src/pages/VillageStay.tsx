@@ -44,7 +44,7 @@ export const VillageStay: React.FC = () => {
                             <img
                                 src={room.image}
                                 alt={room.title}
-                                className="w-full desktop:w-[621px] h-[240px] md:h-[360px] lg:h-[420px] desktop:h-[288px] rounded-[18px] object-cover shadow-sm"
+                                className={`w-full desktop:w-[621px] h-[240px] md:h-[360px] lg:h-[420px] desktop:h-[288px] rounded-[18px] object-cover shadow-sm ${room.imagePosition || ''}`}
                             />
                         </div>
                     ))}
