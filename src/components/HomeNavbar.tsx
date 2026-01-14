@@ -4,12 +4,14 @@ import { Search, ChevronDown, Mail, Menu, X } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 import { NavbarSubmenu } from './NavbarSubmenu';
 import { ABOUT_SUBMENU_ITEMS, VILLAGE_SUBMENU_ITEMS } from '../data/mockNavigation';
+import { HomeSearchModal } from './search/HomeSearchModal';
 
 import { useLanguage } from '../contexts/LanguageContext';
 
 export const HomeNavbar: React.FC = () => {
     const { language, setLanguage } = useLanguage();
     const [isOpen, setIsOpen] = React.useState(false);
+    const [isSearchOpen, setIsSearchOpen] = React.useState(false);
 
     // Lock body scroll when menu is open
     React.useEffect(() => {
@@ -25,7 +27,7 @@ export const HomeNavbar: React.FC = () => {
 
     return (
         <>
-            <nav className="fixed top-0 left-0 w-full px-6 py-4 lg:px-[120px] lg:py-6 flex justify-between items-center z-50 bg-orange-100/90 backdrop-blur-sm transition-all duration-300">
+            <nav className="fixed top-0 left-0 w-full px-6 py-4 desktop:px-[120px] lg:px-8 py-6 flex justify-between items-center z-50 bg-orange-100/90 backdrop-blur-sm transition-all duration-300">
                 {/* ================= DESKTOP VIEW (>= 1024px) ================= */}
                 <div className="hidden lg:flex w-full justify-between items-center">
                     {/* Logo Section - Left */}
@@ -39,7 +41,10 @@ export const HomeNavbar: React.FC = () => {
 
                     {/* Centered Group: Search, Nav Links, Lang */}
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-4 desktop:gap-6 pointer-events-auto">
-                        <button className="p-2 hover:bg-neutral-100/50 rounded-full transition-colors">
+                        <button
+                            onClick={() => setIsSearchOpen(true)}
+                            className="p-2 hover:bg-neutral-100/50 rounded-full transition-colors"
+                        >
                             <Search className="w-5 h-5 text-[#181818]" />
                         </button>
 
@@ -135,10 +140,13 @@ export const HomeNavbar: React.FC = () => {
                     {/* Navigation Links */}
                     <div className="flex flex-col gap-6 text-[#181818]">
                         {/* Search */}
-                        <div className="flex items-center gap-3 pb-4 border-b border-[#181818]/10">
+                        <button
+                            onClick={() => { setIsOpen(false); setIsSearchOpen(true); }}
+                            className="flex items-center gap-3 pb-4 border-b border-[#181818]/10 w-full text-left"
+                        >
                             <Search className="w-5 h-5" />
                             <span className="text-lg font-bold">搜尋</span>
-                        </div>
+                        </button>
 
                         {/* About */}
                         <div className="flex flex-col gap-4">
@@ -185,6 +193,9 @@ export const HomeNavbar: React.FC = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Search Modal */}
+            <HomeSearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
         </>
     );
 };
