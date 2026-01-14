@@ -28,16 +28,16 @@ export const IntroSection: React.FC = () => {
                         className={`absolute inset-0 transition-opacity duration-500 ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
                     >
                         {/* Background Placeholder */}
-                        <div className="w-full h-full bg-gradient-to-b from-black/20 to-black/80 flex flex-col justify-end p-[54px] pb-[80px]">
+                        <div className="w-full h-full bg-gradient-to-b from-black/20 to-black/80 flex flex-col justify-end items-start px-6 pb-20 desktop:px-[54px] desktop:pb-[80px] gap-2 desktop:gap-6">
                             {/* Title Position */}
-                            <div className="absolute left-6 bottom-40 desktop:bottom-auto desktop:left-[54px] desktop:top-[421.5px]">
+                            <div className="w-full desktop:w-auto">
                                 <h3 className="text-white text-2xl desktop:text-[36px] font-bold font-['Noto_Sans_TC'] leading-tight desktop:leading-[52.5px] drop-shadow-md">
                                     {slide.title}
                                 </h3>
                             </div>
                             {/* Desc Position */}
-                            <div className="absolute left-6 bottom-20 desktop:bottom-auto desktop:left-[54px] desktop:top-[482.25px] w-[calc(100%-48px)] desktop:w-[900px]">
-                                <p className="text-white text-lg desktop:text-[27px] font-bold font-['Noto_Sans_TC'] leading-relaxed desktop:leading-[43px] drop-shadow-md">
+                            <div className="w-full desktop:w-[900px]">
+                                <p className="text-white text-lg desktop:text-[27px] font-bold font-['Noto_Sans_TC'] leading-relaxed desktop:leading-[43px] drop-shadow-md line-clamp-3 desktop:line-clamp-none">
                                     {slide.desc}
                                 </p>
                             </div>
