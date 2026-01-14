@@ -46,7 +46,7 @@ export const IntroSection: React.FC = () => {
                 ))}
 
                 {/* Navigation Dots */}
-                <div className="absolute left-1/2 -translate-x-1/2 bottom-6 desktop:bottom-auto desktop:left-[528.75px] desktop:top-[544.5px] flex gap-[12px] z-20">
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-6 flex gap-[12px] z-20">
                     {slides.map((_, idx) => (
                         <button
                             key={idx}
