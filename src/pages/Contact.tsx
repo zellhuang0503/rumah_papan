@@ -76,7 +76,7 @@ export const Contact: React.FC = () => {
                 {/* Contact Grid Section */}
                 <section className="w-full max-w-[1200px] flex flex-col desktop:flex-row flex-wrap content-start gap-6 desktop:gap-[18px]">
                     {/* Card 1: Contact Title */}
-                    <div className="w-full desktop:w-[288px] h-[240px] desktop:h-[344px] bg-white rounded-[27px] relative overflow-hidden flex flex-col justify-end p-6 desktop:p-[30px] gap-5 desktop:gap-0">
+                    <div className="w-full desktop:w-[288px] h-[120px] desktop:h-[344px] bg-white rounded-[27px] relative overflow-hidden flex flex-col justify-end p-6 desktop:p-[30px] gap-5 desktop:gap-0">
                         <div className="flex items-center gap-[6px] desktop:absolute desktop:top-[230px] desktop:left-[30px]">
                             <span className="text-black text-[18px] font-medium font-['Roboto_Slab']">Contact us</span>
                         </div>
@@ -86,7 +86,7 @@ export const Contact: React.FC = () => {
                     </div>
 
                     {/* Card 2: Facebook */}
-                    <div className="w-full desktop:flex-1 h-[140px] desktop:h-[344px] bg-white rounded-[27px] p-4 desktop:p-[18px] flex flex-col justify-end">
+                    <div className="w-full desktop:flex-1 h-[180px] desktop:h-[344px] bg-white rounded-[27px] p-4 desktop:p-[18px] flex flex-col justify-end">
                         <div className="w-full bg-white px-6 py-3 desktop:px-[24px] desktop:py-[9px] rounded-[18px] flex flex-col items-start gap-1 desktop:gap-[6px]">
                             <div className="flex items-center gap-[6px]">
                                 <span className="text-black text-base desktop:text-[18px] font-medium font-['Roboto_Slab']">Facebook</span>
@@ -102,7 +102,7 @@ export const Contact: React.FC = () => {
                     {/* Actually we can just keep them as siblings and let flex-wrap handle desktop, full width on mobile */}
 
                     {/* Card 3: Instagram */}
-                    <div className="w-full desktop:basis-[calc(50%-9px)] h-[140px] desktop:h-[344px] bg-white rounded-[27px] p-4 desktop:p-[18px] flex flex-col justify-end">
+                    <div className="w-full desktop:basis-[calc(50%-9px)] h-[180px] desktop:h-[344px] bg-white rounded-[27px] p-4 desktop:p-[18px] flex flex-col justify-end">
                         <div className="w-full bg-white px-6 py-3 desktop:px-[24px] desktop:py-[9px] rounded-[18px] flex flex-col items-start gap-1 desktop:gap-[6px]">
                             <div className="flex items-center gap-[6px]">
                                 <span className="text-black/80 text-base desktop:text-[18px] font-medium font-['Roboto_Slab']">Instagram</span>
@@ -115,7 +115,7 @@ export const Contact: React.FC = () => {
                     </div>
 
                     {/* Card 4: WhatsApp */}
-                    <div className="w-full desktop:basis-[calc(50%-9px)] h-[140px] desktop:h-[344px] bg-white rounded-[27px] p-4 desktop:p-[18px] flex flex-col justify-end">
+                    <div className="w-full desktop:basis-[calc(50%-9px)] h-[180px] desktop:h-[344px] bg-white rounded-[27px] p-4 desktop:p-[18px] flex flex-col justify-end">
                         <div className="w-full bg-white px-6 py-3 desktop:px-[24px] desktop:py-[9px] rounded-[18px] flex flex-col items-start gap-1 desktop:gap-[6px]">
                             <div className="flex items-center gap-[6px]">
                                 <span className="text-black/80 text-base desktop:text-[18px] font-medium font-['Roboto_Slab']">WhatsApp</span>
