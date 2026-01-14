@@ -1,4 +1,4 @@
-import { NEWS_DATA } from '../data/homeData';
+import { NEWS_DATA, getFeaturesData } from '../data/homeData';
 import { stories, STORY_CATEGORIES } from '../data/storyData';
 import { getStayData, getActivitiesData, getWorkSwapData } from '../data/villageData';
 
@@ -21,24 +21,52 @@ export const searchContent = (query: string, language: 'zh' | 'en' = 'zh'): Sear
     // Helper to check match
     const isMatch = (text?: string) => text?.toLowerCase().includes(normalizedQuery);
 
+    // 0. Home Features (High level pages)
+    const features = getFeaturesData(language);
+    features.forEach((feature, idx) => {
+        if (isMatch(feature.title) || isMatch(feature.subtitle)) {
+            results.push({
+                id: `feature-${idx}`,
+                title: feature.title,
+                description: feature.subtitle,
+                category: language === 'zh' ? '精選' : 'Featured',
+                path: feature.path,
+                isHot: true
+            });
+        }
+    });
+
     // 1. Stories
     stories.forEach(story => {
         if (isMatch(story.title) || isMatch(story.description)) {
-            const catLabel = STORY_CATEGORIES.find(c => c.id === story.category)?.label || '故事誌';
+            // Fallback label if category not found?
+            const catLabel = STORY_CATEGORIES.find(c => c.id === story.category)?.label || (language === 'zh' ? '故事' : 'Story');
             results.push({
                 id: `story-${story.id}`,
                 title: story.title,
                 description: story.description,
                 category: catLabel,
-                path: `/stories#${story.id}`, // Anchor or filter param
+                path: `/stories#${story.id}`,
                 image: story.imageUrl,
-                isHot: story.tags.includes('推薦') || story.variant === 'banner' // Mock logic for 'Hot'
+                isHot: story.tags.includes('推薦') || story.variant === 'banner'
             });
         }
     });
 
     // 2. Village - Stay
     const stayData = getStayData(language);
+    // Index Hero/General Stay Info
+    if (isMatch(stayData.hero.title) || isMatch(stayData.quote.title) || isMatch(stayData.quote.desc)) {
+        results.push({
+            id: 'stay-main',
+            title: stayData.hero.title,
+            description: stayData.quote.desc,
+            category: language === 'zh' ? '住宿體驗' : 'Stay',
+            path: '/services/stay',
+            isHot: true
+        });
+    }
+    // Index Rooms
     stayData.rooms.forEach((room, idx) => {
         if (isMatch(room.title) || isMatch(room.desc)) {
             results.push({
@@ -54,6 +82,18 @@ export const searchContent = (query: string, language: 'zh' | 'en' = 'zh'): Sear
 
     // 3. Village - Activities
     const activityData = getActivitiesData(language);
+    // Index Hero
+    if (isMatch(activityData.hero.title) || isMatch(activityData.quote.title) || isMatch(activityData.quote.desc)) {
+        results.push({
+            id: 'activity-main',
+            title: activityData.hero.title,
+            description: activityData.quote.desc,
+            category: language === 'zh' ? '活動體驗' : 'Activities',
+            path: '/village/map',
+            isHot: true
+        });
+    }
+    // Index Items
     activityData.items.forEach((item, idx) => {
         if (isMatch(item.title) || isMatch(item.desc)) {
             results.push({
@@ -61,15 +101,27 @@ export const searchContent = (query: string, language: 'zh' | 'en' = 'zh'): Sear
                 title: item.title,
                 description: item.desc,
                 category: language === 'zh' ? '活動體驗' : 'Activities',
-                path: '/village/map', // Or related page
+                path: '/village/map',
                 image: item.image,
-                isHot: true // Example
+                isHot: true
             });
         }
     });
 
     // 4. Village - Work Swap
     const workSwapData = getWorkSwapData(language);
+    // Index Hero
+    if (isMatch(workSwapData.hero.title) || isMatch(workSwapData.quote.title) || isMatch(workSwapData.quote.desc)) {
+        results.push({
+            id: 'workswap-main',
+            title: workSwapData.hero.title,
+            description: workSwapData.quote.desc,
+            category: language === 'zh' ? '技能換宿' : 'Work Swap',
+            path: '/services/work-swap',
+            isHot: true
+        });
+    }
+    // Index Items
     workSwapData.items.forEach((item, idx) => {
         if (isMatch(item.title) || isMatch(item.desc)) {
             results.push({

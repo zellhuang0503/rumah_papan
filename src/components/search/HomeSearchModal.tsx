@@ -40,7 +40,7 @@ export const HomeSearchModal: React.FC<HomeSearchModalProps> = ({ isOpen, onClos
         { label: '住宿體驗' },
         { label: '技能換宿' },
         { label: '肉骨茶' },
-        { label: '故事誌' },
+        { label: '故事交換' },
     ] : [
         { label: 'About' },
         { label: 'Map' },
