@@ -1,8 +1,110 @@
 import React, { useState, useEffect } from 'react';
-import { Search, X, ArrowUpRight } from 'lucide-react';
+import { Search, X, ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { searchContent, getRecommendedContent, type SearchResult } from '../../utils/searchUtils';
 import { Link } from 'react-router-dom';
+
+interface SearchResultItemProps {
+    item: SearchResult;
+    onClose: () => void;
+    language: 'zh' | 'en';
+}
+
+const SearchResultItem: React.FC<SearchResultItemProps> = ({ item, onClose, language }) => {
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const hasImages = item.images && item.images.length > 0;
+    const hasMultipleImages = item.images && item.images.length > 1;
+
+    const nextImage = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (item.images) {
+            setCurrentImageIndex((prev) => (prev + 1) % item.images!.length);
+        }
+    };
+
+    const prevImage = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (item.images) {
+            setCurrentImageIndex((prev) => (prev - 1 + item.images!.length) % item.images!.length);
+        }
+    };
+
+    return (
+        <Link
+            to={item.path}
+            onClick={onClose}
+            className="group w-full px-6 py-4 desktop:px-[48px] desktop:py-[18px] bg-neutral-50 rounded-[18px] desktop:rounded-[24px] flex justify-between items-center hover:bg-orange-50 transition-colors duration-300 ring-1 ring-transparent hover:ring-orange-200 cursor-pointer gap-4 desktop:gap-8"
+        >
+            {/* Image Carousel Section - Only if images exist */}
+            {hasImages && (
+                <div className="relative w-[120px] h-[90px] desktop:w-[160px] desktop:h-[120px] flex-shrink-0 rounded-lg overflow-hidden bg-gray-200">
+                    <img
+                        src={item.images![currentImageIndex]}
+                        alt={item.title}
+                        className="w-full h-full object-cover"
+                    />
+
+                    {/* Carousel Controls */}
+                    {hasMultipleImages && (
+                        <>
+                            {/* Arrows - Show on Hover */}
+                            <button
+                                onClick={prevImage}
+                                className="absolute left-1 top-1/2 -translate-y-1/2 p-1 bg-black/20 hover:bg-black/50 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                                <ChevronLeft className="w-4 h-4" />
+                            </button>
+                            <button
+                                onClick={nextImage}
+                                className="absolute right-1 top-1/2 -translate-y-1/2 p-1 bg-black/20 hover:bg-black/50 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                                <ChevronRight className="w-4 h-4" />
+                            </button>
+
+                            {/* Dots */}
+                            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+                                {item.images!.map((_, idx) => (
+                                    <div
+                                        key={idx}
+                                        className={`w-1.5 h-1.5 rounded-full transition-colors ${idx === currentImageIndex ? 'bg-white' : 'bg-white/50'}`}
+                                    />
+                                ))}
+                            </div>
+                        </>
+                    )}
+                </div>
+            )}
+
+            <div className="flex-1 flex flex-col items-start gap-2 desktop:gap-3 min-w-0">
+                {/* Header Line: Title + Tag */}
+                <div className="flex flex-col items-start gap-1 w-full text-left">
+                    <div className="flex items-center gap-3 flex-wrap">
+                        <h4 className="text-black text-xl desktop:text-[27px] font-bold font-['Noto_Sans_TC'] leading-tight group-hover:text-orange-600 transition-colors line-clamp-1">
+                            {item.title}
+                        </h4>
+                        {item.isHot && (
+                            <span className="px-3 py-0.5 rounded-full border border-neutral-800 text-neutral-800 text-xs font-medium font-['Noto_Sans_TC'] whitespace-nowrap">
+                                {language === 'zh' ? '熱門' : 'HOT'}
+                            </span>
+                        )}
+                    </div>
+                </div>
+
+                {/* Description */}
+                <p className="w-full text-stone-900 text-base desktop:text-lg font-medium font-['Noto_Sans_TC'] leading-relaxed line-clamp-2 desktop:line-clamp-2 text-left">
+                    {item.description}
+                </p>
+            </div>
+
+            {/* Arrow Icon Box */}
+            <div className="w-[36px] h-[36px] desktop:w-[48px] desktop:h-[48px] flex items-center justify-center flex-shrink-0">
+                <ArrowUpRight className="w-5 h-5 desktop:w-6 desktop:h-6 text-black group-hover:text-orange-600 transition-colors" />
+            </div>
+        </Link>
+    );
+};
 
 interface HomeSearchModalProps {
     isOpen: boolean;
@@ -127,39 +229,9 @@ export const HomeSearchModal: React.FC<HomeSearchModalProps> = ({ isOpen, onClos
                                 {/* Items List */}
                                 <div className="flex flex-col gap-4">
                                     {items.map((item) => (
-                                        <Link
-                                            key={item.id}
-                                            to={item.path}
-                                            onClick={onClose}
-                                            className="group w-full px-6 py-4 desktop:px-[48px] desktop:py-[18px] bg-neutral-50 rounded-[18px] desktop:rounded-[24px] flex justify-between items-center hover:bg-orange-50 transition-colors duration-300 ring-1 ring-transparent hover:ring-orange-200 cursor-pointer"
-                                        >
-                                            <div className="flex-1 pr-6 flex flex-col items-start gap-2 desktop:gap-3">
-                                                {/* Header Line: Title + Tag */}
-                                                <div className="flex flex-col items-start gap-1 w-full text-left">
-                                                    <div className="flex items-center gap-3 flex-wrap">
-                                                        <h4 className="text-black text-xl desktop:text-[27px] font-bold font-['Noto_Sans_TC'] leading-tight group-hover:text-orange-600 transition-colors">
-                                                            {item.title}
-                                                        </h4>
-                                                        {item.isHot && (
-                                                            <span className="px-3 py-0.5 rounded-full border border-neutral-800 text-neutral-800 text-xs font-medium font-['Noto_Sans_TC'] whitespace-nowrap">
-                                                                {language === 'zh' ? '熱門' : 'HOT'}
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                </div>
-
-                                                {/* Description */}
-                                                <p className="w-full text-stone-900 text-base desktop:text-lg font-medium font-['Noto_Sans_TC'] leading-relaxed line-clamp-2 desktop:line-clamp-2 text-left">
-                                                    {item.description}
-                                                </p>
-                                            </div>
-
-                                            {/* Arrow Icon Box */}
-                                            <div className="w-[36px] h-[36px] desktop:w-[48px] desktop:h-[48px] flex items-center justify-center flex-shrink-0">
-                                                <ArrowUpRight className="w-5 h-5 desktop:w-6 desktop:h-6 text-black group-hover:text-orange-600 transition-colors" />
-                                            </div>
-                                        </Link>
+                                        <SearchResultItem key={item.id} item={item} onClose={onClose} language={language} />
                                     ))}
+
                                 </div>
                             </div>
                         ))}
@@ -174,6 +246,6 @@ export const HomeSearchModal: React.FC<HomeSearchModalProps> = ({ isOpen, onClos
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };

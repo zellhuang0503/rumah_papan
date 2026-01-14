@@ -10,7 +10,7 @@ export interface SearchResult {
     category: string;
     path: string;
     isHot?: boolean;
-    image?: string;
+    images?: string[]; // Changed from image?: string
 }
 
 export const searchContent = (query: string, language: 'zh' | 'en' = 'zh'): SearchResult[] => {
@@ -48,7 +48,7 @@ export const searchContent = (query: string, language: 'zh' | 'en' = 'zh'): Sear
                 description: story.description,
                 category: catLabel,
                 path: `/stories#${story.id}`,
-                image: story.imageUrl,
+                images: story.images, // Use images array
                 isHot: story.tags.includes('推薦') || story.variant === 'banner'
             });
         }
@@ -76,7 +76,7 @@ export const searchContent = (query: string, language: 'zh' | 'en' = 'zh'): Sear
                 description: room.desc,
                 category: language === 'zh' ? '住宿體驗' : 'Stay',
                 path: '/services/stay',
-                image: room.image
+                images: room.image ? [room.image] : [] // Wrap single image
             });
         }
     });
@@ -103,7 +103,7 @@ export const searchContent = (query: string, language: 'zh' | 'en' = 'zh'): Sear
                 description: item.desc,
                 category: language === 'zh' ? '活動體驗' : 'Activities',
                 path: '/village/map',
-                image: item.image,
+                images: item.image ? [item.image] : [], // Wrap single image
                 isHot: true
             });
         }
@@ -131,7 +131,7 @@ export const searchContent = (query: string, language: 'zh' | 'en' = 'zh'): Sear
                 description: item.desc,
                 category: language === 'zh' ? '技能換宿' : 'Work Swap',
                 path: '/services/work-swap',
-                image: item.image
+                images: item.image ? [item.image] : [] // Wrap single image
             });
         }
     });
