@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
-import { SiteFooter } from '../components/SiteFooter';
+
 import { useNavigate } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -180,7 +180,7 @@ export const BookingStay: React.FC = () => {
                                             placeholderText="選擇日期"
                                             className="w-full bg-transparent text-xl text-neutral-900 focus:outline-none font-medium cursor-pointer placeholder:text-stone-300"
                                             wrapperClassName="w-full"
-                                            onFocus={(e) => e.target.readOnly = true}
+                                            onFocus={(e) => (e.target as HTMLInputElement).readOnly = true}
                                         />
                                     </div>
                                 </div>
@@ -229,7 +229,7 @@ export const BookingStay: React.FC = () => {
                                             placeholderText="選擇日期"
                                             className="w-full bg-transparent text-xl text-neutral-900 focus:outline-none font-medium cursor-pointer placeholder:text-stone-300"
                                             wrapperClassName="w-full"
-                                            onFocus={(e) => e.target.readOnly = true}
+                                            onFocus={(e) => (e.target as HTMLInputElement).readOnly = true}
                                         />
                                     </div>
                                 </div>

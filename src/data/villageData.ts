@@ -245,8 +245,8 @@ const ACTIVITIES_DATA_ZH: ActivitiesData = {
     notices: [
         {
             id: "01",
-            title: "報名與集合",
-            desc: "多數活動採預約制，請先透過 Facebook／IG／WhatsApp 報名。走村導覽與節慶活動，建議提前1週詢問報名。"
+            title: "主題與報名",
+            desc: "導覽依不同主題獨家規劃體驗內容，皆為收費參與，價格自每人 RM60 起，並可依需求設計結合午餐、工作坊等配套。\n另有每月一次由在地商家冠名的公益導覽，邀請更多人走進班達馬蘭新村。\n多數活動採預約制，請透過 Facebook／IG／WhatsApp 報名，走村導覽與節慶活動建議提前一週洽詢。"
         },
         {
             id: "02",
