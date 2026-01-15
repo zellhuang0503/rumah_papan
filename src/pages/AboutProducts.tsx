@@ -1,9 +1,13 @@
 import React from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
-import { PRODUCTS_DATA } from '../data/aboutData';
+import { getProductsData } from '../data/aboutData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const AboutProducts: React.FC = () => {
+    const { language } = useLanguage();
+    const PRODUCTS_DATA = getProductsData(language);
+
     // Reuse dimensions from Environment Page
     // Title: "農作產品"
 
@@ -15,7 +19,7 @@ export const AboutProducts: React.FC = () => {
                 {/* Header Section */}
                 <div className="w-full flex flex-col items-center gap-8 desktop:gap-[72px]">
                     <h1 className="text-black text-3xl desktop:text-[54px] font-bold font-['Noto_Sans_TC'] leading-tight desktop:leading-[75.6px] text-center">
-                        農作產品
+                        {language === 'zh' ? '農作產品' : 'Farm Products'}
                     </h1>
 
                     {/* Grid Section */}

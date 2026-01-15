@@ -1,10 +1,15 @@
+
 import React from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { ABOUT_HERO_DATA } from '../data/aboutData';
+import { getAboutHeroData } from '../data/aboutData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const About: React.FC = () => {
+    const { language } = useLanguage();
+    const ABOUT_HERO_DATA = getAboutHeroData(language);
+
     // Scaling Rules (1920 -> 1440, factor 0.75)
     // Padding Top: 220px -> 165px
     // Padding X: 120px -> 90px

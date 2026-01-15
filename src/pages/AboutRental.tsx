@@ -1,14 +1,31 @@
+
 import React, { useState } from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
-import { RENTAL_DATA } from '../data/aboutData';
+import { getRentalData } from '../data/aboutData';
+import { useLanguage } from '../contexts/LanguageContext';
 import { MoveRight, ArrowUpRight } from 'lucide-react';
 
 export const AboutRental: React.FC = () => {
+    const { language } = useLanguage();
+    const RENTAL_DATA = getRentalData(language);
+
     // Scaling Rules (1920 -> 1440, factor 0.75)
     // Width: 1680 * 0.75 = 1260px
     // Spacing: 120 * 0.75 = 90px
     // Fonts: 72->54, 60->45, 50->37.5, 24->18
+
+    // Translations
+    const labels = {
+        title: language === 'zh' ? '場地租借' : 'Venue Rental',
+        process: language === 'zh' ? '租借流程' : 'Rental Process',
+        pricing: language === 'zh' ? '價目＆條件' : 'Pricing & Terms',
+        pricingDesc: language === 'zh' ? '提供的詳細條件並整理成兩個「方案」' : 'Detailed terms arranged in two plans',
+        contactTitle: language === 'zh' ? '聯絡方式' : 'Contact Info',
+        contactRP: language === 'zh' ? '聯繫班厝' : 'Contact RP',
+        bookVisit: language === 'zh' ? '預約勘場' : 'Book Visit',
+        checkAvailability: language === 'zh' ? '詢問檔期' : 'Check Availability'
+    };
 
     // Carousel State
     const [currentHighlight, setCurrentHighlight] = useState(0);
@@ -32,7 +49,7 @@ export const AboutRental: React.FC = () => {
                 <div className="w-full flex flex-col items-center gap-12 desktop:gap-[100px]">
                     {/* Page Title */}
                     <h1 className="text-black text-3xl desktop:text-[54px] font-bold font-['Noto_Sans_TC'] leading-[1.4] text-center">
-                        場地租借
+                        {labels.title}
                     </h1>
 
                     {/* Hero / Highlights Carousel */}
@@ -102,7 +119,7 @@ export const AboutRental: React.FC = () => {
                 <section className="w-full max-w-[1200px] flex items-center justify-center">
                     <div className="w-full flex flex-col desktop:flex-row desktop:items-end gap-12 desktop:gap-[45px]">
                         <h2 className="text-black text-3xl desktop:text-[45px] font-bold font-['Noto_Sans_TC'] leading-tight mb-0 desktop:mb-8 whitespace-nowrap text-center desktop:text-left">
-                            租借流程
+                            {labels.process}
                         </h2>
 
                         <div className="w-full flex flex-col desktop:flex-row items-center desktop:items-start justify-between relative gap-12 desktop:gap-0">
@@ -161,10 +178,10 @@ export const AboutRental: React.FC = () => {
                 <section className="w-full max-w-[1200px] flex flex-col items-center gap-[18px]">
                     <div className="text-center mb-[18px]">
                         <h2 className="text-black text-3xl desktop:text-[45px] font-bold font-['Noto_Sans_TC']">
-                            價目＆條件
+                            {labels.pricing}
                         </h2>
                         <p className="text-black text-base desktop:text-[18px] font-medium opacity-80 mt-2">
-                            提供的詳細條件並整理成兩個「方案」
+                            {labels.pricingDesc}
                         </p>
                     </div>
 
@@ -198,7 +215,7 @@ export const AboutRental: React.FC = () => {
                         <div className="w-full desktop:w-[301px] bg-white rounded-[27px] p-[30px] flex flex-col justify-between shrink-0 h-auto desktop:h-full gap-8 desktop:gap-0">
                             <div>
                                 <h3 className="text-black text-[18px] font-serif font-medium leading-[1.45]">Contact us</h3>
-                                <h2 className="text-black text-[37.5px] font-bold font-['Noto_Sans_TC'] mt-[6px] leading-[1.4]">聯絡方式</h2>
+                                <h2 className="text-black text-[37.5px] font-bold font-['Noto_Sans_TC'] mt-[6px] leading-[1.4]">{labels.contactTitle}</h2>
                             </div>
                             <p className="text-black text-[18px] font-bold font-['Noto_Sans_TC'] leading-[1.4]">
                                 {RENTAL_DATA?.contact?.desc}
@@ -215,7 +232,7 @@ export const AboutRental: React.FC = () => {
                                         <span className="text-black text-[18px] font-medium font-serif leading-[1.45]">Facebook</span>
                                         <ArrowUpRight className="w-[18px] h-[18px] text-black group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" strokeWidth={2} />
                                     </div>
-                                    <h3 className="text-black text-[37.5px] font-bold font-['Noto_Sans_TC'] leading-[1.4]">聯繫班厝</h3>
+                                    <h3 className="text-black text-[37.5px] font-bold font-['Noto_Sans_TC'] leading-[1.4]">{labels.contactRP}</h3>
                                 </a>
 
                                 {/* Instagram */}
@@ -224,7 +241,7 @@ export const AboutRental: React.FC = () => {
                                         <span className="text-black text-[18px] font-medium font-serif leading-[1.45]">Instagram</span>
                                         <ArrowUpRight className="w-[18px] h-[18px] text-black group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" strokeWidth={2} />
                                     </div>
-                                    <h3 className="text-black text-[37.5px] font-bold font-['Noto_Sans_TC'] leading-[1.4]">預約勘場</h3>
+                                    <h3 className="text-black text-[37.5px] font-bold font-['Noto_Sans_TC'] leading-[1.4]">{labels.bookVisit}</h3>
                                 </a>
 
                                 {/* WhatsApp */}
@@ -233,7 +250,7 @@ export const AboutRental: React.FC = () => {
                                         <span className="text-black text-[18px] font-medium font-serif leading-[1.45]">WhatsApp</span>
                                         <ArrowUpRight className="w-[18px] h-[18px] text-black group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" strokeWidth={2} />
                                     </div>
-                                    <h3 className="text-black text-[37.5px] font-bold font-['Noto_Sans_TC'] leading-[1.4]">詢問檔期</h3>
+                                    <h3 className="text-black text-[37.5px] font-bold font-['Noto_Sans_TC'] leading-[1.4]">{labels.checkAvailability}</h3>
                                 </a>
                             </div>
                         </div>

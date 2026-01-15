@@ -1,7 +1,11 @@
 import React from 'react';
-import { TESTIMONIALS_DATA } from '../../data/homeData';
+import { getTestimonialsData } from '../../data/homeData';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const Testimonials: React.FC = () => {
+    const { language } = useLanguage();
+    const TESTIMONIALS_DATA = getTestimonialsData(language);
+
     return (
         <section className="w-full h-[288px] relative overflow-hidden bg-orange-100">
             <div className="absolute left-0 top-6 desktop:top-[31.5px] desktop:left-[77.25px] w-full desktop:w-[calc(100%-77px)] pl-6 desktop:pl-0 overflow-x-auto no-scrollbar pb-10">

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Search, ChevronDown, Mail, Menu, X } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 import { NavbarSubmenu } from './NavbarSubmenu';
-import { ABOUT_SUBMENU_ITEMS, VILLAGE_SUBMENU_ITEMS } from '../data/mockNavigation';
+import { getAboutSubmenu, getVillageSubmenu } from '../data/mockNavigation';
 import { HomeSearchModal } from './search/HomeSearchModal';
 
 import { useLanguage } from '../contexts/LanguageContext';
@@ -51,32 +51,32 @@ export const HomeNavbar: React.FC = () => {
                         <div className="flex items-center gap-4 desktop:gap-6">
                             <div className="relative group h-full flex items-center">
                                 <Link to="/about" className="flex items-center gap-1 cursor-pointer whitespace-nowrap">
-                                    <span className="font-bold text-[#181818] text-base">關於班厝</span>
+                                    <span className="font-bold text-[#181818] text-base">{language === 'zh' ? '關於班厝' : 'About'}</span>
                                     <ChevronDown className="w-3.5 h-3.5 text-[#181818] group-hover:translate-y-0.5 transition-transform" />
                                 </Link>
                                 {/* Submenu with padding bridge */}
                                 <div className="absolute top-full left-1/2 -translate-x-1/2 pt-[18px] hidden group-hover:block">
-                                    <NavbarSubmenu items={ABOUT_SUBMENU_ITEMS} />
+                                    <NavbarSubmenu items={getAboutSubmenu(language)} />
                                 </div>
                             </div>
 
                             <div className="relative group h-full flex items-center">
                                 <div className="flex items-center gap-1 cursor-pointer whitespace-nowrap">
-                                    <span className="font-bold text-[#181818] text-base">走進新村</span>
+                                    <span className="font-bold text-[#181818] text-base">{language === 'zh' ? '走進新村' : 'Explore'}</span>
                                     <ChevronDown className="w-3.5 h-3.5 text-[#181818] group-hover:translate-y-0.5 transition-transform" />
                                 </div>
                                 {/* Submenu with padding bridge */}
                                 <div className="absolute top-full left-1/2 -translate-x-1/2 pt-[18px] hidden group-hover:block">
-                                    <NavbarSubmenu items={VILLAGE_SUBMENU_ITEMS} />
+                                    <NavbarSubmenu items={getVillageSubmenu(language)} />
                                 </div>
                             </div>
 
                             <Link to="/village/traffic" className="font-bold text-[#181818] text-base hover:text-[#F1592C] transition-colors whitespace-nowrap">
-                                交通方式
+                                {language === 'zh' ? '交通方式' : 'Transport'}
                             </Link>
 
                             <Link to="/contact" className="font-bold text-[#181818] text-base hover:text-[#F1592C] transition-colors whitespace-nowrap">
-                                聯絡我們
+                                {language === 'zh' ? '聯絡我們' : 'Contact'}
                             </Link>
                         </div>
 
@@ -101,7 +101,7 @@ export const HomeNavbar: React.FC = () => {
                     {/* Right Section: Contact Button */}
                     <Link to="/contact" className="pointer-events-auto bg-transparent border-[2px] border-[#181818] rounded-full px-5 py-2 flex justify-center items-center gap-2 hover:bg-[#F1592C] transition-all duration-300 z-50 group whitespace-nowrap">
                         <Mail className="w-4 h-4 text-[#181818] group-hover:text-white transition-colors" />
-                        <span className="font-bold text-base text-[#181818] leading-none group-hover:text-white pt-[2px]">聯絡我們</span>
+                        <span className="font-bold text-base text-[#181818] leading-none group-hover:text-white pt-[2px]">{language === 'zh' ? '聯絡我們' : 'Contact Us'}</span>
                     </Link>
                 </div>
 
@@ -145,14 +145,16 @@ export const HomeNavbar: React.FC = () => {
                             className="flex items-center gap-3 pb-4 border-b border-[#181818]/10 w-full text-left"
                         >
                             <Search className="w-5 h-5" />
-                            <span className="text-lg font-bold">搜尋</span>
+                            <span className="text-lg font-bold">{language === 'zh' ? '搜尋' : 'Search'}</span>
                         </button>
 
                         {/* About */}
                         <div className="flex flex-col gap-4">
-                            <Link to="/about" className="text-2xl font-bold" onClick={() => setIsOpen(false)}>關於班厝</Link>
+                            <Link to="/about" className="text-2xl font-bold" onClick={() => setIsOpen(false)}>
+                                {language === 'zh' ? '關於班厝' : 'About'}
+                            </Link>
                             <div className="pl-4 flex flex-col gap-3 border-l-2 border-[#181818]/10">
-                                {ABOUT_SUBMENU_ITEMS.map((item) => (
+                                {getAboutSubmenu(language).map((item) => (
                                     <Link key={item.title} to={item.path} className="text-base text-[#181818]/80" onClick={() => setIsOpen(false)}>
                                         {item.title}
                                     </Link>
@@ -162,9 +164,9 @@ export const HomeNavbar: React.FC = () => {
 
                         {/* Village */}
                         <div className="flex flex-col gap-4">
-                            <span className="text-2xl font-bold">走進新村</span>
+                            <span className="text-2xl font-bold">{language === 'zh' ? '走進新村' : 'Explore'}</span>
                             <div className="pl-4 flex flex-col gap-3 border-l-2 border-[#181818]/10">
-                                {VILLAGE_SUBMENU_ITEMS.map((item) => (
+                                {getVillageSubmenu(language).map((item) => (
                                     <Link key={item.title} to={item.path} className="text-base text-[#181818]/80" onClick={() => setIsOpen(false)}>
                                         {item.title}
                                     </Link>
@@ -172,8 +174,12 @@ export const HomeNavbar: React.FC = () => {
                             </div>
                         </div>
 
-                        <Link to="/village/traffic" className="text-2xl font-bold" onClick={() => setIsOpen(false)}>交通方式</Link>
-                        <Link to="/contact" className="text-2xl font-bold" onClick={() => setIsOpen(false)}>聯絡我們</Link>
+                        <Link to="/village/traffic" className="text-2xl font-bold" onClick={() => setIsOpen(false)}>
+                            {language === 'zh' ? '交通方式' : 'Transport'}
+                        </Link>
+                        <Link to="/contact" className="text-2xl font-bold" onClick={() => setIsOpen(false)}>
+                            {language === 'zh' ? '聯絡我們' : 'Contact'}
+                        </Link>
                     </div>
 
                     {/* Language Switcher Mobile */}

@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -7,15 +8,21 @@ import { MapViewer } from '../components/village/MapViewer';
 import { MapFilter } from '../components/village/MapFilter';
 import { LocationCard } from '../components/village/LocationCard';
 import {
-    villageLocations,
+    getVillageLocations,
     type LocationCategory,
-    MAP_PAGE_TITLE,
-    MAP_PAGE_SUBTITLE
+    getMapPageTitle,
+    getMapPageSubtitle
 } from '../data/villageMapData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const VillageMap: React.FC = () => {
+    const { language } = useLanguage();
+    const villageLocations = getVillageLocations(language);
+    const MAP_PAGE_TITLE = getMapPageTitle(language);
+    const MAP_PAGE_SUBTITLE = getMapPageSubtitle(language);
+
     const [activeCategory, setActiveCategory] = useState<LocationCategory>('all');
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -60,8 +67,6 @@ export const VillageMap: React.FC = () => {
             const sections = q(".content-section");
             sections.forEach((section) => {
                 // Find title and cards *inside* this specific section
-                // Note: q() is scoped to container, but here we need scope to section.
-                // We can use section.querySelector since we have the DOM node.
                 const title = section.querySelector(".section-title");
                 const cards = section.querySelectorAll(".location-card-item");
 
@@ -100,16 +105,22 @@ export const VillageMap: React.FC = () => {
         }, containerRef);
 
         return () => ctx.revert();
-    }, []); // Run only once on mount
+    }, [language]); // Depend on language to re-animate if needed or just re-render is fine.
 
     // Refresh ScrollTrigger when category changes (content height changes)
-    // This ensures smooth scrolling without re-playing entry animations
     useLayoutEffect(() => {
         ScrollTrigger.refresh();
-    }, [activeCategory]);
+    }, [activeCategory, language]);
+
+    // Labels for Sections
+    const sectionLabels = {
+        food: language === 'zh' ? '肉骨茶' : 'Bak Kut Teh',
+        attraction: language === 'zh' ? '景點' : 'Attractions',
+        temple: language === 'zh' ? '廟宇' : 'Temples'
+    };
 
     return (
-        <div ref={containerRef} className="min-h-screen w-full bg-[#F3E3CB] relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white">
+        <div ref={containerRef} className="min-h-screen w-full bg-[#F3E3CB] relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
             <HomeNavbar />
 
             <main className="w-full max-w-[1440px] mx-auto px-6 md:px-[60px] desktop:px-[120px] pt-32 desktop:pt-[165px] pb-[80px] flex flex-col gap-[40px] desktop:gap-[80px]">
@@ -153,7 +164,7 @@ export const VillageMap: React.FC = () => {
                             <div className="flex items-center gap-4 section-title">
                                 <span className="w-2 h-8 md:h-10 bg-[#242527]"></span>
                                 <h4 className="text-2xl md:text-[2rem] font-bold text-[#242527] font-noto-sans-tc">
-                                    肉骨茶
+                                    {sectionLabels.food}
                                 </h4>
                             </div>
                             <div className="flex flex-wrap gap-x-[20px] gap-y-6 md:gap-y-[48px]">
@@ -170,7 +181,7 @@ export const VillageMap: React.FC = () => {
                             <div className="flex items-center gap-4 section-title">
                                 <span className="w-2 h-8 md:h-10 bg-[#242527]"></span>
                                 <h4 className="text-2xl md:text-[2rem] font-bold text-[#242527] font-noto-sans-tc">
-                                    景點
+                                    {sectionLabels.attraction}
                                 </h4>
                             </div>
                             <div className="flex flex-wrap gap-x-[20px] gap-y-6 md:gap-y-[48px]">
@@ -187,7 +198,7 @@ export const VillageMap: React.FC = () => {
                             <div className="flex items-center gap-4 section-title">
                                 <span className="w-2 h-8 md:h-10 bg-[#242527]"></span>
                                 <h4 className="text-2xl md:text-[2rem] font-bold text-[#242527] font-noto-sans-tc">
-                                    廟宇
+                                    {sectionLabels.temple}
                                 </h4>
                             </div>
                             <div className="flex flex-wrap gap-x-[20px] gap-y-6 md:gap-y-[48px]">

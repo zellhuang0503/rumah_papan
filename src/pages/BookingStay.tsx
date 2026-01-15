@@ -1,9 +1,10 @@
+
 import React, { useState } from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
-import { SiteFooter } from '../components/SiteFooter';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useLanguage } from '../contexts/LanguageContext';
 
 // Type definitions for future Supabase integration
 export interface BookingStayFormData {
@@ -30,6 +31,8 @@ export interface BookingStayFormData {
 
 export const BookingStay: React.FC = () => {
     const navigate = useNavigate();
+    const { language } = useLanguage();
+
     const [formData, setFormData] = useState<BookingStayFormData>({
         name: '',
         email: '',
@@ -51,8 +54,48 @@ export const BookingStay: React.FC = () => {
 
     const handleSubmit = () => {
         console.log("Submitting form:", formData);
-        alert("申請已送出！我們會盡快聯繫您。");
+        const msg = language === 'zh' ? "申請已送出！我們會盡快聯繫您。" : "Application submitted! We will contact you shortly.";
+        alert(msg);
         // Future: Call Supabase API here
+    };
+
+    // Translations
+    const t = {
+        title: language === 'zh' ? '預約住宿申請' : 'Accommodation Booking',
+        subtitle: language === 'zh' ? '填寫下表，我們將盡快與您聯繫確認' : 'Fill out the form below, we will contact you shortly to confirm.',
+        sectionBasic: language === 'zh' ? '基本資訊' : 'Basic Info',
+        name: language === 'zh' ? '姓名 (Name)' : 'Name',
+        namePlaceholder: language === 'zh' ? '請輸入姓名' : 'Enter your name',
+        email: 'Email', // Common
+        emailPlaceholder: 'example@email.com',
+        phone: language === 'zh' ? '電話 (Phone)' : 'Phone',
+        phonePlaceholder: '+886 912 345 678',
+        nationality: language === 'zh' ? '國籍 (Nationality)' : 'Nationality',
+        nationalityPlaceholder: language === 'zh' ? '例如：Taiwan' : 'e.g. Taiwan',
+        sectionCheckIn: language === 'zh' ? '入住資訊' : 'Check-in Info',
+        checkInDate: language === 'zh' ? '入住日期 (Check-in Date)' : 'Check-in Date',
+        checkInTime: language === 'zh' ? '預計入住時間 (Check-in Time)' : 'Est. Check-in Time',
+        checkOutDate: language === 'zh' ? '退房日期 (Check-out Date)' : 'Check-out Date',
+        checkOutTime: language === 'zh' ? '預計退房時間 (Check-out Time)' : 'Est. Check-out Time',
+        selectDate: language === 'zh' ? '選擇日期' : 'Select Date',
+        selectTime: language === 'zh' ? '選擇時間' : 'Select Time',
+        roomCount: language === 'zh' ? '所需房間數量 (No. of Rooms)' : 'No. of Rooms',
+        sectionNeeds: language === 'zh' ? '需求選擇' : 'Preferences',
+        bedType: language === 'zh' ? '首選床型 (Preferred Bed Type)' : 'Preferred Bed Type',
+        bedOptions: [
+            { label: language === 'zh' ? '雙人床 (Double)' : 'Double Bed', value: 'Double' },
+            { label: language === 'zh' ? '上下舖 (Bunk)' : 'Bunk Bed', value: 'Bunk' },
+            { label: language === 'zh' ? '單人床 (Single)' : 'Single Bed', value: 'Single' }
+        ],
+        sectionOther: language === 'zh' ? '其他' : 'Other',
+        paymentMethod: language === 'zh' ? '付款方式 (Payment Method)' : 'Payment Method',
+        paymentOptions: [
+            { label: language === 'zh' ? '信用卡 (Credit Card)' : 'Credit Card', value: 'Credit Card' },
+            { label: language === 'zh' ? '現金 (Cash)' : 'Cash', value: 'Cash' }
+        ],
+        remarks: language === 'zh' ? '備註 (Remarks)' : 'Remarks',
+        remarksPlaceholder: language === 'zh' ? '給館方的特殊要求或問題...' : 'Special requests or questions...',
+        submit: language === 'zh' ? '送出申請' : 'Submit Application'
     };
 
     return (
@@ -80,10 +123,10 @@ export const BookingStay: React.FC = () => {
                     {/* Header */}
                     <div className="flex flex-col gap-4">
                         <h1 className="text-neutral-900 text-3xl desktop:text-[60px] font-bold font-['Noto_Sans_TC'] leading-tight">
-                            預約住宿申請
+                            {t.title}
                         </h1>
                         <p className="text-zinc-800 text-lg desktop:text-2xl font-medium font-['Noto_Sans_TC']">
-                            填寫下表，我們將盡快與您聯繫確認
+                            {t.subtitle}
                         </p>
                     </div>
 
@@ -92,20 +135,20 @@ export const BookingStay: React.FC = () => {
 
                         {/* Section: Basic Info */}
                         <div className="flex flex-col gap-12">
-                            <div className="w-24 border-b-2 border-neutral-900 pb-1">
-                                <span className="text-neutral-900 text-2xl font-bold font-['Noto_Sans_TC']">基本資訊</span>
+                            <div className="w-32 border-b-2 border-neutral-900 pb-1">
+                                <span className="text-neutral-900 text-2xl font-bold font-['Noto_Sans_TC'] whitespace-nowrap">{t.sectionBasic}</span>
                             </div>
 
                             <div className="grid grid-cols-1 desktop:grid-cols-2 gap-x-[74px] gap-y-12">
                                 {/* Name */}
                                 <div className="flex flex-col gap-1">
                                     <div className="flex items-start gap-1">
-                                        <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">姓名 (Name)</label>
+                                        <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">{t.name}</label>
                                         <span className="text-red-500 text-lg font-bold">*</span>
                                     </div>
                                     <input
                                         type="text"
-                                        placeholder="請輸入姓名"
+                                        placeholder={t.namePlaceholder}
                                         className="w-full py-2 border-b border-neutral-900 bg-transparent text-xl text-neutral-900 placeholder:text-stone-300 focus:outline-none font-medium"
                                         value={formData.name}
                                         onChange={(e) => handleInputChange('name', e.target.value)}
@@ -115,12 +158,12 @@ export const BookingStay: React.FC = () => {
                                 {/* Email */}
                                 <div className="flex flex-col gap-1">
                                     <div className="flex items-start gap-1">
-                                        <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">Email</label>
+                                        <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">{t.email}</label>
                                         <span className="text-red-500 text-lg font-bold">*</span>
                                     </div>
                                     <input
                                         type="email"
-                                        placeholder="example@email.com"
+                                        placeholder={t.emailPlaceholder}
                                         className="w-full py-2 border-b border-neutral-900 bg-transparent text-xl text-neutral-900 placeholder:text-stone-300 focus:outline-none font-medium"
                                         value={formData.email}
                                         onChange={(e) => handleInputChange('email', e.target.value)}
@@ -130,12 +173,12 @@ export const BookingStay: React.FC = () => {
                                 {/* Phone */}
                                 <div className="flex flex-col gap-1">
                                     <div className="flex items-start gap-1">
-                                        <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">電話 (Phone)</label>
+                                        <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">{t.phone}</label>
                                         <span className="text-red-500 text-lg font-bold">*</span>
                                     </div>
                                     <input
                                         type="tel"
-                                        placeholder="+886 912 345 678"
+                                        placeholder={t.phonePlaceholder}
                                         className="w-full py-2 border-b border-neutral-900 bg-transparent text-xl text-neutral-900 placeholder:text-stone-300 focus:outline-none font-medium"
                                         value={formData.phone}
                                         onChange={(e) => handleInputChange('phone', e.target.value)}
@@ -145,12 +188,12 @@ export const BookingStay: React.FC = () => {
                                 {/* Nationality */}
                                 <div className="flex flex-col gap-1">
                                     <div className="flex items-start gap-1">
-                                        <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">國籍 (Nationality)</label>
+                                        <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">{t.nationality}</label>
                                         <span className="text-red-500 text-lg font-bold">*</span>
                                     </div>
                                     <input
                                         type="text"
-                                        placeholder="例如：Taiwan"
+                                        placeholder={t.nationalityPlaceholder}
                                         className="w-full py-2 border-b border-neutral-900 bg-transparent text-xl text-neutral-900 placeholder:text-stone-300 focus:outline-none font-medium"
                                         value={formData.nationality}
                                         onChange={(e) => handleInputChange('nationality', e.target.value)}
@@ -161,15 +204,15 @@ export const BookingStay: React.FC = () => {
 
                         {/* Section: Check-in Info */}
                         <div className="flex flex-col gap-12">
-                            <div className="w-24 border-b-2 border-neutral-900 pb-1">
-                                <span className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">入住資訊</span>
+                            <div className="w-32 border-b-2 border-neutral-900 pb-1">
+                                <span className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC'] whitespace-nowrap">{t.sectionCheckIn}</span>
                             </div>
 
                             <div className="grid grid-cols-1 desktop:grid-cols-2 gap-x-[74px] gap-y-12">
                                 {/* Check-in Date */}
                                 <div className="flex flex-col gap-1">
                                     <div className="flex items-start gap-1">
-                                        <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">入住日期 (Check-in Date)</label>
+                                        <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">{t.checkInDate}</label>
                                         <span className="text-red-500 text-lg font-bold">*</span>
                                     </div>
                                     <div className="w-full border-b border-neutral-900 pb-2">
@@ -177,10 +220,10 @@ export const BookingStay: React.FC = () => {
                                             selected={formData.checkInDate ? new Date(formData.checkInDate) : null}
                                             onChange={(date: Date | null) => handleInputChange('checkInDate', date ? date.toISOString().split('T')[0] : '')}
                                             dateFormat="yyyy-MM-dd"
-                                            placeholderText="選擇日期"
+                                            placeholderText={t.selectDate}
                                             className="w-full bg-transparent text-xl text-neutral-900 focus:outline-none font-medium cursor-pointer placeholder:text-stone-300"
                                             wrapperClassName="w-full"
-                                            onFocus={(e) => e.target.readOnly = true}
+                                            onFocus={(e) => (e.target as HTMLInputElement).readOnly = true}
                                         />
                                     </div>
                                 </div>
@@ -188,7 +231,7 @@ export const BookingStay: React.FC = () => {
                                 {/* Check-in Time */}
                                 <div className="flex flex-col gap-1">
                                     <div className="flex items-start gap-1">
-                                        <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">預計入住時間 (Check-in Time)</label>
+                                        <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">{t.checkInTime}</label>
                                         <span className="text-red-500 text-lg font-bold">*</span>
                                     </div>
                                     <div className="relative w-full border-b border-neutral-900">
@@ -197,7 +240,7 @@ export const BookingStay: React.FC = () => {
                                             value={formData.checkInTime}
                                             onChange={(e) => handleInputChange('checkInTime', e.target.value)}
                                         >
-                                            <option value="" disabled>選擇時間</option>
+                                            <option value="" disabled>{t.selectTime}</option>
                                             {Array.from({ length: 29 }).map((_, i) => {
                                                 const hour = Math.floor(i / 2) + 8; // Start from 08:00
                                                 const min = i % 2 === 0 ? '00' : '30';
@@ -218,7 +261,7 @@ export const BookingStay: React.FC = () => {
                                 {/* Check-out Date */}
                                 <div className="flex flex-col gap-1">
                                     <div className="flex items-start gap-1">
-                                        <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">退房日期 (Check-out Date)</label>
+                                        <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">{t.checkOutDate}</label>
                                         <span className="text-red-500 text-lg font-bold">*</span>
                                     </div>
                                     <div className="w-full border-b border-neutral-900 pb-2">
@@ -226,10 +269,10 @@ export const BookingStay: React.FC = () => {
                                             selected={formData.checkOutDate ? new Date(formData.checkOutDate) : null}
                                             onChange={(date: Date | null) => handleInputChange('checkOutDate', date ? date.toISOString().split('T')[0] : '')}
                                             dateFormat="yyyy-MM-dd"
-                                            placeholderText="選擇日期"
+                                            placeholderText={t.selectDate}
                                             className="w-full bg-transparent text-xl text-neutral-900 focus:outline-none font-medium cursor-pointer placeholder:text-stone-300"
                                             wrapperClassName="w-full"
-                                            onFocus={(e) => e.target.readOnly = true}
+                                            onFocus={(e) => (e.target as HTMLInputElement).readOnly = true}
                                         />
                                     </div>
                                 </div>
@@ -237,7 +280,7 @@ export const BookingStay: React.FC = () => {
                                 {/* Check-out Time */}
                                 <div className="flex flex-col gap-1">
                                     <div className="flex items-start gap-1">
-                                        <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">預計退房時間 (Check-out Time)</label>
+                                        <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">{t.checkOutTime}</label>
                                         <span className="text-red-500 text-lg font-bold">*</span>
                                     </div>
                                     <div className="relative w-full border-b border-neutral-900">
@@ -246,7 +289,7 @@ export const BookingStay: React.FC = () => {
                                             value={formData.checkOutTime}
                                             onChange={(e) => handleInputChange('checkOutTime', e.target.value)}
                                         >
-                                            <option value="" disabled>選擇時間</option>
+                                            <option value="" disabled>{t.selectTime}</option>
                                             {Array.from({ length: 29 }).map((_, i) => {
                                                 const hour = Math.floor(i / 2) + 8; // Start from 08:00
                                                 const min = i % 2 === 0 ? '00' : '30';
@@ -267,7 +310,7 @@ export const BookingStay: React.FC = () => {
                                 {/* Room Count */}
                                 <div className="flex flex-col gap-1">
                                     <div className="flex items-start gap-1">
-                                        <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">所需房間數量 (No. of Rooms)</label>
+                                        <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">{t.roomCount}</label>
                                         <span className="text-red-500 text-lg font-bold">*</span>
                                     </div>
                                     <input
@@ -283,31 +326,30 @@ export const BookingStay: React.FC = () => {
 
                         {/* Section: Needs */}
                         <div className="flex flex-col gap-12">
-                            <div className="w-24 border-b-2 border-neutral-900 pb-1">
-                                <span className="text-neutral-900 text-2xl font-bold font-['Noto_Sans_TC']">需求選擇</span>
+                            <div className="w-32 border-b-2 border-neutral-900 pb-1">
+                                <span className="text-neutral-900 text-2xl font-bold font-['Noto_Sans_TC'] whitespace-nowrap">{t.sectionNeeds}</span>
                             </div>
 
                             <div className="flex flex-col gap-6">
                                 <div className="flex items-start gap-1">
-                                    <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">首選床型 (Preferred Bed Type)</label>
+                                    <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">{t.bedType}</label>
                                     <span className="text-red-500 text-lg font-bold">*</span>
                                 </div>
                                 <div className="flex flex-wrap gap-8">
-                                    {['雙人床 (Double)', '上下舖 (Bunk)', '單人床 (Single)'].map((type) => {
-                                        const typeValue = type.split(' ')[0] === '雙人床' ? 'Double' : type.split(' ')[0] === '上下舖' ? 'Bunk' : 'Single';
+                                    {t.bedOptions.map((option) => {
                                         return (
-                                            <label key={type} className="flex items-center gap-3 cursor-pointer">
-                                                <div className={`w-5 h-5 rounded-full border border-neutral-900 flex justify-center items-center ${formData.preferredBedType === typeValue ? 'bg-neutral-900' : ''}`}>
-                                                    {formData.preferredBedType === typeValue && <div className="w-2.5 h-2.5 bg-white rounded-full" />}
+                                            <label key={option.value} className="flex items-center gap-3 cursor-pointer">
+                                                <div className={`w-5 h-5 rounded-full border border-neutral-900 flex justify-center items-center ${formData.preferredBedType === option.value ? 'bg-neutral-900' : ''}`}>
+                                                    {formData.preferredBedType === option.value && <div className="w-2.5 h-2.5 bg-white rounded-full" />}
                                                 </div>
                                                 <input
                                                     type="radio"
                                                     name="bedType"
                                                     className="hidden"
-                                                    checked={formData.preferredBedType === typeValue}
-                                                    onChange={() => handleInputChange('preferredBedType', typeValue)}
+                                                    checked={formData.preferredBedType === option.value}
+                                                    onChange={() => handleInputChange('preferredBedType', option.value as any)}
                                                 />
-                                                <span className="text-neutral-900 text-lg font-normal font-['Noto_Sans_TC']">{type}</span>
+                                                <span className="text-neutral-900 text-lg font-normal font-['Noto_Sans_TC']">{option.label}</span>
                                             </label>
                                         );
                                     })}
@@ -317,32 +359,31 @@ export const BookingStay: React.FC = () => {
 
                         {/* Section: Other */}
                         <div className="flex flex-col gap-12">
-                            <div className="w-12 border-b-2 border-neutral-900 pb-1">
-                                <span className="text-neutral-900 text-2xl font-bold font-['Noto_Sans_TC']">其他</span>
+                            <div className="w-32 border-b-2 border-neutral-900 pb-1">
+                                <span className="text-neutral-900 text-2xl font-bold font-['Noto_Sans_TC'] whitespace-nowrap">{t.sectionOther}</span>
                             </div>
 
                             {/* Payment Method */}
                             <div className="flex flex-col gap-6">
                                 <div className="flex items-start gap-1">
-                                    <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">付款方式 (Payment Method)</label>
+                                    <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">{t.paymentMethod}</label>
                                     <span className="text-red-500 text-lg font-bold">*</span>
                                 </div>
                                 <div className="flex flex-wrap gap-8">
-                                    {['信用卡 (Credit Card)', '現金 (Cash)'].map((type) => {
-                                        const typeValue = type.includes('Credit') ? 'Credit Card' : 'Cash';
+                                    {t.paymentOptions.map((option) => {
                                         return (
-                                            <label key={type} className="flex items-center gap-3 cursor-pointer">
-                                                <div className={`w-5 h-5 rounded-full border border-neutral-900 flex justify-center items-center ${formData.paymentMethod === typeValue ? 'bg-neutral-900' : ''}`}>
-                                                    {formData.paymentMethod === typeValue && <div className="w-2.5 h-2.5 bg-white rounded-full" />}
+                                            <label key={option.value} className="flex items-center gap-3 cursor-pointer">
+                                                <div className={`w-5 h-5 rounded-full border border-neutral-900 flex justify-center items-center ${formData.paymentMethod === option.value ? 'bg-neutral-900' : ''}`}>
+                                                    {formData.paymentMethod === option.value && <div className="w-2.5 h-2.5 bg-white rounded-full" />}
                                                 </div>
                                                 <input
                                                     type="radio"
                                                     name="paymentMethod"
                                                     className="hidden"
-                                                    checked={formData.paymentMethod === typeValue}
-                                                    onChange={() => handleInputChange('paymentMethod', typeValue)}
+                                                    checked={formData.paymentMethod === option.value}
+                                                    onChange={() => handleInputChange('paymentMethod', option.value as any)}
                                                 />
-                                                <span className="text-neutral-900 text-lg font-normal font-['Noto_Sans_TC']">{type}</span>
+                                                <span className="text-neutral-900 text-lg font-normal font-['Noto_Sans_TC']">{option.label}</span>
                                             </label>
                                         );
                                     })}
@@ -351,10 +392,10 @@ export const BookingStay: React.FC = () => {
 
                             {/* Remarks */}
                             <div className="flex flex-col gap-1 w-full">
-                                <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">備註 (Remarks)</label>
+                                <label className="text-neutral-900 text-base font-bold font-['Noto_Sans_TC']">{t.remarks}</label>
                                 <textarea
                                     className="w-full py-2 border-b border-neutral-900 bg-transparent text-xl text-neutral-900 placeholder:text-zinc-800 placeholder:font-medium focus:outline-none font-medium min-h-[120px] resize-none"
-                                    placeholder="給館方的特殊要求或問題..."
+                                    placeholder={t.remarksPlaceholder}
                                     value={formData.remarks}
                                     onChange={(e) => handleInputChange('remarks', e.target.value)}
                                 />
@@ -370,7 +411,7 @@ export const BookingStay: React.FC = () => {
                                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className="group-hover:text-white text-neutral-900">
                                     <path d="M7 28L25 15L7 4V12L20 15L7 18V28Z" fill="currentColor" />
                                 </svg>
-                                <span className="text-2xl font-bold font-['Noto_Sans_TC']">送出申請</span>
+                                <span className="text-2xl font-bold font-['Noto_Sans_TC']">{t.submit}</span>
                             </button>
                         </div>
 

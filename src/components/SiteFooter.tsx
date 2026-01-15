@@ -1,8 +1,12 @@
 import React from 'react';
 import { BrandLogo } from './BrandLogo';
-import { FOOTER_DATA } from '../data/homeData';
+import { getFooterData } from '../data/homeData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const SiteFooter: React.FC = () => {
+    const { language } = useLanguage();
+    const FOOTER_DATA = getFooterData(language);
+
     // Scaled dimensions
     // Width 1808 -> 1356px
     // Padding pl-28 (112) -> 84px. pr-24 (96) -> 72px. py-40 (160) -> 120px.
@@ -52,7 +56,7 @@ export const SiteFooter: React.FC = () => {
                         <div className="grid grid-cols-2 md:flex md:flex-row items-start gap-8 desktop:gap-[48px] w-full md:w-auto">
                             <div className="flex flex-col gap-[12px] items-center lg:items-start">
                                 <h4 className="opacity-70 text-orange-100 text-[15px] lg:text-[18px] font-medium font-['Noto_Sans_TC'] leading-[24px] whitespace-nowrap">
-                                    服務區域
+                                    {language === 'zh' ? '服務區域' : 'Service Area'}
                                 </h4>
                                 <p className="text-red-400 text-[15px] lg:text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide whitespace-nowrap">
                                     {FOOTER_DATA.contact.region}
@@ -60,7 +64,7 @@ export const SiteFooter: React.FC = () => {
                             </div>
                             <div className="flex flex-col gap-[12px] items-center lg:items-start">
                                 <h4 className="opacity-70 text-orange-100 text-[15px] lg:text-[18px] font-medium font-['Noto_Sans_TC'] leading-[24px] whitespace-nowrap">
-                                    行動電話
+                                    {language === 'zh' ? '行動電話' : 'Phone'}
                                 </h4>
                                 <p className="text-red-400 text-[15px] lg:text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide whitespace-nowrap">
                                     {FOOTER_DATA.contact.phone}
@@ -79,7 +83,7 @@ export const SiteFooter: React.FC = () => {
 
                         <div className="flex flex-col gap-[12px] items-center lg:items-start">
                             <h4 className="opacity-70 text-orange-100 text-[15px] lg:text-[18px] font-medium font-['Noto_Sans_TC'] leading-[24px] whitespace-nowrap">
-                                地址
+                                {language === 'zh' ? '地址' : 'Address'}
                             </h4>
                             <p className="text-red-400 text-[15px] lg:text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide text-center lg:text-left">
                                 {FOOTER_DATA.contact.address}
@@ -88,13 +92,6 @@ export const SiteFooter: React.FC = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Circular FAB or Badge at bottom right? 
-                HTML: w-28 h-28 left-[1703px] top-[891px] ...
-                It's likely the "Guide" or Chat button.
-                I'll leave it to be handled by the existing guide button logic or add it here if it's static.
-                The user's HTML shows it outside the footer card.
-            */}
         </section>
     );
 };

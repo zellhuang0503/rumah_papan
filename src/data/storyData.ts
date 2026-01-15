@@ -12,7 +12,7 @@ export interface StoryItem {
     size: 'full' | 'large' | 'medium' | 'small';
 }
 
-export const STORY_CATEGORIES: { id: StoryCategory; label: string }[] = [
+const STORY_CATEGORIES_ZH: { id: StoryCategory; label: string }[] = [
     { id: 'all', label: '全部' },
     { id: 'history', label: '班達馬蘭新村史' },
     { id: 'about', label: '關於班厝' },
@@ -20,7 +20,18 @@ export const STORY_CATEGORIES: { id: StoryCategory; label: string }[] = [
     { id: 'food', label: '肉骨茶' },
 ];
 
-export const stories: StoryItem[] = [
+const STORY_CATEGORIES_EN: { id: StoryCategory; label: string }[] = [
+    { id: 'all', label: 'All' },
+    { id: 'history', label: 'Pandamaran History' },
+    { id: 'about', label: 'About Rumah Papan' },
+    { id: 'exchange', label: 'Story Exchange' },
+    { id: 'food', label: 'Bak Kut Teh' },
+];
+
+export const getStoryCategories = (lang: 'zh' | 'en') => lang === 'zh' ? STORY_CATEGORIES_ZH : STORY_CATEGORIES_EN;
+export const STORY_CATEGORIES = STORY_CATEGORIES_ZH;
+
+const STORIES_ZH: StoryItem[] = [
     // --- History Category ---
     // 1. Banner (1260px)
     {
@@ -227,7 +238,7 @@ export const stories: StoryItem[] = [
         id: '11',
         category: 'exchange',
         title: '在這裡，找回生活的實感',
-        description: '來時只想休息，走時變得捨不得。',
+        description: '來時只想休息，走時只想留下。',
         images: [],
         tags: ['#故事交換'],
         variant: 'compact',
@@ -311,3 +322,293 @@ export const stories: StoryItem[] = [
         size: 'small'
     }
 ];
+
+const STORIES_EN: StoryItem[] = [
+    // --- History Category ---
+    // 1. Banner (1260px)
+    {
+        id: '1',
+        category: 'history',
+        title: 'Largest in Klang, Legend of Malaysia: Pandamaran',
+        description: 'Pandamaran New Village (Ban Cun), founded in 1951, formerly "Port Swettenham New Village", renamed Kampung Baru Pandamaran in 1953. As the largest Chinese New Village in Klang, it not only occupies a vast area but also carries one of the highest Hokkien population densities and cultural faiths in Malaysia.',
+        imageUrl: 'https://placehold.co/1255x836',
+        images: ['https://placehold.co/1255x836', 'https://placehold.co/1255x836/orange/white', 'https://placehold.co/1255x836/black/white'],
+        tags: ['#Pandamaran History'],
+        variant: 'banner',
+        size: 'full'
+    },
+    // 2. Highlight
+    {
+        id: '2',
+        category: 'history',
+        title: 'From a Tree,\nTo a Chinese New Village',
+        description: 'The name Pandamaran comes from the Pokok Damar tree. Resin was used for shipbuilding and coloring, collectors were called "Pendamar". This name remained. Now, it is the most famous "Hokkien Chinese New Village" in Malaysia. Over 50 temples amidst Hokkien dialects, "Bak Kut Teh for breakfast, Seafood for dinner". From incense to herbal soup aroma, every day in Pandamaran is full of lively fireworks.',
+        images: [],
+        tags: ['#Pandamaran History'],
+        variant: 'text-highlight',
+        size: 'medium'
+    },
+    // 3. Overlay
+    {
+        id: '3',
+        category: 'history',
+        title: 'Since 1951\n70+ Years of Village Life',
+        description: 'From taking root, building wooden houses, to living and working in peace today, Pandamaran New Village has grown with generations. Through old photos, oral interviews and exhibitions in the Story House, the life tracks of over 70 years are reorganized into a village history visible and understandable to the next generation.',
+        images: [],
+        tags: ['#Pandamaran History'],
+        variant: 'text-overlay',
+        size: 'medium'
+    },
+    // 4. Compact
+    {
+        id: '4',
+        category: 'history',
+        title: 'Landmark Full of Good Luck',
+        description: 'Rooster Bowl has become Pandamaran\'s way of greeting every visitor.',
+        images: [],
+        tags: ['#Pandamaran History'],
+        variant: 'compact',
+        size: 'small'
+    },
+    // 5. Standard Full (1260px)
+    {
+        id: '5',
+        category: 'history',
+        title: 'Daily Life in Pandamaran New Village',
+        description: 'Whether it\'s the shouting in the morning market, the aroma of home-cooked meals on round tables at night, or the devout incense of the Jade Emperor\'s Birthday. Every frame here is unrehearsed, the most real and boiling daily scenery of Pandamaran.',
+        imageUrl: 'https://placehold.co/1307x852',
+        images: ['https://placehold.co/1307x852', 'https://placehold.co/1307x852/333/fff'],
+        tags: [],
+        variant: 'standard',
+        size: 'full'
+    },
+
+    // --- About Category ---
+    // 6. Highlight
+    {
+        id: '6',
+        category: 'about',
+        title: 'Rumah Papan: A Home for Everyone',
+        description: '"Ban Chu" (Rumah Papan) sounds like "Wooden House" in Hokkien, speaking the soul of this old house in the largest Hokkien New Village. As the first story house, outside is a home orchard, inside combines private kitchen, work swap and local selection. Guided tours, workshops or venue rental, this is a living room open to everyone. Rumah Papan is Pandamaran\'s home, and yours too.',
+        images: [],
+        tags: ['#About Rumah Papan'],
+        variant: 'text-highlight',
+        size: 'large'
+    },
+    // 7. Overlay
+    {
+        id: '7',
+        category: 'about',
+        title: 'Opened by Villagers for Villagers\n100% Local Story House',
+        description: 'Founded by locals Chow Hong Hui and Tan Bee Hoon, with neighbors and Jalan-jalan Klang team, organizing old photos, interviewing elders, planning exhibitions. Keeping village memories not just on lips, but in an old house you can always return to.',
+        images: [],
+        tags: ['#About Rumah Papan'],
+        variant: 'text-overlay',
+        size: 'medium'
+    },
+    // 8. Compact
+    {
+        id: '8',
+        category: 'about',
+        title: 'Starting with "Have you eaten?"',
+        description: 'At Rumah Papan, stories and meals are both ways to greet you.',
+        images: [],
+        tags: ['#About Rumah Papan'],
+        variant: 'compact',
+        size: 'small'
+    },
+    // 9. Standard Full (1260px)
+    {
+        id: '9',
+        category: 'about',
+        title: 'Arrive Unknown, Return Full of Stories',
+        description: 'People from different countries and backgrounds live and learn together at Rumah Papan. Every photo in the carousel is a moment of a work-swapper being settled, accompanied, and quietly growing changes.',
+        imageUrl: 'https://placehold.co/1307x852',
+        images: ['https://placehold.co/1307x852'],
+        tags: [],
+        variant: 'standard',
+        size: 'full'
+    },
+    // 15. Highlight
+    {
+        id: '15',
+        category: 'about',
+        title: 'The Road Home,\nAlways a Light',
+        description: 'No matter how long you\'ve ventured outside, Rumah Papan always keeps a door for you. Not just an exhibition hall, but a belonging place condensing wanderers\' hearts.',
+        images: [],
+        tags: ['#About Rumah Papan'],
+        variant: 'text-highlight',
+        size: 'medium'
+    },
+    // 15b. Overlay
+    {
+        id: '15b',
+        category: 'about',
+        title: 'Time Machine in Old House',
+        description: 'Stepping in here feels like returning to Grandpa and Grandma\'s era. Old records, sewing machines, and faint wood scent in air are gifts left by time.',
+        images: [],
+        tags: ['#About Rumah Papan'],
+        variant: 'text-overlay',
+        size: 'medium'
+    },
+    // 15c. Compact
+    {
+        id: '15c',
+        category: 'about',
+        title: 'Slow Down Here',
+        description: 'Put away your watch, live with the rhythm of sunset.',
+        images: [],
+        tags: ['#About Rumah Papan'],
+        variant: 'compact',
+        size: 'small'
+    },
+
+    // --- Exchange Category ---
+    // 10. Banner (1260px)
+    {
+        id: '10',
+        category: 'exchange',
+        title: 'Rumah Papan Story House:\nPandamaran\'s Village Living Room',
+        description: 'Located in Pandamaran New Village, the first story house in the village. Based in an old wooden house, collecting life objects, photos and oral history, letting everyone who walks in hear the story of this new village in the most daily scenes.',
+        imageUrl: 'https://placehold.co/1255x836',
+        images: ['https://placehold.co/1255x836', 'https://placehold.co/1255x836/222/eee'],
+        tags: ['#About Rumah Papan'],
+        variant: 'banner',
+        size: 'full'
+    },
+    // 16. Overlay
+    {
+        id: '16',
+        category: 'exchange',
+        title: 'Exchange Skills for\nVillage Time',
+        description: 'Photography? Woodworking? Cooking? Bring your skills to Rumah Papan, exchange for free accommodation, and the most authentic human warmth of locals.',
+        images: [],
+        tags: ['#Story Exchange'],
+        variant: 'text-overlay',
+        size: 'medium'
+    },
+    // 16b. Highlight
+    {
+        id: '16b',
+        category: 'exchange',
+        title: 'Not just a passerby,\nbut a returnee',
+        description: 'In the days of work swap at Rumah Papan, no punch cards, only neighbors\' greetings and cooking smoke. You are no longer a passing tourist, but a "Ban Cun person" living here temporarily.',
+        images: [],
+        tags: ['#Story Exchange'],
+        variant: 'text-highlight',
+        size: 'large'
+    },
+    // 17. Compact
+    {
+        id: '17',
+        category: 'exchange',
+        title: 'Night Talk under the Wooden House',
+        description: 'After showering at night, everyone sits under the porch blowing wind and playing guitar.',
+        images: [],
+        tags: ['#Story Exchange'],
+        variant: 'compact',
+        size: 'small'
+    },
+    // 18. Standard Full (1260px)
+    {
+        id: '18',
+        category: 'exchange',
+        title: 'Volunteer Life Diary',
+        description: 'From weeding to guiding, from shy to familiar. Every volunteer\'s diary is full of secrets about growth.',
+        imageUrl: 'https://placehold.co/1255x836',
+        images: ['https://placehold.co/1255x836'],
+        tags: ['#Story Exchange'],
+        variant: 'standard',
+        size: 'full'
+    },
+    {
+        id: '11',
+        category: 'exchange',
+        title: 'Find the Reality of Life Here',
+        description: 'Came wanting to rest, left reluctant to part.',
+        images: [],
+        tags: ['#Story Exchange'],
+        variant: 'compact',
+        size: 'small'
+    },
+    {
+        id: '11b',
+        category: 'exchange',
+        title: 'Exchanging more than just stories',
+        description: 'Leave a photo, take a memory; leave a recipe, take a friendship. Story exchange is the most beautiful scenery of Rumah Papan.',
+        images: [],
+        tags: ['#Story Exchange'],
+        variant: 'text-highlight',
+        size: 'large'
+    },
+    {
+        id: '11c',
+        category: 'exchange',
+        title: 'Next Stop,\nStill Pandamaran',
+        description: 'Many work-swappers return with friends after leaving. Because here are the flowers they planted, walls they painted, and that corner like home.',
+        images: [],
+        tags: ['#Story Exchange'],
+        variant: 'text-overlay',
+        size: 'medium'
+    },
+
+    // --- Food Category ---
+    {
+        id: '12',
+        category: 'food',
+        title: 'A Table of Bak Kut Teh, A Whole Village\'s Story',
+        description: 'Some supplement a pot after night shift, some eat slowly with family. Every photo tells you: Bak Kut Teh is not just cuisine, it\'s the way Pandamaran people live together.',
+        imageUrl: 'https://placehold.co/1307x852',
+        images: ['https://placehold.co/1307x852'],
+        tags: [],
+        variant: 'standard',
+        size: 'large'
+    },
+    // 13. Compact
+    {
+        id: '13',
+        category: 'food',
+        title: '"Jiak Bak Kut Teh Bo?"',
+        description: 'Here, this sentence is the most daily morning greeting.\n(Click to switch to Bak Kut Teh close-up)',
+        images: [],
+        tags: ['#Bak Kut Teh'],
+        variant: 'compact',
+        size: 'small'
+    },
+    // 14. Overlay
+    {
+        id: '14',
+        category: 'food',
+        title: 'Village Breakfast Map\n20+ Bak Kut Teh & Old Shops',
+        description: 'Counting from Jalan Young, full of Bak Kut Teh and old snack shops. Rumah Papan marks the locals\' favorite pocket list on the map.',
+        images: [],
+        tags: ['#Bak Kut Teh'],
+        variant: 'text-overlay',
+        size: 'medium'
+    },
+    // 19. Highlight
+    {
+        id: '19',
+        category: 'food',
+        title: 'Origin of Bak Kut Teh:\nTonic Soup for Coolies',
+        description: 'Early coolies moving goods at the port needed high calories and herbs to replenish bodies. This bowl of soup witnessed the rise and fall of Port Klang.',
+        images: [],
+        tags: ['#Bak Kut Teh'],
+        variant: 'text-highlight',
+        size: 'medium'
+    },
+    // 20. Compact
+    {
+        id: '20',
+        category: 'food',
+        title: 'Hidden Delicacies in Alleys',
+        description: 'Besides Bak Kut Teh, there are handmade buns, seafood porridge, fried cakes... Follow locals into alleys, discover good tastes tourists don\'t know.',
+        images: [],
+        tags: ['#Bak Kut Teh'],
+        variant: 'compact',
+        size: 'small'
+    }
+];
+
+export const getStories = (lang: 'zh' | 'en') => lang === 'zh' ? STORIES_ZH : STORIES_EN;
+export const stories = STORIES_ZH;

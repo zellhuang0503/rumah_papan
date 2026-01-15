@@ -1,9 +1,13 @@
 import React from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
-import { ENVIRONMENT_DATA } from '../data/aboutData';
+import { getEnvironmentData } from '../data/aboutData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const AboutEnvironment: React.FC = () => {
+    const { language } = useLanguage();
+    const ENVIRONMENT_DATA = getEnvironmentData(language);
+
     // Scaling Rules (1920 -> 1440, factor 0.75)
     // Padding Top: 220px (from design) -> 165px?? 
     // Wait, previous design had "pb-20 left-0 top-0 absolute bg-orange-100 inline-flex flex-col justify-start items-center gap-24".
@@ -28,7 +32,7 @@ export const AboutEnvironment: React.FC = () => {
                 {/* Header Section */}
                 <div className="w-full flex flex-col items-center gap-8 desktop:gap-[72px]">
                     <h1 className="text-black text-3xl desktop:text-[54px] font-bold font-['Noto_Sans_TC'] leading-tight desktop:leading-[75.6px] text-center">
-                        環境介紹
+                        {language === 'zh' ? '環境介紹' : 'Environment'}
                     </h1>
 
                     {/* Grid Section */}

@@ -1,5 +1,6 @@
 import React from 'react';
-import { type StoryCategory, STORY_CATEGORIES } from '../../data/storyData';
+import { type StoryCategory, getStoryCategories } from '../../data/storyData';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface StoryFilterProps {
     activeCategory: StoryCategory;
@@ -7,9 +8,12 @@ interface StoryFilterProps {
 }
 
 export const StoryFilter: React.FC<StoryFilterProps> = ({ activeCategory, onCategoryChange }) => {
+    const { language } = useLanguage();
+    const categories = getStoryCategories(language);
+
     return (
         <div className="flex flex-wrap justify-center items-center gap-6">
-            {STORY_CATEGORIES.map((category) => {
+            {categories.map((category) => {
                 const isActive = activeCategory === category.id;
 
                 return (

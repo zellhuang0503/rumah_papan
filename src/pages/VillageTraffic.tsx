@@ -1,9 +1,14 @@
+
 import React from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
-import { TRAFFIC_DATA } from '../data/villageData';
+import { getTrafficData } from '../data/villageData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const VillageTraffic: React.FC = () => {
+    const { language } = useLanguage();
+    const TRAFFIC_DATA = getTrafficData(language);
+
     // Layout Rules:
     // Global Width: 1200px (Desktop) -> Fluid (Mobile)
     // Global Spacing: 160px (Desktop) -> 80px (Mobile)
@@ -54,11 +59,7 @@ export const VillageTraffic: React.FC = () => {
 
                                 {/* Steps Container */}
                                 <div className="w-full relative flex flex-col gap-6 desktop:gap-[24px]">
-                                    {/* Dotted Line - Absolute - Hide on mobile if complex, or keep if it aligns. 
-                                        Current design puts it at top-[46px] left-[16px]. 
-                                        On mobile, alignment might differ. Let's hide on mobile for cleanliness or adjust.
-                                        Opting to hide on mobile (< desktop) to avoid misalignment issues.
-                                    */}
+                                    {/* Dotted Line - Absolute - Hide on mobile */}
                                     {method.steps.length > 1 && (
                                         <div className="hidden desktop:block absolute left-[16px] top-[46px] w-[60px] h-0 border-t-[2.25px] border-neutral-900 border-dotted origin-top-left rotate-90"></div>
                                     )}

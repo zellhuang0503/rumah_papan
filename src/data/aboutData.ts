@@ -1,4 +1,5 @@
-export const ABOUT_HERO_DATA = {
+
+const ABOUT_HERO_DATA_ZH = {
     story: {
         title: "故事誌",
         subtitle: "把新村寫進日常",
@@ -24,7 +25,36 @@ export const ABOUT_HERO_DATA = {
     ]
 };
 
-export const ENVIRONMENT_DATA = [
+const ABOUT_HERO_DATA_EN = {
+    story: {
+        title: "Stories",
+        subtitle: "Writing the New Village into Daily Life",
+        tag: "about\nRUMAH PAPAN",
+        path: "/stories"
+    },
+    cards: [
+        {
+            title: "Environment",
+            subtitle: "Walk around, know every corner of Rumah Papan",
+            path: "/about/environment"
+        },
+        {
+            title: "Farm Products",
+            subtitle: "Gifts from planting to table",
+            path: "/products"
+        },
+        {
+            title: "Venue Rental",
+            subtitle: "Put what you want to do into the scene of Rumah Papan",
+            path: "/about/rental"
+        }
+    ]
+};
+
+export const getAboutHeroData = (lang: 'zh' | 'en') => lang === 'zh' ? ABOUT_HERO_DATA_ZH : ABOUT_HERO_DATA_EN;
+export const ABOUT_HERO_DATA = ABOUT_HERO_DATA_ZH;
+
+const ENVIRONMENT_DATA_ZH = [
     {
         title: "彩虹小徑",
         desc: "走過彩色步道，推開鐵門，\n就是班厝一天會發生很多故事的地方。",
@@ -57,7 +87,43 @@ export const ENVIRONMENT_DATA = [
     }
 ];
 
-export const PRODUCTS_DATA = [
+const ENVIRONMENT_DATA_EN = [
+    {
+        title: "Rainbow Path",
+        desc: "Walk through the colorful path, push open the iron gate,\nthis is where many stories happen in Rumah Papan daily.",
+        image: "https://placehold.co/544x454"
+    },
+    {
+        title: "Living Room / Lounge",
+        desc: "Old photos and boards on the wall leave footprints of the village;\nmorning is a breakfast table, night often becomes a storytelling scene.",
+        image: "https://placehold.co/544x454"
+    },
+    {
+        title: "Guest Rooms",
+        desc: "Simple and clean wooden house rooms,\nletting your bed really move into the village life.",
+        image: "https://placehold.co/544x454"
+    },
+    {
+        title: "Vegetable Garden",
+        desc: "Full of vegetables and mugwort, every dish on the table mostly grows from here.",
+        image: "https://placehold.co/544x454"
+    },
+    {
+        title: "Front Yard Pavilion",
+        desc: "The liveliest corner under the shed;\nshielding, drinking tea, chatting, holding events, all start from here.",
+        image: "https://placehold.co/544x454"
+    },
+    {
+        title: "Painted Tires",
+        desc: "Hand-painted colorful tires are the live signboard of 'Rumah Papan Story House', and the scenery everyone loves to stop and take photos with.",
+        image: "https://placehold.co/544x454"
+    }
+];
+
+export const getEnvironmentData = (lang: 'zh' | 'en') => lang === 'zh' ? ENVIRONMENT_DATA_ZH : ENVIRONMENT_DATA_EN;
+export const ENVIRONMENT_DATA = ENVIRONMENT_DATA_ZH;
+
+const PRODUCTS_DATA_ZH = [
     {
         title: "桑葉茶包系列",
         desc: "以樹葉曬乾製成無咖啡因，桑葉搭配藥材，消脂、潤肺養顏、開胃解膩，適合每天當涼喝。",
@@ -90,12 +156,47 @@ export const PRODUCTS_DATA = [
     }
 ];
 
-export const RENTAL_DATA = {
+const PRODUCTS_DATA_EN = [
+    {
+        title: "Mulberry Tea Bags",
+        desc: "Made from dried leaves, caffeine-free. Mulberry leaves with herbs, fat-reducing, lung-moistening, beauty-enhancing, appetizing, suitable as a daily cool drink.",
+        image: "https://placehold.co/544x454"
+    },
+    {
+        title: "Rumah Papan Bak Kut Teh Pack",
+        desc: "Prepared with pepper, garlic and Chinese herbs, you can stew the warming soup most familiar to Klang locals at home.",
+        image: "https://placehold.co/544x454"
+    },
+    {
+        title: "Coffee Bean Five Stones",
+        desc: "Putting coffee beans and acacia seeds into cloth bags, matched with batik patterns, throwing and catching, feeling the story of coffee and local culture.",
+        image: "https://placehold.co/544x454"
+    },
+    {
+        title: "Mugwort Sachet",
+        desc: "Made from fresh mugwort from the garden dried in the sun, with a faint herbal aroma, can be hung on the door or bag to repel mosquitoes.",
+        image: "https://placehold.co/544x454"
+    },
+    {
+        title: "Basil Pesto",
+        desc: "The aroma of basil wakes up slowly in the pot. At Rumah Papan, a spoonful of pesto is the moment the story starts to taste good.",
+        image: "https://placehold.co/544x454"
+    },
+    {
+        title: "Gac Fruit Soap",
+        desc: "The aroma of Gac fruit is kneaded into soap, washing away fatigue, and keeping the sunlight of the new village in the palm of your hand.",
+        image: "https://placehold.co/544x454"
+    }
+];
+
+export const getProductsData = (lang: 'zh' | 'en') => lang === 'zh' ? PRODUCTS_DATA_ZH : PRODUCTS_DATA_EN;
+export const PRODUCTS_DATA = PRODUCTS_DATA_ZH;
+
+const RENTAL_DATA_ZH = {
     highlights: [
         {
             title: "班厝全館｜拍攝場景租借",
             desc: "廣告、MV、短片、電視劇、紀錄片、學生作品，把下一支作品拍在真正的新村裡。",
-            // Image should be handled by component, maybe just a placeholder here or a key
             type: "scene"
         },
         {
@@ -159,3 +260,75 @@ export const RENTAL_DATA = {
         serviceArea: "Malaysia Selangor Klang"
     }
 };
+
+const RENTAL_DATA_EN = {
+    highlights: [
+        {
+            title: "Full House | Filming Scene Rental",
+            desc: "Ads, MVs, shorts, dramas, documentaries, student works. Shoot your next work in a real new village.",
+            type: "scene"
+        },
+        {
+            title: "Living Room | Event Venue Rental",
+            desc: "Suitable for workshops, sharing sessions, small launches and gatherings. Move the event into Rumah Papan.",
+            type: "activity"
+        },
+        {
+            title: "Not just renting a venue, but supporting the new village",
+            desc: "Filming or holding events at Rumah Papan lets Pandamaran be seen and gives the community more power.",
+            type: "support"
+        }
+    ],
+    process: [
+        {
+            step: "Step 1",
+            title: "Contact & Request",
+            desc: "Share your expected date, pax, and purpose. Contact via Form, FB, IG, WhatsApp."
+        },
+        {
+            step: "Step 2",
+            title: "Site Visit & Quote",
+            desc: "We will reply with availability. Appointment for site visit if needed, and provide official quote and plan."
+        },
+        {
+            step: "Step 3",
+            title: "Confirm & Move In",
+            desc: "Sign contract and pay deposit. Crew can enter early for setup. Rumah Papan assists with opening and cleanup."
+        }
+    ],
+    plans: [
+        {
+            name: "Plan A",
+            sub: "Full House Filming Rental",
+            items: [
+                "Time: 07:00–22:00",
+                "Rate: RM150/hr",
+                "Full Day 15hrs Promo RM2000 (NP RM2250)",
+                "Rumah Papan handles pre-tidy and post-clean",
+                "Crew can set up early",
+                "Old items in house can be props; extra fee for loan"
+            ]
+        },
+        {
+            name: "Plan B",
+            sub: "Living Room / Space Rental (Event)",
+            items: [
+                "Usage: Workshops, talks, sharing sessions, small gatherings",
+                "Facilities: AC, Projector, Tables/Chairs",
+                "Capacity: Approx 30–50 pax",
+                "Catering add-on available"
+            ]
+        }
+    ],
+    contact: {
+        title: "Contact Rumah Papan",
+        desc: "Tell us what you want to film or hold, we reply in 3–5 working days.",
+        address: "124, Jalan Kemanis, 42000 Pelabuhan Klang, Klang, Malaysia, 42000",
+        phone: "+60 16-219 8920",
+        email: "rumahpapanklang@gmail.com",
+        serviceArea: "Malaysia Selangor Klang"
+    }
+};
+
+export const getRentalData = (lang: 'zh' | 'en') => lang === 'zh' ? RENTAL_DATA_ZH : RENTAL_DATA_EN;
+export const RENTAL_DATA = RENTAL_DATA_ZH;

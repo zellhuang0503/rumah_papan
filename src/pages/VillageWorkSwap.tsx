@@ -1,14 +1,23 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
-import { WORK_SWAP_DATA } from '../data/villageData';
+import { getWorkSwapData } from '../data/villageData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const VillageWorkSwap: React.FC = () => {
+    const { language } = useLanguage();
+    const WORK_SWAP_DATA = getWorkSwapData(language);
+
     // RWD Implementation
     // - Desktop (1440px): Matches Figma 1920 -> 1440 (0.75x) scale
     // - Tablet/Mobile: Stacked layout with responsive sizing
     // - Tablet Image Height: Fixed h-[360px] to prevent flattening
+
+    const labels = {
+        notices: language === 'zh' ? '注意事項' : 'Notices'
+    };
 
     return (
         <div className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
@@ -61,7 +70,6 @@ export const VillageWorkSwap: React.FC = () => {
                     </h2>
 
                     {/* Outline Button */}
-                    {/* Outline Button */}
                     <Link to="/booking/stay" className="px-6 py-3 desktop:px-[24px] desktop:py-[12px] rounded-full border-[2.4px] border-neutral-800 flex justify-center items-center gap-[6px] hover:bg-neutral-50 transition-colors">
                         <div className="w-[24px] h-[24px] relative flex justify-center items-center">
                             {/* Pen Icon SVG */}
@@ -81,7 +89,7 @@ export const VillageWorkSwap: React.FC = () => {
                 <section className="w-full max-w-[1200px] flex flex-col items-center gap-[0px]">
                     {/* Title */}
                     <h2 className="text-black text-3xl desktop:text-[45px] font-bold font-['Noto_Sans_TC'] leading-[1.4] mb-4 desktop:mb-[9px] w-full desktop:w-[1152px] text-left">
-                        注意事項
+                        {labels.notices}
                     </h2>
 
                     <div className="w-full flex flex-col items-center">

@@ -6,6 +6,7 @@ import { ArrowRight, Mail } from 'lucide-react';
 import { BrandLogo } from '../components/BrandLogo';
 import { GuidelineLayer } from '../components/GuidelineLayer';
 import { Polaroid } from '../components/Polaroid';
+import { useLanguage } from '../contexts/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -121,6 +122,13 @@ export const Welcome: React.FC = () => {
         "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&q=80&w=800"
     ];
 
+    // Use Language Context
+    const { language, setLanguage } = useLanguage();
+
+    const toggleLanguage = () => {
+        setLanguage(language === 'zh' ? 'en' : 'zh');
+    };
+
     return (
         <div ref={containerRef} className="relative w-full min-h-screen bg-[#F3E3CB] overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white">
 
@@ -135,10 +143,10 @@ export const Welcome: React.FC = () => {
                             <span className="font-serif text-[10px] text-[#181818]">RUMAH PAPAN</span>
                         </div>
                     </div>
-                    <button className="px-4 py-2 bg-white/0 border-[2px] border-[#181818] rounded-full flex justify-center items-center gap-2 cursor-pointer active:bg-[#181818] active:text-white transition-all group">
+                    <Link to="/contact" className="px-4 py-2 bg-white/0 border-[2px] border-[#181818] rounded-full flex justify-center items-center gap-2 cursor-pointer active:bg-[#181818] active:text-white transition-all group">
                         <Mail className="w-4 h-4 text-[#181818] group-hover:text-white transition-colors" />
                         <span className="text-[#181818] text-sm font-bold font-sans leading-none group-hover:text-white pt-[1px]">聯絡我們</span>
-                    </button>
+                    </Link>
                 </nav>
 
                 <div className="pt-24 px-6 pb-20 flex flex-col md:grid md:grid-cols-2 gap-12 md:gap-8 items-center md:items-start max-w-[768px] mx-auto">
@@ -188,8 +196,11 @@ export const Welcome: React.FC = () => {
 
                 {/* Mobile Fixed Bottom Right Buttons */}
                 <div className="lg:hidden fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-auto">
-                    <div className="w-14 h-14 bg-neutral-800 rounded-full flex justify-center items-center shadow-xl cursor-pointer active:scale-95 transition-transform">
-                        <span className="text-orange-100 text-lg font-medium font-serif">中文</span>
+                    <div
+                        onClick={toggleLanguage}
+                        className="w-14 h-14 bg-neutral-800 rounded-full flex justify-center items-center shadow-xl cursor-pointer active:scale-95 transition-transform"
+                    >
+                        <span className="text-orange-100 text-lg font-medium font-serif">{language === 'zh' ? 'EN' : '中文'}</span>
                     </div>
                     <Link to="/home" className="w-14 h-14 bg-neutral-800 rounded-full flex justify-center items-center shadow-xl cursor-pointer active:scale-95 transition-transform border-[2px] border-[#F1592C]">
                         <ArrowRight className="w-6 h-6 text-[#F1592C]" />
@@ -330,10 +341,10 @@ export const Welcome: React.FC = () => {
                                 <div className="whitespace-nowrap justify-start text-neutral-900 text-xl font-normal font-serif leading-7 tracking-[0.1em]">RUMAH PAPAN</div>
                             </div>
                         </div>
-                        <button className="px-8 py-4 bg-white/0 border-[3px] border-[#181818] rounded-full flex justify-center items-center gap-3 cursor-pointer hover:bg-[#181818] hover:text-white transition-all group">
+                        <Link to="/contact" className="px-8 py-4 bg-white/0 border-[3px] border-[#181818] rounded-full flex justify-center items-center gap-3 cursor-pointer hover:bg-[#181818] hover:text-white transition-all group">
                             <Mail className="w-6 h-6 text-[#181818] group-hover:text-white transition-colors" />
                             <span className="justify-start text-neutral-900 text-2xl font-bold font-sans leading-none group-hover:text-white pt-[3px]">聯絡我們</span>
-                        </button>
+                        </Link>
                     </div>
 
                     {/* Hero Text Block */}
@@ -394,8 +405,11 @@ export const Welcome: React.FC = () => {
 
                     {/* Bottom Right Floating Buttons - Fixed Position */}
                     <div className="p-10 left-[1728px] top-[798px] absolute z-50 flex flex-col gap-4 pointer-events-auto">
-                        <div className="w-28 h-28 bg-neutral-800 rounded-full flex justify-center items-center shadow-2xl cursor-pointer hover:scale-105 transition-transform">
-                            <span className="text-orange-100 text-4xl font-medium font-serif leading-[50.75px]">中文</span>
+                        <div
+                            onClick={toggleLanguage}
+                            className="w-28 h-28 bg-neutral-800 rounded-full flex justify-center items-center shadow-2xl cursor-pointer hover:scale-105 transition-transform"
+                        >
+                            <span className="text-orange-100 text-4xl font-medium font-serif leading-[50.75px]">{language === 'zh' ? 'EN' : '中文'}</span>
                         </div>
                         <Link to="/home" className="w-28 h-28 bg-neutral-800 rounded-full flex justify-center items-center shadow-2xl cursor-pointer hover:scale-105 transition-transform border-[3px] border-[#F1592C] flex justify-center items-center">
                             <ArrowRight className="w-10 h-10 text-[#F1592C]" />

@@ -1,3 +1,4 @@
+
 export type LocationCategory = 'food' | 'attraction' | 'temple' | 'all';
 
 export interface LocationItem {
@@ -12,10 +13,20 @@ export interface LocationItem {
     coordinates?: { x: number; y: number };
 }
 
-export const MAP_PAGE_TITLE = "觀光地圖";
-export const MAP_PAGE_SUBTITLE = "人氣景點";
+export const MAP_PAGE_TITLE_ZH = "觀光地圖";
+export const MAP_PAGE_SUBTITLE_ZH = "人氣景點";
 
-export const villageLocations: LocationItem[] = [
+export const MAP_PAGE_TITLE_EN = "Tourist Map";
+export const MAP_PAGE_SUBTITLE_EN = "Popular Spots";
+
+export const getMapPageTitle = (lang: 'zh' | 'en') => lang === 'zh' ? MAP_PAGE_TITLE_ZH : MAP_PAGE_TITLE_EN;
+export const getMapPageSubtitle = (lang: 'zh' | 'en') => lang === 'zh' ? MAP_PAGE_SUBTITLE_ZH : MAP_PAGE_SUBTITLE_EN;
+
+// Backward compatibility
+export const MAP_PAGE_TITLE = MAP_PAGE_TITLE_ZH;
+export const MAP_PAGE_SUBTITLE = MAP_PAGE_SUBTITLE_ZH;
+
+const VILLAGE_LOCATIONS_ZH: LocationItem[] = [
     // --- Food (肉骨茶) ---
     {
         id: 'f1',
@@ -172,3 +183,162 @@ export const villageLocations: LocationItem[] = [
     }
 ];
 
+const VILLAGE_LOCATIONS_EN: LocationItem[] = [
+    // --- Food (肉骨茶) ---
+    {
+        id: 'f1',
+        name: 'Restoran Samy Bak Kut Teh',
+        subName: 'HQ',
+        address: '164A, Jalan Chan Ah Choo, Pandamaran, 42000 Pelabuhan Klang, Selangor, Malaysia',
+        category: 'food',
+        featureTitle: 'Highlights',
+        featureDescription: [
+            'Loved by locals, often packed in the morning.',
+            'Succulent salty soup with mild herbal sweetness, not too heavy.'
+        ],
+        distanceInfo: 'Distance: 5 mins drive within Pandamaran.',
+        coordinates: { x: 55, y: 40 }
+    },
+    {
+        id: 'f2',
+        name: '155 Bak Kut Teh',
+        subName: '155 Bak Kut Teh',
+        address: '155, Jalan Chan Ah Choo, Pandamaran, 42000 Pelabuhan Klang, Selangor, Malaysia',
+        category: 'food',
+        featureTitle: 'Highlights',
+        featureDescription: [
+            'Offers both dry and soup versions. Thicker taste, stronger herbal aroma.',
+            'Punchy soup, tender meet.'
+        ],
+        distanceInfo: 'Distance: Same street as Samy.',
+        coordinates: { x: 52, y: 45 }
+    },
+    {
+        id: 'f3',
+        name: 'Ah Her Bak Kut Teh',
+        subName: 'Ah Her BKT',
+        address: '818, Jalan Susur Besar, Pandamaran, 42000 Port Klang, Selangor, Malaysia',
+        category: 'food',
+        featureTitle: 'Highlights',
+        featureDescription: [
+            'Concentrated soup type, thick and little soup, fragrant oil rice.',
+            'Evening/Night service, popular dinner spot.'
+        ],
+        coordinates: { x: 50, y: 50 }
+    },
+    {
+        id: 'f4',
+        name: 'Choon Guan Hainan Coffee 1956',
+        subName: 'Hainan Coffee',
+        address: '5, Jalan Stesen, Kawasan 1, 41000 Klang, Selangor, Malaysia',
+        category: 'food',
+        featureTitle: 'Highlights',
+        featureDescription: [
+            'Signatures: Hainan Coffee, Half-boiled egg, Toast, Mee Suah, Curry Mee, Nasi Lemak.',
+            'Great breakfast spot before or after visiting Rumah Papan.'
+        ],
+        coordinates: { x: 60, y: 35 }
+    },
+    {
+        id: 'f5',
+        name: 'Peng Heong Hakka Paikut',
+        subName: 'Hakka Stir-fry',
+        address: 'No. 2, Lorong Gudang Nanas 1, Kawasan 18, 41400 Klang, Selangor, Malaysia',
+        category: 'food',
+        featureTitle: 'Highlights',
+        featureDescription: [
+            'Hakka Restaurant (Not BKT).',
+            'Signatures: Spare Ribs King, Asam Fish, Curry Mutton, Pig Trotter, Salted Veg Soup.'
+        ],
+        coordinates: { x: 58, y: 38 }
+    },
+    {
+        id: 'a1',
+        name: 'Nijia Fried Chicken',
+        subName: 'Main Branch',
+        address: '1503 B, Jalan Young, Pandamaran, 42000 Pelabuhan Klang, Selangor, Malaysia',
+        category: 'food',
+        featureTitle: 'Highlights',
+        featureDescription: [
+            'Pandamaran Main Branch'
+        ],
+        coordinates: { x: 45, y: 55 }
+    },
+
+    // --- Temple (廟宇) ---
+    {
+        id: 't1',
+        name: 'Kuan Tian Gong',
+        address: 'Jalan Kemanis, Kawasan Tiga, Pandamaran N/V, 42000 Port Klang, Selangor, Malaysia',
+        category: 'temple',
+        featureTitle: 'Highlights',
+        featureDescription: [
+            'Located on the same road as Jalan Kemanis.'
+        ],
+        distanceInfo: 'Walking distance from Rumah Papan.',
+        coordinates: { x: 70, y: 30 }
+    },
+    {
+        id: 't2',
+        name: 'Hindu Temple',
+        address: 'No. 80, Jalan Mastika, off Persiaran Raja Muda Musa, 41100 Klang, Selangor, Malaysia',
+        category: 'temple',
+        featureTitle: 'Highlights',
+        featureDescription: [
+            'Klang Vishnu Temple'
+        ],
+        coordinates: { x: 75, y: 25 }
+    },
+    {
+        id: 't3',
+        name: 'Sri Thenday Yuttha Pani',
+        subName: 'Sri Nagara Thandayuthapani Temple',
+        address: 'No. 2, Jalan Bukit Jawa, 41000 Klang, Selangor, Malaysia',
+        category: 'temple',
+        featureTitle: 'Highlights',
+        featureDescription: [
+            'Sri Nagara Thandayuthapani Hindu Temple'
+        ],
+        coordinates: { x: 80, y: 28 }
+    },
+
+    // --- Attraction (景點) - Includes About/Story/Other spots ---
+    {
+        id: 'ab1',
+        name: 'Rumah Papan',
+        subName: 'Story House',
+        address: 'Pandamaran, Port Klang',
+        category: 'attraction',
+        featureTitle: 'Highlights',
+        featureDescription: [
+            'The wooden house we are in, a house collecting stories.'
+        ],
+        coordinates: { x: 30, y: 70 }
+    },
+    {
+        id: 's1',
+        name: 'Story Exchange Point A',
+        address: 'Pandamaran Village',
+        category: 'attraction',
+        featureTitle: 'Exchange',
+        featureDescription: [
+            'Exchange your story of this street here.'
+        ],
+        coordinates: { x: 35, y: 75 }
+    },
+    {
+        id: 'a2',
+        name: 'GM Klang Wholesale City',
+        subName: 'GM Klang',
+        address: 'Jalan Kasuarina 1, Bandar Botanik Capital, 41200 Klang, Selangor, Malaysia',
+        category: 'attraction',
+        featureTitle: 'Highlights',
+        featureDescription: [
+            'GM Klang Wholesale City'
+        ],
+        coordinates: { x: 20, y: 80 }
+    }
+];
+
+export const getVillageLocations = (lang: 'zh' | 'en') => lang === 'zh' ? VILLAGE_LOCATIONS_ZH : VILLAGE_LOCATIONS_EN;
+export const villageLocations = VILLAGE_LOCATIONS_ZH;

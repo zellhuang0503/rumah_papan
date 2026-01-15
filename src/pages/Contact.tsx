@@ -1,13 +1,22 @@
+
 import React from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
-import { FOUNDER_DATA, CONTACT_LINKS } from '../data/contactData';
+import { getFounderData, CONTACT_LINKS } from '../data/contactData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const Contact: React.FC = () => {
+    const { language } = useLanguage();
+    const FOUNDER_DATA = getFounderData(language);
+
     // Layout Rules:
     // Global Width: 1200px
     // Spacing Gap: 24px (based on design gap-6)
     // Scaling: 0.75x
+
+    const labels = {
+        title: language === 'zh' ? '聯絡方式' : 'Contact Info'
+    };
 
     return (
         <div className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
@@ -81,12 +90,17 @@ export const Contact: React.FC = () => {
                             <span className="text-black text-[18px] font-medium font-['Roboto_Slab']">Contact us</span>
                         </div>
                         <h2 className="text-black/80 text-3xl desktop:text-[36px] font-bold font-['Noto_Sans_TC'] leading-tight desktop:mt-[10px]">
-                            聯絡方式
+                            {labels.title}
                         </h2>
                     </div>
 
                     {/* Card 2: Facebook */}
-                    <div className="w-full desktop:flex-1 h-[180px] desktop:h-[344px] bg-white rounded-[27px] p-6 desktop:p-[18px] flex flex-col justify-end">
+                    <a
+                        href={CONTACT_LINKS[0].link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full desktop:flex-1 h-[180px] desktop:h-[344px] bg-white rounded-[27px] p-6 desktop:p-[18px] flex flex-col justify-end cursor-pointer transition-transform hover:scale-[1.02]"
+                    >
                         <div className="w-full bg-white p-0 desktop:px-[24px] desktop:py-[9px] rounded-[18px] flex flex-col items-start gap-1 desktop:gap-[6px]">
                             <div className="flex items-center gap-[6px]">
                                 <span className="text-black text-base desktop:text-[18px] font-medium font-['Roboto_Slab']">Facebook</span>
@@ -96,13 +110,15 @@ export const Contact: React.FC = () => {
                                 {CONTACT_LINKS[0].value}
                             </h3>
                         </div>
-                    </div>
-
-                    {/* Row 2 Wrapper for Desktop / Stack on Mobile */}
-                    {/* Actually we can just keep them as siblings and let flex-wrap handle desktop, full width on mobile */}
+                    </a>
 
                     {/* Card 3: Instagram */}
-                    <div className="w-full desktop:basis-[calc(50%-9px)] h-[180px] desktop:h-[344px] bg-white rounded-[27px] p-6 desktop:p-[18px] flex flex-col justify-end">
+                    <a
+                        href={CONTACT_LINKS[1].link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full desktop:basis-[calc(50%-9px)] h-[180px] desktop:h-[344px] bg-white rounded-[27px] p-6 desktop:p-[18px] flex flex-col justify-end cursor-pointer transition-transform hover:scale-[1.02]"
+                    >
                         <div className="w-full bg-white p-0 desktop:px-[24px] desktop:py-[9px] rounded-[18px] flex flex-col items-start gap-1 desktop:gap-[6px]">
                             <div className="flex items-center gap-[6px]">
                                 <span className="text-black/80 text-base desktop:text-[18px] font-medium font-['Roboto_Slab']">Instagram</span>
@@ -112,10 +128,15 @@ export const Contact: React.FC = () => {
                                 {CONTACT_LINKS[1].value}
                             </h3>
                         </div>
-                    </div>
+                    </a>
 
                     {/* Card 4: WhatsApp */}
-                    <div className="w-full desktop:basis-[calc(50%-9px)] h-[180px] desktop:h-[344px] bg-white rounded-[27px] p-6 desktop:p-[18px] flex flex-col justify-end">
+                    <a
+                        href={CONTACT_LINKS[2].link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full desktop:basis-[calc(50%-9px)] h-[180px] desktop:h-[344px] bg-white rounded-[27px] p-6 desktop:p-[18px] flex flex-col justify-end cursor-pointer transition-transform hover:scale-[1.02]"
+                    >
                         <div className="w-full bg-white p-0 desktop:px-[24px] desktop:py-[9px] rounded-[18px] flex flex-col items-start gap-1 desktop:gap-[6px]">
                             <div className="flex items-center gap-[6px]">
                                 <span className="text-black/80 text-base desktop:text-[18px] font-medium font-['Roboto_Slab']">WhatsApp</span>
@@ -125,7 +146,7 @@ export const Contact: React.FC = () => {
                                 {CONTACT_LINKS[2].value}
                             </h3>
                         </div>
-                    </div>
+                    </a>
                 </section>
 
                 <SiteFooter />

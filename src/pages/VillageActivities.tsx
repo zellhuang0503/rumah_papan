@@ -1,15 +1,24 @@
+
 import React from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
-import { ACTIVITIES_DATA } from '../data/villageData';
+import { getActivitiesData } from '../data/villageData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const VillageActivities: React.FC = () => {
+    const { language } = useLanguage();
+    const ACTIVITIES_DATA = getActivitiesData(language);
+
     // Scaling Rules (1920 -> 1440, 0.75x)
     // Global Spacing: 120px
     // Fonts: 72->54, 60->45, 48->36, 30->22.5, 24->18
     // Card Width: 621px (was 828)
     // Card Height: 288px (was 384/404)
     // Card Padding: 30px 60px (was 40 80)
+
+    const labels = {
+        notices: language === 'zh' ? '注意事項' : 'Notices'
+    };
 
     return (
         <div className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
@@ -59,7 +68,7 @@ export const VillageActivities: React.FC = () => {
                 <section className="w-full max-w-[1200px] flex flex-col items-center gap-[0px]">
                     {/* Title */}
                     <h2 className="text-black text-3xl desktop:text-[45px] font-bold font-['Noto_Sans_TC'] leading-[1.4] mb-4 desktop:mb-[9px] w-full desktop:w-[1152px] text-left">
-                        注意事項
+                        {labels.notices}
                     </h2>
 
                     <div className="w-full flex flex-col items-center">

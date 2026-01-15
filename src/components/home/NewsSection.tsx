@@ -1,9 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
-import { NEWS_DATA } from '../../data/homeData';
+import { getNewsData } from '../../data/homeData';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export const NewsSection: React.FC = () => {
+    const { language } = useLanguage();
+    const NEWS_DATA = getNewsData(language);
+
     return (
         <section className="w-full h-auto desktop:h-[600px] relative bg-orange-100 flex justify-center items-start py-12 desktop:py-0">
             <div className="w-full max-w-[1275px] px-6 desktop:px-0 flex flex-col justify-center items-center">
@@ -24,7 +28,7 @@ export const NewsSection: React.FC = () => {
                                 {news.isNew && (
                                     <div className="px-[9px] py-[3px] rounded-full border border-neutral-900 flex justify-center items-center bg-white shrink-0">
                                         <span className="text-neutral-900 text-[15px] font-medium font-['Noto_Sans_TC'] leading-normal whitespace-nowrap">
-                                            最新
+                                            {language === 'zh' ? '最新' : 'New'}
                                         </span>
                                     </div>
                                 )}

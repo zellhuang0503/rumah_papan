@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { ArrowDown } from 'lucide-react';
 import { BubbleLink } from '../BubbleLink';
@@ -8,6 +9,30 @@ export const HeroSection: React.FC = () => {
     const { language } = useLanguage();
     const contentMap = getHeroContentMap(language);
 
+    // Bubble Text Map
+    const BUBBLE_TEXTS = {
+        zh: {
+            about: "關於班厝",
+            bkt: "來碗班達馬蘭肉骨茶",
+            walk: "想不想用走的認識新村？",
+            sustainability: "永續生活",
+            exchange: "下個來交換故事的人會是你嗎？",
+            festivals: "一起過節好嗎？",
+            stay: "技能換宿"
+        },
+        en: {
+            about: "About Rumah Papan",
+            bkt: "Have a bowl of BKT",
+            walk: "Walk to know the village?",
+            sustainability: "Sustainable Life",
+            exchange: "Next story exchanger?",
+            festivals: "Celebrate together?",
+            stay: "Work Swap"
+        }
+    };
+
+    const bubbles = BUBBLE_TEXTS[language as keyof typeof BUBBLE_TEXTS] || BUBBLE_TEXTS.zh;
+
     // State tracks KEY
     const [activeKey, setActiveKey] = useState<string>('about');
     const activeContent = contentMap[activeKey as keyof typeof contentMap];
@@ -15,6 +40,8 @@ export const HeroSection: React.FC = () => {
     const handleBubbleClick = (key: string) => {
         setActiveKey(key);
     };
+
+    const ctaText = language === 'zh' ? '往下看更多' : 'See More';
 
     // Restored Layout Values from Step 152
     // Container: px-[120px], pt-24 pb-12
@@ -54,7 +81,7 @@ export const HeroSection: React.FC = () => {
                             <ArrowDown className="w-8 h-8" />
                         </div>
                         <span className="text-sm font-bold text-[#181818]">
-                            往下看更多
+                            {ctaText}
                         </span>
                     </div>
                 </div>
@@ -62,40 +89,40 @@ export const HeroSection: React.FC = () => {
                 {/* RIGHT CONTENT - BUBBLE CLUSTER */}
                 <div className="flex flex-wrap content-center justify-center gap-4 desktop:gap-x-[16px] desktop:gap-y-[40px] w-full desktop:w-[720px] z-10 pt-0 desktop:pt-10">
                     <BubbleLink
-                        text="關於班厝"
+                        text={bubbles.about}
                         onClick={() => handleBubbleClick('about')}
                         isActive={activeKey === 'about'}
                     />
                     <BubbleLink
-                        text="來碗班達馬蘭肉骨茶"
+                        text={bubbles.bkt}
                         onClick={() => handleBubbleClick('bkt')}
                         isActive={activeKey === 'bkt'}
                     />
                     <BubbleLink
-                        text="想不想用走的認識新村？"
+                        text={bubbles.walk}
                         onClick={() => handleBubbleClick('walk')}
                         variant="large"
                         isActive={activeKey === 'walk'}
                     />
                     <BubbleLink
-                        text="永續生活"
+                        text={bubbles.sustainability}
                         onClick={() => handleBubbleClick('sustainability')}
                         isActive={activeKey === 'sustainability'}
                     />
                     <BubbleLink
-                        text="下個來交換故事的人會是你嗎？"
+                        text={bubbles.exchange}
                         onClick={() => handleBubbleClick('exchange')}
                         variant="large"
                         isActive={activeKey === 'exchange'}
                     />
                     <BubbleLink
-                        text="一起過節好嗎？"
+                        text={bubbles.festivals}
                         onClick={() => handleBubbleClick('festivals')}
                         variant="large"
                         isActive={activeKey === 'festivals'}
                     />
                     <BubbleLink
-                        text="技能換宿"
+                        text={bubbles.stay}
                         onClick={() => handleBubbleClick('stay')}
                         isActive={activeKey === 'stay'}
                     />

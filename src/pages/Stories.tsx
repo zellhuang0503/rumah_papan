@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -6,11 +7,15 @@ import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
 import { StoryFilter } from '../components/story/StoryFilter';
 import { StoryCard } from '../components/story/StoryCard';
-import { stories, type StoryCategory } from '../data/storyData';
+import { getStories, type StoryCategory } from '../data/storyData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const Stories: React.FC = () => {
+    const { language } = useLanguage();
+    const stories = getStories(language);
+
     const [activeCategory, setActiveCategory] = useState<StoryCategory>('all');
     const [searchQuery, setSearchQuery] = useState('');
     const containerRef = useRef<HTMLDivElement>(null);
@@ -20,7 +25,7 @@ export const Stories: React.FC = () => {
         const matchesSearch = searchQuery === '' ||
             story.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             story.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            story.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+            (story.tags && story.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())));
 
         return matchesCategory && matchesSearch;
     });
@@ -66,10 +71,16 @@ export const Stories: React.FC = () => {
     // Refresh layout when filtering changes
     useLayoutEffect(() => {
         ScrollTrigger.refresh();
-    }, [activeCategory, searchQuery]);
+    }, [activeCategory, searchQuery, language]); // Added language to dependency
+
+    // Translations
+    const labels = {
+        title: language === 'zh' ? '故事誌' : 'Story Log',
+        search: language === 'zh' ? '技能換宿' : 'Work Swap / Search'
+    };
 
     return (
-        <div ref={containerRef} className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white">
+        <div ref={containerRef} className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
             <HomeNavbar />
 
             <main className="w-full flex flex-col items-center pt-[165px] pb-[120px]">
@@ -77,7 +88,7 @@ export const Stories: React.FC = () => {
                 {/* Header Section */}
                 <div className="w-full max-w-[1260px] px-[90px] mb-[24px] flex flex-col items-center gap-10 anim-header opacity-0">
                     <h1 className="text-[54px] font-bold text-[#242527] font-noto-sans-tc leading-[75px]">
-                        故事誌
+                        {labels.title}
                     </h1>
 
                     {/* Search Input (Previously Intro Badge) */}
@@ -88,7 +99,7 @@ export const Stories: React.FC = () => {
                                 type="text"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                placeholder="技能換宿"
+                                placeholder={labels.search}
                                 className="flex-1 bg-transparent border-none outline-none text-zinc-800 text-[18px] font-medium font-noto-sans-tc leading-[24px] placeholder:text-zinc-800/50 text-center"
                             />
                         </div>
@@ -108,18 +119,6 @@ export const Stories: React.FC = () => {
                    Figma Width: 1680px -> Scaled: 1260px
                    Gap: 24px -> Scaled: 18px
                    We specificly use a container that fits these cards.
-                */}
-                {/* 
-                   Bento Grid Layout System
-                   Total Width: 1260px (at 0.75x scale)
-                   Gap: 24px
-                   
-                   Valid Row Combinations to fill 1260px:
-                   1. Full Width Banner/Standard: 1260px
-                   2. Standard (940px) + Compact (288px) + Gap (24px) = 1252px (~1260)
-                   3. Highlight (514px) + Overlay (408px) + Compact (288px) + 2 Gaps (48px) = 1258px (~1260)
-                   
-                   * Note: Partial rows will align left due to flex-wrap + gap.
                 */}
                 <div className="w-full px-6 desktop:px-0 desktop:max-w-[1260px] flex flex-wrap gap-6 desktop:gap-[24px]">
                     {filteredStories.map((story) => (
