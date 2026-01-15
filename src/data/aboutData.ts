@@ -99,12 +99,16 @@ export const PRODUCTS_DATA = [
     {
         title: "九層塔青醬",
         desc: "九層塔的香氣在鍋裡慢慢醒來，在班厝，一匙青醬，就是故事開始變好吃的瞬間。",
-        image: prod5
+        image: prod5,
+        imageScale: '1.3',
+        imagePosition: 'object-[40%_center]'
     },
     {
         title: "木鱉果香皂",
         desc: "木鱉果的香氣被揉進香皂裡，\n洗掉一身疲憊，也把新村的陽光留在手心。",
-        image: prod6
+        image: prod6,
+        imagePosition: 'object-[center_70%]',
+        imageScale: '1.2'
     }
 ];
 
