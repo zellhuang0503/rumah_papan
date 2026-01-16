@@ -1,8 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrandLogo } from './BrandLogo';
 import { FOOTER_DATA } from '../data/homeData';
+import { client } from '../utils/sanity';
 
 export const SiteFooter: React.FC = () => {
+    const [footerData, setFooterData] = useState(FOOTER_DATA);
+
+    useEffect(() => {
+        const fetchSettings = async () => {
+            try {
+                const data = await client.fetch('*[_type == "siteSettings"][0]');
+                if (data) {
+                    setFooterData({
+                        title: data.title || FOOTER_DATA.title,
+                        subtitle: data.subtitle || FOOTER_DATA.subtitle,
+                        description: data.description || FOOTER_DATA.description,
+                        contact: {
+                            region: data.serviceRegion || FOOTER_DATA.contact.region,
+                            phone: data.phone || FOOTER_DATA.contact.phone,
+                            email: data.contactEmail || FOOTER_DATA.contact.email,
+                            address: data.address || FOOTER_DATA.contact.address
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error("Failed to fetch footer data", error);
+            }
+        };
+        fetchSettings();
+    }, []);
     // Scaled dimensions
     // Width 1808 -> 1356px
     // Padding pl-28 (112) -> 84px. pr-24 (96) -> 72px. py-40 (160) -> 120px.
@@ -18,16 +44,16 @@ export const SiteFooter: React.FC = () => {
                             <BrandLogo className="w-[60px] h-[48px] text-orange-100" />
                             <div className="flex flex-col items-start">
                                 <span className="text-orange-100 text-[22.5px] font-bold font-['Noto_Sans_TC'] leading-[30px]">
-                                    {FOOTER_DATA.title}
+                                    {footerData.title}
                                 </span>
                                 <span className="text-orange-100 text-[15px] font-normal font-['Roboto_Slab'] leading-[21px]">
-                                    {FOOTER_DATA.subtitle}
+                                    {footerData.subtitle}
                                 </span>
                             </div>
                         </div>
 
                         <p className="text-orange-100 text-[18px] font-bold font-['Noto_Sans_TC'] leading-[24px]">
-                            {FOOTER_DATA.description}
+                            {footerData.description}
                         </p>
 
                         {/* Social Circles */}
@@ -46,7 +72,7 @@ export const SiteFooter: React.FC = () => {
                                     服務區域
                                 </h4>
                                 <p className="text-red-400 text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide">
-                                    {FOOTER_DATA.contact.region}
+                                    {footerData.contact.region}
                                 </p>
                             </div>
                             <div className="flex flex-col gap-[12px]">
@@ -54,7 +80,7 @@ export const SiteFooter: React.FC = () => {
                                     行動電話
                                 </h4>
                                 <p className="text-red-400 text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide">
-                                    {FOOTER_DATA.contact.phone}
+                                    {footerData.contact.phone}
                                 </p>
                             </div>
                             <div className="flex flex-col gap-[12px]">
@@ -62,7 +88,7 @@ export const SiteFooter: React.FC = () => {
                                     Email
                                 </h4>
                                 <p className="text-red-400 text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide">
-                                    {FOOTER_DATA.contact.email}
+                                    {footerData.contact.email}
                                 </p>
                             </div>
                         </div>
@@ -72,7 +98,7 @@ export const SiteFooter: React.FC = () => {
                                 地址
                             </h4>
                             <p className="text-red-400 text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide">
-                                {FOOTER_DATA.contact.address}
+                                {footerData.contact.address}
                             </p>
                         </div>
                     </div>
