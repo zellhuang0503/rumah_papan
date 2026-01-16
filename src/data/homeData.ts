@@ -199,7 +199,7 @@ const INTRO_SLIDES_ZH = [
 ];
 
 const INTRO_SLIDES_EN = [
-    { title: "New Village Expo", desc: "New Village Expo" },
+    { title: "Neighborhood Tour", desc: "Personally guided by the curator, with no standard route, only neighborhood recommendations—delicious food, great conversations, and stories of the New Village's human warmth, waiting for you to walk leisurely and listen." },
     { title: "Rooster Bowl", desc: "The entrance to Malaysia's largest Chinese new village greets every visitor with a bowl of rice and a rooster bowl." },
     { title: "Praying to the Jade Emperor", desc: "Altars, offerings, and fireworks—placing the devotion of generations of Hokkien people to the Jade Emperor and ancestors into this one night." },
     { title: "Rumah Papan Story House", desc: "The story house collects village memories, exhibitions, and a dining table. Every time you push the door open, it's a new page of Pandamaran." },
