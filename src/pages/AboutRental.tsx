@@ -63,7 +63,7 @@ export const AboutRental: React.FC = () => {
                                 {/* Placeholder for Image */}
                                 <div className="w-full h-full bg-neutral-800 relative">
                                     <img
-                                        src={`https://placehold.co/1200x600?text=Slide+${index + 1}`}
+                                        src={item.image}
                                         className="w-full h-full object-cover opacity-70"
                                         alt={item.title}
                                     />

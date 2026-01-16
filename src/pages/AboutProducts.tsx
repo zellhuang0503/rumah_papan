@@ -26,11 +26,14 @@ export const AboutProducts: React.FC = () => {
                     <div className="w-full max-w-[1440px] flex flex-wrap justify-center gap-6 desktop:gap-[18px] px-6 desktop:px-[90px]">
                         {PRODUCTS_DATA.map((item, index) => (
                             <div key={index} className="w-full max-w-[408px] flex flex-col items-start shadow-md rounded-[18px]">
-                                <img
-                                    className="w-full h-auto aspect-[408/340.5] object-cover rounded-t-[18px]"
-                                    src={item.image}
-                                    alt={item.title}
-                                />
+                                <div className="w-full aspect-[408/340.5] relative overflow-hidden rounded-t-[18px]">
+                                    <img
+                                        className={`w-full h-full object-cover ${(item as any).imagePosition || ''}`}
+                                        src={item.image}
+                                        alt={item.title}
+                                        style={(item as any).imageScale ? { transform: `scale(${(item as any).imageScale})` } : {}}
+                                    />
+                                </div>
                                 <div className="self-stretch px-6 pt-[15px] pb-[30px] bg-white rounded-b-[18px] flex flex-col justify-start items-start gap-[7.5px]">
                                     <div className="self-stretch flex flex-col justify-center items-start gap-[9px]">
                                         <h3 className="self-stretch text-neutral-900 text-2xl desktop:text-[36px] font-bold font-['Noto_Sans_TC'] leading-tight desktop:leading-[52.5px]">

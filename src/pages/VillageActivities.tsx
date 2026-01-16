@@ -48,7 +48,7 @@ export const VillageActivities: React.FC = () => {
                             <img
                                 src={item.image}
                                 alt={item.title}
-                                className="w-full desktop:w-[621px] h-[240px] md:h-[360px] lg:h-[420px] desktop:h-[288px] rounded-[18px] object-cover shadow-sm"
+                                className={`w-full desktop:w-[621px] h-[240px] md:h-[360px] lg:h-[420px] desktop:h-[288px] rounded-[18px] object-cover shadow-sm ${item.imagePosition || ''}`}
                             />
                         </div>
                     ))}
