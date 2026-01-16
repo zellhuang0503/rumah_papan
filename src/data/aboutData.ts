@@ -149,7 +149,8 @@ const PRODUCTS_DATA_ZH = [
     {
         title: "班厝肉骨茶包",
         desc: "班厝肉骨茶包：以胡椒、蒜頭與中藥材調製，在家就能燉出巴生在地人最熟悉的暖身熱湯。",
-        image: prod2
+        image: prod2,
+        imagePosition: 'object-[center_40%]'
     },
     {
         title: "咖啡豆五粒子",

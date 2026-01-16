@@ -1,6 +1,7 @@
+import founderChow from '../assets/images/Image_founder_chow.png';
 
 const FOUNDER_DATA_ZH = {
-    image: "https://placehold.co/698x698/E5E5E5/E5E5E5.png", // Solid gray placeholder
+    image: founderChow,
     name: "周鴻輝",
     bio: "我出生於巴生班達馬蘭新村，擁有馬來西亞旅遊局執牌導遊資格，長年投入文化教育與在地體驗，深信「走進地方，就理解自己的土地」。2016年發起巴生老街導覽並成立中文導覽團隊 Jalan-jalan Klang；2020年創立土特產平台 JjK Store 推廣五號公路沿線好物；其後在家鄉打造班達馬蘭新村故事館「班厝」，以走讀、展覽與教育行動為老社區點燈。2022年獲聘巴生旅遊大使，持續用故事連結人與地方。",
     title: "創辦人",
@@ -13,7 +14,7 @@ const FOUNDER_DATA_ZH = {
 };
 
 const FOUNDER_DATA_EN = {
-    image: "https://placehold.co/698x698/E5E5E5/E5E5E5.png", // Solid gray placeholder
+    image: founderChow,
     name: "Chow Hong Hui",
     bio: "Born in Pandamaran New Village, Klang. A refined licensed tourist guide in Malaysia with years of dedication to cultural education and local experiences, believing that 'walking into a place is understanding one's own land'. Initiated Klang Old Street Tour and founded Chinese tour team Jalan-jalan Klang in 2016; founded local product platform JjK Store in 2020 to promote goods along Route 5; later established the Pandamaran New Village Story House 'Rumah Papan' in his hometown, lighting up the old community through tours, exhibitions, and educational actions. Appointed as Klang Tourism Ambassador in 2022, continuing to connect people and places with stories.",
     title: "Founder",
