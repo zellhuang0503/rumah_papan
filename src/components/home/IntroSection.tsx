@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { getIntroSlides } from '../../data/homeData';
 import { useLanguage } from '../../contexts/LanguageContext';
 
+import slide0 from '../../assets/images/Image_NewVillageExpo.jpg';
 import slide1 from '../../assets/images/Image_kampung.jpg';
 import slide2 from '../../assets/images/Image_20240716_884845.jpg';
 import slide3 from '../../assets/images/Image_2025020845188.jpeg';
@@ -11,7 +12,7 @@ import slide5 from '../../assets/images/Image_20240715_174225.jpg';
 import slide6 from '../../assets/images/Image_20240715_294449.jpg';
 import slide7 from '../../assets/images/Image_20240715_332276.jpg';
 
-const slideImages = [slide1, slide2, slide3, slide4, slide5, slide6, slide7];
+const slideImages = [slide0, slide1, slide2, slide3, slide4, slide5, slide6, slide7];
 
 export const IntroSection: React.FC = () => {
     const { language } = useLanguage();
@@ -42,10 +43,11 @@ export const IntroSection: React.FC = () => {
                         <img
                             src={slideImages[index]}
                             alt={slide.title}
-                            className={`absolute inset-0 w-full h-full object-cover ${index === 1 ? 'object-[85%_center] scale-110' :
-                                index === 3 ? 'object-[center_85%]' :
-                                    index === 4 ? 'object-[45%_bottom] scale-[1.3]' :
-                                        index === 6 ? 'object-[center_8%]' : ''
+                            className={`absolute inset-0 w-full h-full object-cover ${index === 0 ? 'object-[25%_center]' :
+                                index === 2 ? 'object-[85%_center] scale-110' :
+                                    index === 4 ? 'object-[center_85%]' :
+                                        index === 5 ? 'object-[45%_bottom] scale-[1.3]' :
+                                            index === 7 ? 'object-[center_8%]' : ''
                                 }`}
                         />
 

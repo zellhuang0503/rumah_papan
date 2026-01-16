@@ -102,15 +102,15 @@ export const TESTIMONIALS_DATA = [
 
 export const NEWS_DATA = [
     {
-        date: "2025.12.02",
+        date: "2026.01.13",
         isNew: true,
-        title: "《新村玩＋》市集進駐班達馬蘭！兩天逛遍雪州77個新村故事",
+        title: "雪州新村節《 新村玩+ 造起來！ 》小花車裝飾比賽",
         path: "/news/1"
     },
     {
-        date: "2025.12.01",
+        date: "2026.01.11",
         isNew: true,
-        title: "走進馬來西亞最大福建新村：12/6 免費走村導覽",
+        title: "新村好品開張啦！咦～班厝的木鱉果養生酵素也來駐店了？",
         path: "/news/2"
     },
     {
@@ -128,6 +128,7 @@ export const NEWS_DATA = [
 ];
 
 const INTRO_SLIDES_ZH = [
+    { title: "厝邊頭尾導覽", desc: "館長親自帶路，沒有標準路線，只有厝邊頭尾的推薦——好吃的、好聊的、有故事的新村人情味，等你慢慢走、慢慢聽。" },
     { title: "雞公碗", desc: "馬來西亞最大的華人新村入口，用一碗白飯和雞公碗，向每個來訪的人打招呼。" },
     { title: "拜天公", desc: "神壇、供品和煙火，把幾代福建人對天公與祖先的心意都放在這一夜。" },
     { title: "班厝故事館", desc: "故事館裡收著新村記憶、展覽與飯桌，每次推門，都是班達馬蘭的新一頁。" },
@@ -138,6 +139,7 @@ const INTRO_SLIDES_ZH = [
 ];
 
 const INTRO_SLIDES_EN = [
+    { title: "New Village Expo", desc: "New Village Expo" },
     { title: "Rooster Bowl", desc: "The entrance to Malaysia's largest Chinese new village greets every visitor with a bowl of rice and a rooster bowl." },
     { title: "Praying to the Jade Emperor", desc: "Altars, offerings, and fireworks—placing the devotion of generations of Hokkien people to the Jade Emperor and ancestors into this one night." },
     { title: "Rumah Papan Story House", desc: "The story house collects village memories, exhibitions, and a dining table. Every time you push the door open, it's a new page of Pandamaran." },

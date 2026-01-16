@@ -1,6 +1,6 @@
 export type LocationCategory = 'food' | 'attraction' | 'temple' | 'all';
 import samyImage from '../assets/images/Image_samy_bkt.jpg';
-import bkt155Image from '../assets/images/Image_155_bkt.jpg';
+import fuhWenBktImage from '../assets/images/Image_fuh_wen_bkt.jpg';
 import ahHerImage from '../assets/images/Image_ah_her_bkt.jpg';
 import soonBengImage from '../assets/images/Image_soon_beng_kopitiam.jpg';
 import lanchunImage from '../assets/images/Image_lanchun_old.jpg';
@@ -47,19 +47,17 @@ export const villageLocations: LocationItem[] = [
     },
     {
         id: 'f2',
-        name: '155 肉骨茶',
-        subName: '155 Bak Kut Teh',
-        address: '155, Jalan Chan Ah Choo, Pandamaran, 42000 Pelabuhan Klang, Selangor, Malaysia',
+        name: '福文肉骨茶',
+        subName: 'Fuh Wen Bak Kut Teh',
+        address: '158 D, Jalan Chan Ah Choo, Pandamaran, 42000 Pelabuhan Klang, Selangor',
         category: 'food',
         featureTitle: '特色',
         featureDescription: [
-            '有湯的也有乾的，味道偏厚、藥材感比較重一點。',
-            '很多人說湯很「有 punch」，肉也燉到很嫩。'
+            '湯頭濃郁回甘、中藥味與肉香平衡，內臟處理乾淨無異味，提供瓦煲或不鏽鋼碗裝，特別是小火慢燉保溫設計，讓湯汁與食材風味更佳。'
         ],
-        distanceInfo: '距離班厝：同一條 BKT 街上，跟三美在同一區域。',
 
         coordinates: { x: 52, y: 45 },
-        image: bkt155Image
+        image: fuhWenBktImage
     },
     {
         id: 'f3',
@@ -83,7 +81,7 @@ export const villageLocations: LocationItem[] = [
         category: 'food',
         featureTitle: '特色',
         featureDescription: [
-            '經典家鄉麵包，那是一份純樸的味道，椰香加上半熟蛋，口感交織美味，再配上KTM,堪稱一絕'
+            '經典家鄉麵包，那是一份純樸的味道，椰香加上半熟蛋，口感交織美味，再配上KTM,堪稱一絕。'
         ],
         coordinates: { x: 60, y: 35 },
         image: soonBengImage
@@ -108,7 +106,7 @@ export const villageLocations: LocationItem[] = [
         category: 'food',
         featureTitle: '特色',
         featureDescription: [
-            '在地獨有的菜包美食，跟你想像的菜包是不一樣的，鹹香味道，也包滿蔬菜，很好吃，一口接一口'
+            '在地獨有的菜包美食，跟你想像的菜包是不一樣的，鹹香味道，也包滿蔬菜，很好吃，一口接一口。'
         ],
         coordinates: { x: 45, y: 55 },
         image: caiBaoImage
@@ -118,7 +116,8 @@ export const villageLocations: LocationItem[] = [
     {
         id: 't1',
         name: '觀天宮',
-        address: 'Jalan Kemanis, Kawasan Tiga, Pandamaran N/V, 42000 Port Klang, Selangor, Malaysia',
+        subName: 'Kuan Tien Klang',
+        address: 'Pandamaran, 42000 Port Klang, Selangor',
         category: 'temple',
         featureTitle: '特色',
         featureDescription: [
