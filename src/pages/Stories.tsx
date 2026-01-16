@@ -58,8 +58,7 @@ export const Stories: React.FC = () => {
                                 <Polaroid
                                     src={story.coverImage ? urlFor(story.coverImage).url() : story.imageUrl}
                                     caption={story.titleText || story.title}
-                                    className={`transform ${index % 2 === 0 ? 'rotate-2' : '-rotate-2'} hover:rotate-0 transition-all duration-300`}
-                                    style={{ maxWidth: '300px' }}
+                                    className={`transform ${index % 2 === 0 ? 'rotate-2' : '-rotate-2'} hover:rotate-0 transition-all duration-300 w-full max-w-[320px]`}
                                 />
                             </div>
                         ))}

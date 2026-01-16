@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
 import { ENVIRONMENT_DATA } from '../data/aboutData';
+import { client, urlFor } from '../utils/sanity';
 
 export const AboutEnvironment: React.FC = () => {
     // Scaling Rules (1920 -> 1440, factor 0.75)
@@ -14,11 +15,26 @@ export const AboutEnvironment: React.FC = () => {
     // Font 5xl (48px) -> 36px.
     // Font 2xl (24px) -> 18px.
 
-    // Layout:
-    // Navbar at top.
-    // Content starts below navbar.
-    // Title is "環境介紹" centered-ish.
-    // Grid of cards below.
+    const [items, setItems] = useState(ENVIRONMENT_DATA);
+
+    useEffect(() => {
+        const fetchEnvironment = async () => {
+            try {
+                const aboutDoc = await client.fetch(`*[_type == "about"][0]`);
+                if (aboutDoc && aboutDoc.environment) {
+                    const mapped = aboutDoc.environment.map((item: any) => ({
+                        title: item.title,
+                        desc: item.desc,
+                        image: item.image ? urlFor(item.image).url() : "https://placehold.co/408x341"
+                    }));
+                    setItems(mapped);
+                }
+            } catch (err) {
+                console.error("Failed to fetch environment data", err);
+            }
+        };
+        fetchEnvironment();
+    }, []);
 
     return (
         <div className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
@@ -33,7 +49,7 @@ export const AboutEnvironment: React.FC = () => {
 
                     {/* Grid Section */}
                     <div className="w-[1440px] flex flex-wrap justify-center gap-[18px] px-[90px]">
-                        {ENVIRONMENT_DATA.map((item, index) => (
+                        {items.map((item, index) => (
                             <div key={index} className="w-[408px] flex flex-col items-start shadow-md rounded-[18px]">
                                 <img
                                     className="w-full h-[340.5px] object-cover rounded-t-[18px]"

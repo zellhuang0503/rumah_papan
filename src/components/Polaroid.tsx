@@ -12,14 +12,15 @@ interface PolaroidProps {
     disableEntryAnim?: boolean; // Allow disabling internal entry animation
 }
 
-export const Polaroid: React.FC<PolaroidProps> = ({
+export const Polaroid: React.FC<PolaroidProps & React.HTMLAttributes<HTMLDivElement>> = ({
     src,
     alt,
     caption,
     description = "白天幫忙打理故事館，夜裡在班達馬蘭星空下交換故事。", // Default/Fallback description
     rotation = 0,
     className = "",
-    disableEntryAnim = false
+    disableEntryAnim = false,
+    ...props
 }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const photoCardRef = useRef<HTMLDivElement>(null);
@@ -143,7 +144,8 @@ export const Polaroid: React.FC<PolaroidProps> = ({
     return (
         <div
             ref={containerRef}
-            className={`relative bg-transparent ${className} cursor-pointer perspective-1000`}
+            className={`relative bg-transparent ${className} cursor-pointer perspective-1000 aspect-[3.5/4.2]`}
+            {...props}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onClick={handleClick}

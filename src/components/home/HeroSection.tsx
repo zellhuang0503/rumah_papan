@@ -4,12 +4,16 @@ import { BubbleLink } from '../BubbleLink';
 
 // Define content type
 type ContentData = {
+    key?: string; // Add key property
     title: string;
     body: string;
+    bubbleText?: string;
+    isLarge?: boolean;
 };
 
 // Content Map with Keys
-const contentMap: Record<string, ContentData> = {
+const defaultContentMap: Record<string, ContentData> = {
+    // ... existing contentMap content
     about: {
         title: "一間為新村存放記憶的厝",
         body: "班厝是一間收集故事的厝，牆上是老照片，桌上是新朋友，讓一條班達馬蘭新村的記憶持續被看見。"
@@ -40,13 +44,60 @@ const contentMap: Record<string, ContentData> = {
     }
 };
 
-export const HeroSection: React.FC = () => {
+const bubbleOrder = ['about', 'bkt', 'walk', 'sustainability', 'exchange', 'festivals', 'stay'];
+
+interface HeroSectionProps {
+    bubbles?: any[];
+}
+
+export const HeroSection: React.FC<HeroSectionProps> = ({ bubbles }) => {
     // State tracks KEY
     const [activeKey, setActiveKey] = useState<string>('about');
-    const activeContent = contentMap[activeKey];
+
+    // Merge/Use Sanity Data
+    const displayContent = React.useMemo(() => {
+        if (bubbles && bubbles.length > 0) {
+            const map: Record<string, ContentData> = {};
+            bubbles.forEach(b => {
+                if (b.key) {
+                    map[b.key] = {
+                        title: b.title,
+                        body: b.body,
+                        bubbleText: b.bubbleText,
+                        isLarge: b.isLarge
+                    };
+                }
+            });
+            return map;
+        }
+        return defaultContentMap;
+    }, [bubbles]);
+
+    const activeContent = displayContent[activeKey] || displayContent['about'];
 
     const handleBubbleClick = (key: string) => {
         setActiveKey(key);
+    };
+
+    // Helper to get bubble text either from Sanity or fallback map (re-using default texts for bubbles if not in simple map)
+    const getBubbleText = (key: string) => {
+        if (displayContent[key]?.bubbleText) return displayContent[key].bubbleText;
+        // Fallback for default map where bubbleText wasn't in the object
+        switch (key) {
+            case 'about': return "關於班厝";
+            case 'bkt': return "來碗班達馬蘭肉骨茶";
+            case 'walk': return "想不想用走的認識新村？";
+            case 'sustainability': return "永續生活";
+            case 'exchange': return "下個來交換故事的人會是你嗎？";
+            case 'festivals': return "一起過節好嗎？";
+            case 'stay': return "技能換宿";
+            default: return "";
+        }
+    };
+
+    const getIsLarge = (key: string) => {
+        if (displayContent[key]?.isLarge !== undefined) return displayContent[key].isLarge;
+        return ['walk', 'exchange', 'festivals'].includes(key);
     };
 
     // Restored Layout Values from Step 152
@@ -84,44 +135,15 @@ export const HeroSection: React.FC = () => {
 
                 {/* RIGHT CONTENT - BUBBLE CLUSTER */}
                 <div className="flex flex-wrap content-center justify-center gap-x-[16px] gap-y-[40px] w-[720px] z-10 pt-10">
-                    <BubbleLink
-                        text="關於班厝"
-                        onClick={() => handleBubbleClick('about')}
-                        isActive={activeKey === 'about'}
-                    />
-                    <BubbleLink
-                        text="來碗班達馬蘭肉骨茶"
-                        onClick={() => handleBubbleClick('bkt')}
-                        isActive={activeKey === 'bkt'}
-                    />
-                    <BubbleLink
-                        text="想不想用走的認識新村？"
-                        onClick={() => handleBubbleClick('walk')}
-                        variant="large"
-                        isActive={activeKey === 'walk'}
-                    />
-                    <BubbleLink
-                        text="永續生活"
-                        onClick={() => handleBubbleClick('sustainability')}
-                        isActive={activeKey === 'sustainability'}
-                    />
-                    <BubbleLink
-                        text="下個來交換故事的人會是你嗎？"
-                        onClick={() => handleBubbleClick('exchange')}
-                        variant="large"
-                        isActive={activeKey === 'exchange'}
-                    />
-                    <BubbleLink
-                        text="一起過節好嗎？"
-                        onClick={() => handleBubbleClick('festivals')}
-                        variant="large"
-                        isActive={activeKey === 'festivals'}
-                    />
-                    <BubbleLink
-                        text="技能換宿"
-                        onClick={() => handleBubbleClick('stay')}
-                        isActive={activeKey === 'stay'}
-                    />
+                    {bubbleOrder.map(key => (
+                        <BubbleLink
+                            key={key}
+                            text={getBubbleText(key)}
+                            onClick={() => handleBubbleClick(key)}
+                            variant={getIsLarge(key) ? "large" : "default"}
+                            isActive={activeKey === key}
+                        />
+                    ))}
                 </div>
             </div>
         </section>

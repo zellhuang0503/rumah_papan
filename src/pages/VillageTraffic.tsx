@@ -1,13 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
 import { TRAFFIC_DATA } from '../data/villageData';
+import { client } from '../utils/sanity';
 
 export const VillageTraffic: React.FC = () => {
     // Layout Rules:
     // Global Width: 1200px
     // Global Spacing: 160px
     // Scaling: 0.75x
+
+    const [data, setData] = useState(TRAFFIC_DATA);
+
+    useEffect(() => {
+        const fetchTraffic = async () => {
+            try {
+                const villageDoc = await client.fetch(`*[_type == "village"][0]`);
+                if (villageDoc && villageDoc.traffic) {
+                    const tr = villageDoc.traffic;
+                    // Note: map (googleMapLink) is kept static in component or merged here if needed.
+                    // The schema has map: { address, googleMapLink }
+
+                    setData({
+                        hero: { title: tr.heroTitle || TRAFFIC_DATA.hero.title },
+                        map: {
+                            address: tr.map?.address || TRAFFIC_DATA.map.address,
+                            googleMapLink: tr.map?.googleMapLink || TRAFFIC_DATA.map.googleMapLink
+                        },
+                        methods: tr.methods?.map((m: any) => ({
+                            type: m.type,
+                            title: m.title,
+                            note: m.note,
+                            steps: m.steps?.map((s: any) => ({
+                                id: s.id,
+                                action: s.action,
+                                desc: s.desc
+                            })) || []
+                        })) || TRAFFIC_DATA.methods
+                    });
+                }
+            } catch (err) {
+                console.error("Failed to fetch village traffic data", err);
+            }
+        };
+        fetchTraffic();
+    }, []);
 
     return (
         <div className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
@@ -16,7 +53,7 @@ export const VillageTraffic: React.FC = () => {
             <main className="w-full relative flex flex-col items-center pt-[165px] gap-[160px]">
                 {/* Page Title */}
                 <h1 className="text-black text-[54px] font-bold font-['Noto_Sans_TC'] leading-[1.4] text-center">
-                    {TRAFFIC_DATA.hero.title}
+                    {data.hero.title}
                 </h1>
 
                 {/* Map Section */}
@@ -38,7 +75,7 @@ export const VillageTraffic: React.FC = () => {
 
                 {/* Transportation Methods List */}
                 <section className="w-[1200px] flex flex-col items-center gap-[40px]">
-                    {TRAFFIC_DATA.methods.map((method, index) => (
+                    {data.methods.map((method, index) => (
                         <div key={index} className="w-[1200px] px-[84px] py-[60px] bg-white rounded-[18px] flex justify-between items-end relative overflow-hidden shadow-sm">
                             {/* Left: Method Type */}
                             <h2 className="text-neutral-900 text-[54px] font-bold font-['Noto_Sans_TC'] leading-[1.4]">
@@ -63,7 +100,7 @@ export const VillageTraffic: React.FC = () => {
                                         <div key={stepIndex} className="flex items-start gap-[9px] relative z-10">
                                             {/* Step ID */}
                                             <span className="text-neutral-900 text-[27px] font-semibold font-['Roboto_Slab'] leading-[1.65] bg-white pr-2 shrink-0">
-                                                {step.id}
+                                                {step.id || (stepIndex + 1).toString().padStart(2, '0')}
                                             </span>
 
                                             <div className="flex flex-col gap-[9px]">

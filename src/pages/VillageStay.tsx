@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
 import { STAY_DATA } from '../data/villageData';
+import { client, urlFor } from '../utils/sanity';
 
 export const VillageStay: React.FC = () => {
     // Scaling Rules (1920 -> 1440, 0.75x)
@@ -11,6 +12,39 @@ export const VillageStay: React.FC = () => {
     // Card Height: 288px (was 384/404)
     // Card Padding: 30px 60px (was 40 80)
 
+    const [data, setData] = useState(STAY_DATA);
+
+    useEffect(() => {
+        const fetchStay = async () => {
+            try {
+                const villageDoc = await client.fetch(`*[_type == "village"][0]`);
+                if (villageDoc && villageDoc.stay) {
+                    const st = villageDoc.stay;
+                    setData({
+                        hero: { title: st.heroTitle || STAY_DATA.hero.title },
+                        rooms: st.rooms?.map((room: any) => ({
+                            title: room.title,
+                            desc: room.desc,
+                            image: room.image ? urlFor(room.image).url() : "https://placehold.co/828x384"
+                        })) || STAY_DATA.rooms,
+                        quote: {
+                            title: st.quote?.title || STAY_DATA.quote.title,
+                            desc: st.quote?.desc || STAY_DATA.quote.desc
+                        },
+                        booking: {
+                            title: st.booking?.title || STAY_DATA.booking.title,
+                            button: st.booking?.button || STAY_DATA.booking.button
+                        },
+                        notices: st.notices || STAY_DATA.notices
+                    });
+                }
+            } catch (err) {
+                console.error("Failed to fetch village stay data", err);
+            }
+        };
+        fetchStay();
+    }, []);
+
     return (
         <div className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
             <HomeNavbar />
@@ -18,12 +52,12 @@ export const VillageStay: React.FC = () => {
             <main className="w-full relative flex flex-col items-center pt-[165px] gap-[160px]">
                 {/* Page Title */}
                 <h1 className="text-black text-[54px] font-bold font-['Noto_Sans_TC'] leading-[1.4] text-center">
-                    {STAY_DATA.hero.title}
+                    {data.hero.title}
                 </h1>
 
                 {/* Zigzag Room List */}
                 <section className="w-[1200px] flex flex-col gap-[40px]">
-                    {STAY_DATA.rooms.map((room, index) => (
+                    {data.rooms.map((room, index) => (
                         <div key={index} className={`flex items-center gap-[27px] ${index % 2 === 1 ? 'flex-row-reverse' : 'flex-row'} justify-center`}>
                             {/* Text Card */}
                             <div className="w-[621px] h-[288px] bg-white rounded-[18px] px-[30px] flex flex-col justify-center items-start gap-[18px] overflow-hidden shadow-sm">
@@ -48,17 +82,17 @@ export const VillageStay: React.FC = () => {
                 {/* Quote Section */}
                 <section className="w-[1200px] flex items-end justify-center gap-[120px]">
                     <h2 className="text-neutral-900 text-[36px] font-bold font-['Noto_Sans_TC'] leading-[1.45] whitespace-nowrap">
-                        {STAY_DATA.quote.title}
+                        {data.quote.title}
                     </h2>
                     <p className="w-[527px] text-neutral-900 text-[22.5px] font-medium font-['Noto_Sans_TC'] leading-[1.4] whitespace-pre-line">
-                        {STAY_DATA.quote.desc}
+                        {data.quote.desc}
                     </p>
                 </section>
 
                 {/* Booking Section */}
                 <section className="w-[1200px] px-[84px] py-[72px] bg-white rounded-[18px] flex justify-between items-center shadow-sm">
                     <h2 className="text-black text-[54px] font-bold font-['Noto_Sans_TC'] leading-[1.4]">
-                        {STAY_DATA.booking.title}
+                        {data.booking.title}
                     </h2>
 
                     {/* Outline Button */}
@@ -68,7 +102,7 @@ export const VillageStay: React.FC = () => {
                             <div className="w-[18px] h-[21px] left-[3px] top-[2px] absolute bg-neutral-900"></div>
                         </div>
                         <span className="text-neutral-900 text-[18px] font-bold font-['Noto_Sans_TC'] leading-[1.5]">
-                            {STAY_DATA.booking.button}
+                            {data.booking.button}
                         </span>
                     </button>
                 </section>
@@ -81,11 +115,11 @@ export const VillageStay: React.FC = () => {
                     </h2>
 
                     <div className="w-full flex flex-col items-center">
-                        {STAY_DATA.notices.map((notice, index) => (
+                        {data.notices.map((notice, index) => (
                             <div key={index} className="w-[1152px] py-[48px] border-b border-neutral-900 flex flex-col gap-[24px]">
                                 <div className="flex items-center gap-[24px]">
                                     <span className="text-neutral-900 text-[36px] font-semibold font-['Roboto_Slab'] leading-none mt-1">
-                                        {notice.id}
+                                        {notice.id || (index + 1).toString().padStart(2, '0')}
                                     </span>
                                     <h3 className="text-neutral-900 text-[36px] font-bold font-['Noto_Sans_TC'] leading-none">
                                         {notice.title}

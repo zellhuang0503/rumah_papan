@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
 import { PRODUCTS_DATA } from '../data/aboutData';
+import { client, urlFor } from '../utils/sanity';
 
 export const AboutProducts: React.FC = () => {
     // Reuse dimensions from Environment Page
     // Title: "農作產品"
+
+    const [items, setItems] = useState(PRODUCTS_DATA);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const aboutDoc = await client.fetch(`*[_type == "about"][0]`);
+                if (aboutDoc && aboutDoc.products) {
+                    const mapped = aboutDoc.products.map((item: any) => ({
+                        title: item.title,
+                        desc: item.desc,
+                        image: item.image ? urlFor(item.image).url() : "https://placehold.co/408x341"
+                    }));
+                    setItems(mapped);
+                }
+            } catch (err) {
+                console.error("Failed to fetch products data", err);
+            }
+        };
+        fetchProducts();
+    }, []);
 
     return (
         <div className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
@@ -20,7 +42,7 @@ export const AboutProducts: React.FC = () => {
 
                     {/* Grid Section */}
                     <div className="w-[1440px] flex flex-wrap justify-center gap-[18px] px-[90px]">
-                        {PRODUCTS_DATA.map((item, index) => (
+                        {items.map((item, index) => (
                             <div key={index} className="w-[408px] flex flex-col items-start shadow-md rounded-[18px]">
                                 <img
                                     className="w-full h-[340.5px] object-cover rounded-t-[18px]"

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { client } from '../utils/sanity';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { HeroSection } from '../components/home/HeroSection';
 import { IntroSection } from '../components/home/IntroSection';
@@ -12,13 +13,26 @@ import { Info } from 'lucide-react';
 
 export const Home: React.FC = () => {
     const [isGuideOpen, setIsGuideOpen] = React.useState<boolean>(false);
+    const [homeData, setHomeData] = useState<any>(null);
+
+    useEffect(() => {
+        const fetchHomeData = async () => {
+            try {
+                const data = await client.fetch(`* [_type == "home"][0]`);
+                setHomeData(data);
+            } catch (error) {
+                console.error("Failed to fetch home data", error);
+            }
+        };
+        fetchHomeData();
+    }, []);
 
     return (
         <div className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white">
             <HomeNavbar />
 
             <main className="w-full relative flex flex-col gap-[120px]">
-                <HeroSection />
+                <HeroSection bubbles={homeData?.heroBubbles} />
                 <div className="flex flex-col gap-[40px]">
                     <IntroSection />
                     <FeatureCards />
