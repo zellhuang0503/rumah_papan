@@ -1,16 +1,28 @@
 import React, { useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { INTRO_SLIDES } from '../../data/homeData';
+import { urlFor } from '../../utils/sanity';
 
-export const IntroSection: React.FC = () => {
+interface IntroSectionProps {
+    slides?: any[];
+}
+
+export const IntroSection: React.FC<IntroSectionProps> = ({ slides }) => {
     const [currentSlide, setCurrentSlide] = useState(0);
 
+    // Use CMS slides if available (and valid), otherwise fallback to local data
+    const activeSlides = (slides && slides.length > 0) ? slides.map(s => ({
+        ...s,
+        // Ensure image is converted to URL if it's a CMS object
+        image: s.image ? urlFor(s.image).url() : ''
+    })) : INTRO_SLIDES;
+
     const nextSlide = () => {
-        setCurrentSlide((prev) => (prev + 1) % INTRO_SLIDES.length);
+        setCurrentSlide((prev) => (prev + 1) % activeSlides.length);
     };
 
     const prevSlide = () => {
-        setCurrentSlide((prev) => (prev - 1 + INTRO_SLIDES.length) % INTRO_SLIDES.length);
+        setCurrentSlide((prev) => (prev - 1 + activeSlides.length) % activeSlides.length);
     };
 
     return (
@@ -18,14 +30,14 @@ export const IntroSection: React.FC = () => {
             {/* Carousel Container */}
             <div className="relative w-[1260px] h-[600px] bg-white rounded-[18px] overflow-hidden group">
                 {/* Slides */}
-                {INTRO_SLIDES.map((slide, index) => (
+                {activeSlides.map((slide, index) => (
                     <div
                         key={index}
                         className={`absolute inset-0 transition-opacity duration-500 bg-cover bg-center ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
                         style={{ backgroundImage: `url(${slide.image})` }}
                     >
                         {/* Background Placeholder */}
-                        <div className="w-full h-full bg-gradient-to-b from-black/20 to-black/80 flex flex-col justify-end p-[54px] pb-[80px]">
+                        <div className="w-full h-full bg-gradient-to-b from-black/10 to-black/40 flex flex-col justify-end p-[54px] pb-[80px]">
                             <div className="absolute left-[54px] top-[421.5px]">
                                 <h3 className="text-white text-[36px] font-bold font-['Noto_Sans_TC'] leading-[52.5px] drop-shadow-md">
                                     {slide.title}
@@ -42,7 +54,7 @@ export const IntroSection: React.FC = () => {
 
                 {/* Navigation Dots */}
                 <div className="absolute left-[528.75px] top-[544.5px] flex gap-[12px] z-20">
-                    {INTRO_SLIDES.map((_, idx) => (
+                    {activeSlides.map((_, idx) => (
                         <button
                             key={idx}
                             onClick={() => setCurrentSlide(idx)}

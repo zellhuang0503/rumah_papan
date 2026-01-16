@@ -34,7 +34,7 @@ export const Home: React.FC = () => {
             <main className="w-full relative flex flex-col gap-[120px]">
                 <HeroSection bubbles={homeData?.heroBubbles} />
                 <div className="flex flex-col gap-[40px]">
-                    <IntroSection />
+                    <IntroSection slides={homeData?.introSlides} />
                     <FeatureCards />
                 </div>
                 <PhilosophySection />
