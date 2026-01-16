@@ -7,6 +7,12 @@ import { BrandLogo } from '../components/BrandLogo';
 import { GuidelineLayer } from '../components/GuidelineLayer';
 import { Polaroid } from '../components/Polaroid';
 
+import imgVillageTour from '../assets/images/Image_village_tour.jpg';
+import imgStoryGallery from '../assets/images/Image_house_story_gallery.jpg';
+import imgTradition from '../assets/images/Image_pray_heaven.jpg';
+import imgSkillSwap from '../assets/images/Image_skill_swap.jpg';
+import imgBakKutTeh from '../assets/images/Image_bak_kut_teh.jpeg';
+
 gsap.registerPlugin(ScrollTrigger);
 
 export const Welcome: React.FC = () => {
@@ -106,12 +112,6 @@ export const Welcome: React.FC = () => {
     // [3]: 技能換宿 -> Image_skill_swap.jpg
     // [4]: 肉骨茶 -> Image_bak_kut_teh.jpeg
     // Extra for variants if needed, or reuse.
-
-    import imgVillageTour from '../assets/images/Image_village_tour.jpg';
-    import imgStoryGallery from '../assets/images/Image_house_story_gallery.jpg';
-    import imgTradition from '../assets/images/Image_pray_heaven.jpg';
-    import imgSkillSwap from '../assets/images/Image_skill_swap.jpg';
-    import imgBakKutTeh from '../assets/images/Image_bak_kut_teh.jpeg';
 
     const images = [
         imgVillageTour,    // 0

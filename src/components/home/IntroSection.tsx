@@ -21,7 +21,8 @@ export const IntroSection: React.FC = () => {
                 {INTRO_SLIDES.map((slide, index) => (
                     <div
                         key={index}
-                        className={`absolute inset-0 transition-opacity duration-500 ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+                        className={`absolute inset-0 transition-opacity duration-500 bg-cover bg-center ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+                        style={{ backgroundImage: `url(${slide.image})` }}
                     >
                         {/* Background Placeholder */}
                         <div className="w-full h-full bg-gradient-to-b from-black/20 to-black/80 flex flex-col justify-end p-[54px] pb-[80px]">

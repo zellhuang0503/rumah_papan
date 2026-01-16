@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, ChevronDown, Mail } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
@@ -6,8 +6,20 @@ import { NavbarSubmenu } from './NavbarSubmenu';
 import { ABOUT_SUBMENU_ITEMS, VILLAGE_SUBMENU_ITEMS } from '../data/mockNavigation';
 
 export const HomeNavbar: React.FC = () => {
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     return (
-        <nav className="fixed top-0 left-0 w-full px-[120px] py-[52px] flex justify-between items-center z-50 pointer-events-none">
+        <nav className={`fixed top-0 left-0 w-full px-[120px] flex justify-between items-center z-50 transition-all duration-300 ${isScrolled ? 'py-4 bg-white/70 backdrop-blur-md shadow-sm pointer-events-auto' : 'py-[52px] bg-transparent pointer-events-none'
+            }`}>
             {/* Logo Section - Left */}
             <Link to="/home" className="pointer-events-auto flex items-center gap-2 z-50">
                 <BrandLogo className="w-10 h-10 text-[#181818]" />
