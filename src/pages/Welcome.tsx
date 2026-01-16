@@ -97,13 +97,28 @@ export const Welcome: React.FC = () => {
         };
     }, [scale]);
 
-    // Image assets (using placeholders for now based on user code)
+
+    // Image assets imported locally
+    // Mapping:
+    // [0]: 走進新村 -> Image_village_tour.jpg
+    // [1]: 班厝故事館 -> Image_house_story_gallery.jpg
+    // [2]: 傳統習俗 -> Image_pray_heaven.jpg
+    // [3]: 技能換宿 -> Image_skill_swap.jpg
+    // [4]: 肉骨茶 -> Image_bak_kut_teh.jpeg
+    // Extra for variants if needed, or reuse.
+
+    import imgVillageTour from '../assets/images/Image_village_tour.jpg';
+    import imgStoryGallery from '../assets/images/Image_house_story_gallery.jpg';
+    import imgTradition from '../assets/images/Image_pray_heaven.jpg';
+    import imgSkillSwap from '../assets/images/Image_skill_swap.jpg';
+    import imgBakKutTeh from '../assets/images/Image_bak_kut_teh.jpeg';
+
     const images = [
-        "https://images.unsplash.com/photo-1512413914633-b5043f4041ea?auto=format&fit=crop&q=80&w=800",
-        "https://images.unsplash.com/photo-1525207934214-cdf79545aa2c?auto=format&fit=crop&q=80&w=800",
-        "https://images.unsplash.com/photo-1542640244-7e67286feb8f?auto=format&fit=crop&q=80&w=800",
-        "https://images.unsplash.com/photo-1517724395460-6dd82d6da0cd?auto=format&fit=crop&q=80&w=800",
-        "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&q=80&w=800"
+        imgVillageTour,    // 0
+        imgStoryGallery,   // 1
+        imgTradition,      // 2
+        imgSkillSwap,      // 3
+        imgBakKutTeh       // 4
     ];
 
     return (
