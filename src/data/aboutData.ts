@@ -84,8 +84,12 @@ export const PRODUCTS_DATA = [
     {
         title: "班厝肉骨茶包",
         desc: "班厝肉骨茶包：以胡椒、蒜頭與中藥材調製，在家就能燉出巴生在地人最熟悉的暖身熱湯。",
+<<<<<<< HEAD
         image: prod2,
         imagePosition: 'object-[center_40%]'
+=======
+        image: prod2
+>>>>>>> aa2b7671e283396cebaa913f010319e952abe180
     },
     {
         title: "咖啡豆五粒子",

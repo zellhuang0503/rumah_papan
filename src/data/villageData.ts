@@ -88,8 +88,12 @@ const STAY_DATA_ZH: StayData = {
         {
             title: "老房間",
             desc: "白色鐵床上下鋪，鋪上紅色拼布，被單乾淨簡單，旁邊是老木櫃和木椅，彷彿來到親戚家的房間一角。住在這裡，可以聽見客廳的人聲、廚房的碗盤聲，一晚體驗最日常的新村生活。",
+<<<<<<< HEAD
             image: stay2,
             imagePosition: 'object-bottom'
+=======
+            image: stay2
+>>>>>>> aa2b7671e283396cebaa913f010319e952abe180
         },
         {
             title: "單人床",

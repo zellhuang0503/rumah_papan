@@ -42,7 +42,10 @@ export const stories: StoryItem[] = [
         title: '巴生最大，全馬傳奇：班達馬蘭',
         description: '班達馬蘭新村（班村），成立於 1951 年，前身是「巴生港口新村」，1953 年改名為 Kampung Baru Pandamaran，作為巴生最大華人新村，班達馬蘭不只佔地廣闊，更承載著全馬數一數二的福建人口密度與文化信仰。',
         imageUrl: story1,
+<<<<<<< HEAD
         images: [story1],
+=======
+>>>>>>> aa2b7671e283396cebaa913f010319e952abe180
         imageScale: '1.4',
         imagePosition: 'object-center',
         tags: ['#班達馬蘭新村史'],
@@ -90,7 +93,10 @@ export const stories: StoryItem[] = [
         title: '班達馬蘭的新村日常',
         description: '無論是早市此起彼落的叫賣聲、夜晚圓桌上的家常飯香，還是天公誕繚繞的虔誠香火。這裡的每一幀畫面都沒有彩排，而是班達馬蘭最真實、最滾燙的日常風景。',
         imageUrl: story5,
+<<<<<<< HEAD
         images: [story5],
+=======
+>>>>>>> aa2b7671e283396cebaa913f010319e952abe180
         tags: [],
         variant: 'standard',
         size: 'full' // FORCE FULL WIDTH
@@ -137,7 +143,10 @@ export const stories: StoryItem[] = [
         title: '帶著未知而來，裝滿故事而歸',
         description: '不同國家、不同背景的人，在班厝一起生活、一起學習。輪播的每張照片，都是換宿者在這裡被安放、被陪伴，也悄悄長出變化的那一刻。',
         imageUrl: story9,
+<<<<<<< HEAD
         images: [story9],
+=======
+>>>>>>> aa2b7671e283396cebaa913f010319e952abe180
         tags: [],
         variant: 'standard',
         size: 'full' // FORCE FULL WIDTH
@@ -185,7 +194,10 @@ export const stories: StoryItem[] = [
         title: '班厝故事館：\n班達馬蘭的新村客廳',
         description: '班厝坐落在班達馬蘭新村，是村裡第一家故事館。以一棟老木板屋為基地，收集生活物件、照片和口述歷史，讓每一位走進來的人，都能在最日常的場景裡，聽見這座新村的故事。',
         imageUrl: story10,
+<<<<<<< HEAD
         images: [story10],
+=======
+>>>>>>> aa2b7671e283396cebaa913f010319e952abe180
         tags: ['#關於班厝'],
         variant: 'banner',
         size: 'full'
@@ -233,7 +245,10 @@ export const stories: StoryItem[] = [
         title: '志工生活日記',
         description: '從除草到導覽，從怕生到熟稔。每一位志工的日記裡，都寫滿了關於成長的秘密。',
         imageUrl: story18,
+<<<<<<< HEAD
         images: [story18],
+=======
+>>>>>>> aa2b7671e283396cebaa913f010319e952abe180
         tags: ['#故事交換'],
         variant: 'standard',
         size: 'full' // FORCE FULL WIDTH
@@ -276,7 +291,10 @@ export const stories: StoryItem[] = [
         title: '一桌肉骨茶，一整條新村的故事',
         description: '有人剛下夜班補一鍋，有人帶著家人慢慢吃。輪播的每張照片，都在告訴你：肉骨茶不只是料理，也是班達馬蘭人一起過日子的方式。',
         imageUrl: story12,
+<<<<<<< HEAD
         images: [story12],
+=======
+>>>>>>> aa2b7671e283396cebaa913f010319e952abe180
         tags: [],
         variant: 'standard',
         size: 'large' // Keep as 940px standard
