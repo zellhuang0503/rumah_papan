@@ -206,159 +206,167 @@ const VILLAGE_LOCATIONS_ZH: LocationItem[] = [
 ];
 
 const VILLAGE_LOCATIONS_EN: LocationItem[] = [
-    // --- Food (肉骨茶) ---
+    // --- Food (Bak Kut Teh) ---
     {
         id: 'f1',
-        name: 'Restoran Samy Bak Kut Teh',
-        subName: 'HQ',
+        name: 'Samy Bak Kut Teh',
+        subName: 'Restoran Samy Bak Kut Teh (HQ)',
         address: '164A, Jalan Chan Ah Choo, Pandamaran, 42000 Pelabuhan Klang, Selangor, Malaysia',
         category: 'food',
         featureTitle: 'Highlights',
         featureDescription: [
-            'Loved by locals, often packed in the morning.',
-            'Succulent salty soup with mild herbal sweetness, not too heavy.'
+            'Loved by locals, practically overflowing in the mornings.',
+            'The soup is savory and fragrant with a mild herbal sweetness, not the heavy herbal type.'
         ],
-        distanceInfo: 'Distance: 5 mins drive within Pandamaran.',
-        coordinates: { x: 55, y: 40 }
+        distanceInfo: 'Distance from Rumah Papan: Within Pandamaran, about a 5-minute drive.',
+        coordinates: { x: 55, y: 40 },
+        image: samyImage
     },
     {
         id: 'f2',
-        name: '155 Bak Kut Teh',
-        subName: '155 Bak Kut Teh',
-        address: '155, Jalan Chan Ah Choo, Pandamaran, 42000 Pelabuhan Klang, Selangor, Malaysia',
+        name: 'Fuh Wen Bak Kut Teh',
+        subName: 'Fuh Wen Bak Kut Teh',
+        address: '158 D, Jalan Chan Ah Choo, Pandamaran, 42000 Pelabuhan Klang, Selangor',
         category: 'food',
         featureTitle: 'Highlights',
         featureDescription: [
-            'Offers both dry and soup versions. Thicker taste, stronger herbal aroma.',
-            'Punchy soup, tender meet.'
+            'Rich and sweet aftertaste, balanced herbal and meaty aroma, clean offal without odor. Served in clay pots or stainless steel bowls, specially designed to simmer on low heat to keep warm, enhancing the flavor of the soup and ingredients.'
         ],
-        distanceInfo: 'Distance: Same street as Samy.',
-        coordinates: { x: 52, y: 45 }
+        coordinates: { x: 52, y: 45 },
+        image: fuhWenBktImage
     },
     {
         id: 'f3',
         name: 'Ah Her Bak Kut Teh',
-        subName: 'Ah Her BKT',
+        subName: 'Ah Her Bak Kut Teh',
         address: '818, Jalan Susur Besar, Pandamaran, 42000 Port Klang, Selangor, Malaysia',
         category: 'food',
         featureTitle: 'Highlights',
         featureDescription: [
-            'Concentrated soup type, thick and little soup, fragrant oil rice.',
-            'Evening/Night service, popular dinner spot.'
+            'A "concentrated" type of soup—little broth but very thick and rich, served with fragrant oil rice.',
+            'Open in the afternoon/evening, a spot many drive specifically to for dinner.'
         ],
-        coordinates: { x: 50, y: 50 }
+        coordinates: { x: 50, y: 50 },
+        image: ahHerImage
     },
     {
         id: 'f4',
-        name: 'Choon Guan Hainan Coffee 1956',
-        subName: 'Hainan Coffee',
-        address: '5, Jalan Stesen, Kawasan 1, 41000 Klang, Selangor, Malaysia',
+        name: 'Soon Beng Kopitiam',
+        subName: 'Soon Beng Kopitiam - Port Klang HQ',
+        address: '92, Jalan Tengku Badar, Kampung Raja Uda, 42000 Pelabuhan Klang, Selangor',
         category: 'food',
         featureTitle: 'Highlights',
         featureDescription: [
-            'Signatures: Hainan Coffee, Half-boiled egg, Toast, Mee Suah, Curry Mee, Nasi Lemak.',
-            'Great breakfast spot before or after visiting Rumah Papan.'
+            'Classic hometown bread, a rustic taste. Coconut jam with half-boiled eggs creates a delicious texture. Paired with Kopi O, it is absolutely superb.'
         ],
-        coordinates: { x: 60, y: 35 }
+        coordinates: { x: 60, y: 35 },
+        image: soonBengImage
     },
     {
         id: 'f5',
-        name: 'Peng Heong Hakka Paikut',
-        subName: 'Hakka Stir-fry',
-        address: 'No. 2, Lorong Gudang Nanas 1, Kawasan 18, 41400 Klang, Selangor, Malaysia',
+        name: 'Lanchun Old Brand',
+        address: 'Kampung Sijangkang, 42000 Port Klang, Selangor',
         category: 'food',
         featureTitle: 'Highlights',
         featureDescription: [
-            'Hakka Restaurant (Not BKT).',
-            'Signatures: Spare Ribs King, Asam Fish, Curry Mutton, Pig Trotter, Salted Veg Soup.'
+            'Highly recommended Red Wine Mee Sua. Full of wine sediment aroma, generous portion, noodles are soft but not mushy. Delicious!'
         ],
-        coordinates: { x: 58, y: 38 }
+        coordinates: { x: 58, y: 38 },
+        image: lanchunImage
     },
     {
         id: 'a1',
-        name: 'Nijia Fried Chicken',
-        subName: 'Main Branch',
-        address: '1503 B, Jalan Young, Pandamaran, 42000 Pelabuhan Klang, Selangor, Malaysia',
+        name: 'Cai Bao Chium',
+        subName: 'Cai Bao Chium',
+        address: '250, Jalan Lai, Pandamaran, 42000 Pelabuhan Klang, Selangor',
         category: 'food',
         featureTitle: 'Highlights',
         featureDescription: [
-            'Pandamaran Main Branch'
+            'A unique local vegetable bun delicacy, different from what you might imagine. Savory taste, packed with vegetables, very delicious, bite after bite.'
         ],
-        coordinates: { x: 45, y: 55 }
+        coordinates: { x: 45, y: 55 },
+        image: caiBaoImage
     },
 
-    // --- Temple (廟宇) ---
+    // --- Temple (Temples) ---
     {
         id: 't1',
         name: 'Kuan Tian Gong',
-        address: 'Jalan Kemanis, Kawasan Tiga, Pandamaran N/V, 42000 Port Klang, Selangor, Malaysia',
+        subName: 'Kuan Tien Klang',
+        address: 'Pandamaran, 42000 Port Klang, Selangor',
         category: 'temple',
         featureTitle: 'Highlights',
         featureDescription: [
-            'Located on the same road as Jalan Kemanis.'
+            'Located on the same road as Jalan Kemanis.',
+            'One of the local faith centers in Pandamaran Village.'
         ],
-        distanceInfo: 'Walking distance from Rumah Papan.',
-        coordinates: { x: 70, y: 30 }
+        distanceInfo: 'A few minutes walk from Rumah Papan.',
+        coordinates: { x: 70, y: 30 },
+        image: guanTianImage
     },
     {
         id: 't2',
-        name: 'Hindu Temple',
-        address: 'No. 80, Jalan Mastika, off Persiaran Raja Muda Musa, 41100 Klang, Selangor, Malaysia',
+        name: 'Kwan Imm Temple',
+        address: '30, Jalan Raya Barat, Kawasan 6, 41000 Klang, Selangor',
         category: 'temple',
         featureTitle: 'Highlights',
         featureDescription: [
-            'Klang Vishnu Temple'
+            'Dedicated to Guanyin Bodhisattva, it is one of the Guanyin temples with the most flourishing incense in the Klang area.'
         ],
-        coordinates: { x: 75, y: 25 }
+        coordinates: { x: 75, y: 25 },
+        image: kwanImmImage
     },
     {
         id: 't3',
-        name: 'Sri Thenday Yuttha Pani',
-        subName: 'Sri Nagara Thandayuthapani Temple',
-        address: 'No. 2, Jalan Bukit Jawa, 41000 Klang, Selangor, Malaysia',
+        name: 'Klang Vishnu Temple',
+        subName: 'Sri Sundararaja Perumal',
+        address: '80, Jalan Mastika, off Persiaran Raja Muda Musa, 41100 Klang, Selangor',
         category: 'temple',
         featureTitle: 'Highlights',
         featureDescription: [
-            'Sri Nagara Thandayuthapani Hindu Temple'
+            'A Hindu holy site dedicated to Vishnu, showcasing a perfect combination of religion and art with towering spires fusing local culture and Ramayana reliefs.'
         ],
-        coordinates: { x: 80, y: 28 }
+        coordinates: { x: 80, y: 28 },
+        image: vishnuImage
     },
 
-    // --- Attraction (景點) - Includes About/Story/Other spots ---
+    // --- Attraction (Attractions) ---
     {
-        id: 'ab1',
+        id: 'm1',
         name: 'Rumah Papan',
-        subName: 'Story House',
+        subName: 'Rumah Papan Story House',
         address: 'Pandamaran, Port Klang',
         category: 'attraction',
         featureTitle: 'Highlights',
         featureDescription: [
-            'The wooden house we are in, a house collecting stories.'
+            'Located in Pandamaran New Village, Klang, "Rumah Papan" is a story house carrying local memories and common people\'s culture. Through exhibitions, guided tours, and community activities, it leads visitors to deeply understand the history of Malaysia\'s second-largest new village and feel the simple local neighborhood emotions.'
         ],
-        coordinates: { x: 30, y: 70 }
+        coordinates: { x: 30, y: 70 },
+        image: rumahPapanImage
     },
     {
         id: 's1',
-        name: 'Story Exchange Point A',
-        address: 'Pandamaran Village',
-        category: 'attraction',
-        featureTitle: 'Exchange',
-        featureDescription: [
-            'Exchange your story of this street here.'
-        ],
-        coordinates: { x: 35, y: 75 }
-    },
-    {
-        id: 'a2',
-        name: 'GM Klang Wholesale City',
-        subName: 'GM Klang',
-        address: 'Jalan Kasuarina 1, Bandar Botanik Capital, 41200 Klang, Selangor, Malaysia',
+        name: 'Lotus Ching Ren Temple & Buddha Charity',
+        address: 'Selangor, Port Klang, Jalan Kemanis, Pandamaran, 42000',
         category: 'attraction',
         featureTitle: 'Highlights',
         featureDescription: [
-            'GM Klang Wholesale City'
+            'A must-visit landmark in Pandamaran! Not only does it house the grandest white jade Buddha statue in Malaysia, but it is also a holy land combining charity and tourism. From free meals and caring for the disadvantaged to spiritual cultivation, it offers a rich cultural experience for tourists.'
         ],
-        coordinates: { x: 20, y: 80 }
+        coordinates: { x: 35, y: 75 },
+        image: buddhaImage
+    },
+    {
+        id: 'a2',
+        name: 'Nijia Fried Chicken & Shake Ice',
+        address: 'Jalan Young, Pandamaran, 42000 Pelabuhan Klang, Selangor',
+        category: 'attraction',
+        featureTitle: 'Highlights',
+        featureDescription: [
+            'The shake ice has a dense and delicate texture, melting in your mouth, cooling and thirst-quenching. Usually enjoyed with crispy fried chicken or roasted chicken, forming an excellent flavor combination.'
+        ],
+        coordinates: { x: 20, y: 80 },
+        image: nijiaIceImage
     }
 ];
 

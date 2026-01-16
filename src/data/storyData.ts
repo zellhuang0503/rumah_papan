@@ -347,9 +347,9 @@ const STORIES_EN: StoryItem[] = [
         title: 'Largest in Klang, Legend of Malaysia: Pandamaran',
         description: 'Pandamaran New Village (Ban Cun), founded in 1951, formerly "Port Swettenham New Village", renamed Kampung Baru Pandamaran in 1953. As the largest Chinese New Village in Klang, it not only occupies a vast area but also carries one of the highest Hokkien population densities and cultural faiths in Malaysia.',
         imageUrl: story1,
+        images: [story1],
         imageScale: '1.4',
         imagePosition: 'object-center',
-        images: ['https://placehold.co/1255x836', 'https://placehold.co/1255x836/orange/white', 'https://placehold.co/1255x836/black/white'],
         tags: ['#Pandamaran History'],
         variant: 'banner',
         size: 'full'
@@ -394,7 +394,7 @@ const STORIES_EN: StoryItem[] = [
         title: 'Daily Life in Pandamaran New Village',
         description: 'Whether it\'s the shouting in the morning market, the aroma of home-cooked meals on round tables at night, or the devout incense of the Jade Emperor\'s Birthday. Every frame here is unrehearsed, the most real and boiling daily scenery of Pandamaran.',
         imageUrl: story5,
-        images: ['https://placehold.co/1307x852', 'https://placehold.co/1307x852/333/fff'],
+        images: [story5],
         tags: [],
         variant: 'standard',
         size: 'full'
@@ -441,7 +441,7 @@ const STORIES_EN: StoryItem[] = [
         title: 'Arrive Unknown, Return Full of Stories',
         description: 'People from different countries and backgrounds live and learn together at Rumah Papan. Every photo in the carousel is a moment of a work-swapper being settled, accompanied, and quietly growing changes.',
         imageUrl: story9,
-        images: ['https://placehold.co/1307x852'],
+        images: [story9],
         tags: [],
         variant: 'standard',
         size: 'full'
@@ -488,7 +488,7 @@ const STORIES_EN: StoryItem[] = [
         title: 'Rumah Papan Story House:\nPandamaran\'s Village Living Room',
         description: 'Located in Pandamaran New Village, the first story house in the village. Based in an old wooden house, collecting life objects, photos and oral history, letting everyone who walks in hear the story of this new village in the most daily scenes.',
         imageUrl: story10,
-        images: ['https://placehold.co/1255x836', 'https://placehold.co/1255x836/222/eee'],
+        images: [story10],
         tags: ['#About Rumah Papan'],
         variant: 'banner',
         size: 'full'
@@ -533,7 +533,7 @@ const STORIES_EN: StoryItem[] = [
         title: 'Volunteer Life Diary',
         description: 'From weeding to guiding, from shy to familiar. Every volunteer\'s diary is full of secrets about growth.',
         imageUrl: story18,
-        images: ['https://placehold.co/1255x836'],
+        images: [story18],
         tags: ['#Story Exchange'],
         variant: 'standard',
         size: 'full'
@@ -576,7 +576,7 @@ const STORIES_EN: StoryItem[] = [
         title: 'A Table of Bak Kut Teh, A Whole Village\'s Story',
         description: 'Some supplement a pot after night shift, some eat slowly with family. Every photo tells you: Bak Kut Teh is not just cuisine, it\'s the way Pandamaran people live together.',
         imageUrl: story12,
-        images: ['https://placehold.co/1307x852'],
+        images: [story12],
         tags: [],
         variant: 'standard',
         size: 'large'

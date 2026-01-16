@@ -157,48 +157,80 @@ const STAY_DATA_ZH: StayData = {
 
 const STAY_DATA_EN: StayData = {
     hero: {
-        title: "Stay at Rumah Papan"
+        title: "Stay Experience"
     },
     rooms: [
         {
-            title: "Single Room",
-            desc: "Perfect for solo travelers enjoying quiet reading time. Equipped with a comfortable single bed and reading light.",
-            image: "https://placehold.co/621x288?text=Single+Room"
+            title: "Story Room",
+            desc: "Old photos and maps on the wall, nostalgic parquet flooring underfoot, and colorful quilts stacked on the bed. Staying here is like resting while being surrounded by the stories of Pandamaran New Village.",
+            image: stay1
         },
         {
-            title: "Double Room",
-            desc: "Experience village life with a partner or friend. Spacious area allowing for more interaction.",
-            image: "https://placehold.co/621x288?text=Double+Room"
+            title: "Old Room",
+            desc: "White iron bunk beds with red patchwork quilts, clean and simple sheets, next to an old wooden cabinet and chair, as if in a corner of a relative's room. Staying here, you can hear voices from the living room and sounds of dishes from the kitchen, experiencing the most daily new village life for a night.",
+            image: stay2,
+            imagePosition: 'object-bottom'
         },
         {
-            title: "Family Room",
-            desc: "Designed for family trips, offering more space and family-friendly amenities. Let children grow happily in the village.",
-            image: "https://placehold.co/621x288?text=Family+Room"
+            title: "Single Bed",
+            desc: "Simple single bed with soft quilt and handmade patchwork, embellished with small plants by the bedside, a quiet corner just for you. Suitable for staying alone, having a good sleep, writing, and sorting out your mood, giving yourself a small recharging space in the new village.",
+            image: stay3,
+            imagePosition: 'object-bottom'
+        },
+        {
+            title: "Rumah Papan Living Room",
+            desc: "Staying at Rumah Papan, this living room is everyone's social hall. Rattan chairs, wooden tables, and old photos on the wall arrange the space like returning to a rural relative's home; during the day you can drink tea and look at exhibition boards here, at night chat with other guests and partners to share today's discoveries, making accommodation a place to get along together.",
+            image: stay4
+        },
+        {
+            title: "Small Desk under Night Light",
+            desc: "At night in Rumah Papan, if you are reluctant to sleep immediately, you can sit for a while in front of this old desk. Turn on the warm yellow lamp, let the fan turn slowly, write a diary, organize today's photos, or just sit quietly watching the light and shadow on the wall. During the journey, leave a little time for yourself to be quiet.",
+            image: stay5
         }
     ],
     quote: {
-        title: "Experience Local Life",
-        desc: "Here, it's not just accommodation, but the beginning of integrating into local life.\nThe morning rooster crow, the evening cooking smoke, are the most authentic sceneries."
+        title: "Warm Rumah Papan",
+        desc: "Rumah Papan is a wooden house, and also a place for everyone to return home temporarily.\nWhat you sleep here is not just a bed, but the morning, evening breeze, and human touch of an entire new village.\nStay one night in Pandamaran, feel the truly warm new village human touch of Pandamaran."
     },
     booking: {
-        title: "Book Now",
-        button: "Booking.com"
+        title: "Accommodation Reservation",
+        button: "Fill Application Form"
     },
     notices: [
         {
             id: "01",
-            title: "Check-in Time",
-            desc: "Check-in is after 3 PM, check-out is before 11 AM.\nPlease inform us in advance if you need early check-in or late check-out."
+            title: "Reservation & Check-in Time",
+            desc: "Rumah Papan adopts a reservation system, it is recommended to ask about room status at least one week in advance.\nGenerally, check-in time is in the afternoon, check-out is before noon the next day, if adjustment is needed, please discuss with the curator first."
         },
         {
             id: "02",
-            title: "Eco Policy",
-            desc: "To support environmental protection, we do not actively provide disposable toiletries (e.g., toothbrush, toothpaste).\nPlease bring your own toiletries to protect the earth together."
+            title: "Room Type, Occupancy & Fees",
+            desc: "Rumah Papan currently offers wooden house style rooms, suitable for individuals, couples, or small families.\nStandard occupancy: 1 person RM100/night, 2 persons RM150/night\nEvery additional person: Add RM50/night\nActual occupancy, bed arrangement, and amount will depend on room type and current situation, subject to reply from the management."
         },
         {
             id: "03",
-            title: "Quiet Hours",
-            desc: "Please lower your volume after 10 PM to avoid disturbing neighbors and other guests.\nThe village night is particularly quiet, let's maintain this beauty together."
+            title: "Requirements Selection",
+            desc: "Number of rooms needed, preferred bed type (double bed/bunk bed/single bed)."
+        },
+        {
+            id: "04",
+            title: "Wooden House Life Reminder",
+            desc: "This is a wooden house that retains the flavor of the new village, floors, doors, and windows and furniture all bear traces of time.\nPlease tread lightly, pull doors and windows gently, and help take care of old objects together."
+        },
+        {
+            id: "05",
+            title: "Accommodation Space Usage",
+            desc: "Accommodation space provides basic functions, equipped with water heater, free Wi-Fi, and shared living room, outdoor public areas are open for exchange.\nPaid accommodation room types are equipped with air conditioning, and induction cooker and electric kettle are provided for simple cooking.\nAllowing you to enjoy a comfortable and comfortable sense of life during your trip to Pandamaran New Village."
+        },
+        {
+            id: "06",
+            title: "Rumah Papan Dining Experience",
+            desc: "You can add on Rumah Papan dining experience before booking check-in, from daily home cooking to themed private kitchen dishes, all need to be reserved in advance.\n\nGeneral Lunch/Dinner\nStarting from RM40 per person, in the form of a menu-less blind box\nMeals are arranged according to ingredients of the day, recommended to book 3 days before check-in.\n\nGac Fruit Themed Private Kitchen\nRM158 per person, providing a complete dining table experience of 8–9 dishes.\nRequires 8–10 people to form a table, and book 3 weeks in advance to facilitate ingredient preparation and cooking arrangement."
+        },
+        {
+            id: "07",
+            title: "Photography & Peace",
+            desc: "Exhibits in the hall and photos on the wall are welcome to admire and touch lightly; if you need to photograph others or neighbors' lives,\nPlease also say hello first to get consent, so that the human touch of the new village always maintains a comfortable distance."
         }
     ]
 };
@@ -272,14 +304,65 @@ const ACTIVITIES_DATA_ZH: ActivitiesData = {
     ]
 };
 const ACTIVITIES_DATA_EN: ActivitiesData = {
-    hero: { title: "Village Activities" },
+    hero: { title: "Activities" },
     items: [
-        { title: "Village Festivals", desc: "Traditional celebrations", image: "https://placehold.co/600x400" },
-        { title: "Workshops", desc: "Experience local crafts", image: "https://placehold.co/600x400", imagePosition: 'object-top' }
+        {
+            title: "Village Tour",
+            desc: "Starting from Rumah Papan, follow the curator into Pandamaran New Village, from the Rooster Bowl landmark, the White Jade Buddha, to old shop signs and wooden house alleys, listening to the guide tell the history of the new village relocation, stories of celebrities, and local food along the way. More than two hours, slowly taking you from a 'passing tourist' to someone who 'understands a bit of Pandamaran'.",
+            image: act1
+        },
+        {
+            title: "Praying to Jade Emperor",
+            desc: "On the ninth day of the first lunar month, the Jade Emperor table is placed at the entrance of the alley, with sugarcane, offerings, firecrackers, and blessings lined up. Rumah Papan takes you to see the immigrant memories, beliefs, and family stories behind the ceremony, allowing you to see 'Praying to Jade Emperor' with your own eyes in the new village for the first time, instead of just hearing about it in photos.",
+            image: act2
+        },
+        {
+            title: "Mid-Autumn Moon Viewing",
+            desc: "Carrying lanterns, listening to stories, watching children running around in the yard, mooncakes and new village private dishes on the table. Mid-Autumn at Rumah Papan is not just about watching the moon, but also letting you meet a whole group of new friends under the moonlight, extending 'going home for the festival' to another village.",
+            image: act3
+        },
+        {
+            title: "New Village Market",
+            desc: "In line with the Selangor New Village Festival, Rumah Papan gathers new village food, handicrafts, performances, and guided tours all at once. You can eat Bak Kut Teh, buy local small items, listen to stories in the market, and incidentally get to know what is happening in other 76 new villages.",
+            image: act4,
+            imagePosition: 'object-[center_15%]'
+        },
+        {
+            title: "Rumah Papan Workshop",
+            desc: "Occasionally invite local craftsmen, artists, and travelers to hold small lectures, editing sharing, paper art, or handicraft classes at Rumah Papan. You can come with questions, leave with works, and incidentally make a few new friends at the long table in the living room.",
+            image: act5
+        }
     ],
-    quote: { title: "Experience Local Culture", desc: "Deep dive into village lifestyle" },
+    quote: {
+        title: "Know a Village in Activities",
+        desc: "Every activity at Rumah Papan grows from this new village: Praying to Jade Emperor, Mid-Autumn, Village Tour to Green School, breathing together with gods and vegetable gardens. You can take an afternoon, or come back for a certain festival, every participation will remember a little more of the human sentiment and scenery here."
+    },
     notices: [
-        { title: "Notice", desc: "Please register accordingly", id: "01" }
+        {
+            id: "01",
+            title: "Themes & Registration",
+            desc: "Guided tours plan exclusive experience content according to different themes, all are paid participation, prices start from RM60 per person, and packages combining lunch, workshops, etc. can be designed upon request.\nThere is also a monthly charity guided tour named by local businesses, inviting more people into Pandamaran New Village.\nMost activities adopt a reservation system, please sign up via Facebook/IG/WhatsApp, Village Tour and festival activities are recommended to inquire one week in advance."
+        },
+        {
+            id: "02",
+            title: "Clothing & Equipment",
+            desc: "It is recommended to wear light clothing and walking shoes for easy movement in the alleys and vegetable gardens of the new village.\nFor outdoor activities, you can bring your own hats, rain gear, and mosquito repellent."
+        },
+        {
+            id: "03",
+            title: "Drinking Water & Environmental Protection",
+            desc: "Welcome to bring your own water bottle and eco-friendly tableware, drinking water is available on site for refilling.\nPlease cooperate with waste reduction and resource recycling during the activity, let the new village breathe easier together."
+        },
+        {
+            id: "04",
+            title: "Respect for Local Beliefs & Residents",
+            desc: "For religious activities such as Praying to Jade Emperor and temple visits, please follow on-site guidelines, do not make noise, and do not step on offerings.\nIf you want to photograph villagers or shops, remember to say hello first."
+        },
+        {
+            id: "05",
+            title: "Weather & Itinerary Changes",
+            desc: "In case of heavy rain or other force majeure factors, the activity may be postponed or changed to an indoor version;\nThe latest news will be announced on the Official Website/Facebook/IG, please pay attention to notifications."
+        }
     ]
 };
 export const getActivitiesData = (lang: 'zh' | 'en') => lang === 'zh' ? ACTIVITIES_DATA_ZH : ACTIVITIES_DATA_EN;
@@ -428,15 +511,78 @@ const WORK_SWAP_DATA_ZH: WorkSwapData = {
     ]
 };
 const WORK_SWAP_DATA_EN: WorkSwapData = {
-    hero: { title: "Work Swap" },
+    hero: { title: "Skill Swap" },
     items: [
-        { title: "Photography Swap", desc: "Record village life with images", image: "https://placehold.co/600x400" },
-        { title: "Skill Swap", desc: "Exchange your skills for stay", image: "https://placehold.co/600x400" }
+        {
+            title: "Job Content",
+            desc: "Assist with environmental organization, gardening care, receiving visitors, venue tours, or use your expertise to help with photography, editing, and writing. Every little thing is a part of letting this old house and new village continue to be seen.",
+            image: swap1
+        },
+        {
+            title: "Skills & Expertise",
+            desc: "During the swap, stay at Rumah Papan, watch villagers go to work and school in the morning, and listen to the sounds of distant temples and street shops closing at night. Life is not gorgeous, but very real, you will slowly remember the breathing of this village for a day.",
+            image: swap2
+        },
+        {
+            title: "Story Exchange",
+            desc: "Accompany visitors to listen to village stories during the day, and at night it's your turn to tell everyone about your city, country, or life. Rumah Papan believes that everyone who comes to swap is a new chapter in this new village.",
+            image: swap3
+        },
+        {
+            title: "Find More Possibilities",
+            desc: "Some people found they liked leading tours because of the swap, some found creative subjects, and some just let their hearts settle down slowly. When you leave time here, the new village will also remind you with human sentiment and scenery that you still have other paths to walk.",
+            image: swap4
+        },
+        {
+            title: "Pre-departure Reminder",
+            desc: "Remember to confirm the arrival time and work schedule with the management before departure;\nBring sunscreen, mosquito repellent, rain gear, and walking shoes, and don't forget to bring your own water bottle.\nPrepare a heart willing to look after each other, and you will integrate into the daily life of this new village faster.",
+            image: swap5
+        }
     ],
-    quote: { title: "Swap Stories", desc: "Exchange skills for local experience" },
-    booking: { title: "Apply Now", button: "Fill Form" },
+    quote: {
+        title: "Live Life into the New Village",
+        desc: "In the skill swap at Rumah Papan, you are not just helping, but living together in a village. From village tours, activity arrangements to Green School, breathing together with gods and vegetable gardens, finishing things together. Every participation will remember a little more of the human sentiment and scenery here."
+    },
+    booking: {
+        title: "Swap Reservation",
+        button: "Fill Application Form"
+    },
     notices: [
-        { title: "Eligibility", desc: "Age 18+, physically and mentally healthy", id: "01" }
+        {
+            id: "01",
+            title: "Application Method & Basic Conditions",
+            desc: "Please introduce yourself via filling out the form or Facebook/WhatsApp, briefly explaining the visit time, content available for assistance, and things you hope to learn at Rumah Papan.\nThe swap requires at least 14 consecutive days, and accepts single occupancy or mixed gender accommodation, to facilitate the curator's work arrangement.\nAccommodation is a homestay style single bed, shared toilet equipped with water heater; if you cannot reach 14 days, please carefully consider signing up."
+        },
+        {
+            id: "02",
+            title: "Job Content & Time Allocation",
+            desc: "About 4-6 hours a day assisting with vegetable garden, environmental organization, reception, activities, or audio-visual text work,\nUse the rest of the time freely. Actual arrangements will be discussed together based on current activities and your expertise."
+        },
+        {
+            id: "03",
+            title: "Accommodation & Meals",
+            desc: "Provide basic accommodation space and simple meals,\nMay prepare vegetables, cook, and wash dishes together, just like dividing labor at home.\nIf there are special dietary needs, remember to inform in advance."
+        },
+        {
+            id: "04",
+            title: "Who is Suitable",
+            desc: "Like to get along with people, not afraid of hands-on work, willing to take the initiative to help,\nInterested in community, Chinese culture, or sustainable life, are all suitable to come.\nNo need for a perfect resume, just need honesty and a heart willing to learn from each other."
+        },
+        {
+            id: "05",
+            title: "Respect for Local & Safety",
+            desc: "Please respect the residents and religious beliefs of the new village,\nAsk for permission before photographing others, abide by safety and environmental protection regulations during activities.\nIf you have any discomfort or questions, you can find the curator or partner at any time."
+        },
+        {
+            id: "06",
+            title: "Use of Works & Materials",
+            desc: "If you assist in taking photos, videos, or writing text during the swap,\nThey may be used on Rumah Papan or related platforms. If there are personal works that you do not wish to be made public, you can also explain in advance and discuss the best way together."
+        },
+        {
+            id: "07",
+            title: "Pre-departure Preparation & Personal Items",
+            desc: "Swap mainly focuses on light life, it is recommended to bring walking shoes, work clothes, rain gear, and mosquito repellent.\nPlease also verify your own toiletries, common medicines, and reusable water bottles; please keep valuables yourself, if you need assistance, you can discuss with the management first."
+        }
     ]
 };
 export const getWorkSwapData = (lang: 'zh' | 'en') => lang === 'zh' ? WORK_SWAP_DATA_ZH : WORK_SWAP_DATA_EN;

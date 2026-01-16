@@ -108,32 +108,32 @@ const ENVIRONMENT_DATA_EN = [
     {
         title: "Rainbow Path",
         desc: "Walk through the colorful path, push open the iron gate,\nthis is where many stories happen in Rumah Papan daily.",
-        image: "https://placehold.co/544x454"
+        image: env1
     },
     {
         title: "Living Room / Lounge",
         desc: "Old photos and boards on the wall leave footprints of the village;\nmorning is a breakfast table, night often becomes a storytelling scene.",
-        image: "https://placehold.co/544x454"
+        image: env2
     },
     {
         title: "Guest Rooms",
         desc: "Simple and clean wooden house rooms,\nletting your bed really move into the village life.",
-        image: "https://placehold.co/544x454"
+        image: env3
     },
     {
         title: "Vegetable Garden",
         desc: "Full of vegetables and mugwort, every dish on the table mostly grows from here.",
-        image: "https://placehold.co/544x454"
+        image: env4
     },
     {
         title: "Front Yard Pavilion",
         desc: "The liveliest corner under the shed;\nshielding, drinking tea, chatting, holding events, all start from here.",
-        image: "https://placehold.co/544x454"
+        image: env5
     },
     {
         title: "Painted Tires",
         desc: "Hand-painted colorful tires are the live signboard of 'Rumah Papan Story House', and the scenery everyone loves to stop and take photos with.",
-        image: "https://placehold.co/544x454"
+        image: env6
     }
 ];
 
@@ -182,34 +182,35 @@ const PRODUCTS_DATA_EN = [
     {
         title: "Mulberry Tea Bags",
         desc: "Made from dried leaves, caffeine-free. Mulberry leaves with herbs, fat-reducing, lung-moistening, beauty-enhancing, appetizing, suitable as a daily cool drink.",
-        image: "https://placehold.co/544x454"
+        image: prod1
     },
     {
         title: "Rumah Papan Bak Kut Teh Pack",
         desc: "Prepared with pepper, garlic and Chinese herbs, you can stew the warming soup most familiar to Klang locals at home.",
-        image: "https://placehold.co/544x454"
+        image: prod2,
+        imagePosition: 'object-[center_40%]'
     },
     {
         title: "Coffee Bean Five Stones",
         desc: "Putting coffee beans and acacia seeds into cloth bags, matched with batik patterns, throwing and catching, feeling the story of coffee and local culture.",
-        image: "https://placehold.co/544x454"
+        image: prod3
     },
     {
         title: "Mugwort Sachet",
         desc: "Made from fresh mugwort from the garden dried in the sun, with a faint herbal aroma, can be hung on the door or bag to repel mosquitoes.",
-        image: "https://placehold.co/544x454"
+        image: prod4
     },
     {
         title: "Basil Pesto",
         desc: "The aroma of basil wakes up slowly in the pot. At Rumah Papan, a spoonful of pesto is the moment the story starts to taste good.",
-        image: "https://placehold.co/544x454",
+        image: prod5,
         imageScale: '1.3',
         imagePosition: 'object-[40%_center]'
     },
     {
         title: "Gac Fruit Soap",
         desc: "The aroma of Gac fruit is kneaded into soap, washing away fatigue, and keeping the sunlight of the new village in the palm of your hand.",
-        image: "https://placehold.co/544x454",
+        image: prod6,
         imagePosition: 'object-[center_70%]',
         imageScale: '1.2'
     }
