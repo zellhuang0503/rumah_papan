@@ -34,23 +34,27 @@ export const Stories: React.FC = () => {
                 const data = await client.fetch(`*[_type == "story"] | order(publishedAt desc)`);
 
                 if (data && data.length > 0) {
-                    const mappedStories: StoryItem[] = data.map((doc: any) => ({
-                        id: doc._id,
-                        category: doc.category || 'all',
-                        // Handle Bi-lingual fields with fallbacks
-                        title: (language === 'zh' ? doc.title_zh : doc.title_en) || doc.title || "Untitled",
-                        description: (language === 'zh' ? doc.description_zh : doc.description_en) || doc.excerpt || "",
-                        imageUrl: doc.coverImage
-                            ? urlFor(doc.coverImage).url()
-                            : (doc.title_zh?.includes('夏日') || doc.title_en?.includes('Summer') ? imgSummerFestival :
-                                doc.title_zh?.includes('文化體驗') || doc.title_en?.includes('Cultural') ? imgCulturalTour : undefined),
-                        images: doc.extraImages ? doc.extraImages.map((img: any) => urlFor(img).url()) : [],
-                        tags: doc.tags || [],
-                        variant: doc.variant || 'standard',
-                        size: doc.size || 'medium',
-                        imageScale: doc.imageScale,
-                        imagePosition: doc.imagePosition
-                    }));
+                    const mappedStories: StoryItem[] = data.map((doc: any) => {
+                        const rawTitle = ((doc.title || "") + (doc.title_zh || "") + (doc.title_en || "")).toLowerCase();
+                        let fallbackImage = undefined;
+                        if (rawTitle.includes('夏') || rawTitle.includes('summer') || rawTitle.includes('festival') || rawTitle.includes('祭')) fallbackImage = imgSummerFestival;
+                        if (rawTitle.includes('化') || rawTitle.includes('cultural') || rawTitle.includes('tour') || rawTitle.includes('驗')) fallbackImage = imgCulturalTour;
+
+                        return {
+                            id: doc._id,
+                            category: doc.category || 'all',
+                            // Handle Bi-lingual fields with fallbacks
+                            title: (language === 'zh' ? doc.title_zh : doc.title_en) || doc.title || "Untitled",
+                            description: (language === 'zh' ? doc.description_zh : doc.description_en) || doc.excerpt || "",
+                            imageUrl: doc.coverImage ? urlFor(doc.coverImage).url() : fallbackImage,
+                            images: doc.extraImages ? doc.extraImages.map((img: any) => urlFor(img).url()) : [],
+                            tags: doc.tags || [],
+                            variant: doc.variant || 'standard',
+                            size: doc.size || 'medium',
+                            imageScale: doc.imageScale,
+                            imagePosition: doc.imagePosition
+                        };
+                    });
                     setCmsStories(mappedStories);
                     setUseCms(true);
                 }

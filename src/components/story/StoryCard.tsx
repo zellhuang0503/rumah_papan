@@ -285,7 +285,7 @@ export const StoryCard: React.FC<StoryCardProps> = ({ item }) => {
         return (
             <>
                 <MobileStoryCard item={item} />
-                <div className={`hidden desktop:block ${widthClass} h-[360px] relative bg-neutral-900 ${containerBase}`}>
+                <div className={`hidden desktop:block ${widthClass} h-[360px] relative bg-neutral-900 min-w-[300px] desktop:min-w-[600px] ${containerBase}`}>
                     {item.imageUrl ? (
                         <img
                             src={item.imageUrl}
