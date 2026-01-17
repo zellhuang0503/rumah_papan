@@ -50,13 +50,14 @@ export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations 
     };
 
     return (
-        <div className={`w-full h-[500px] md:h-[600px] bg-[#F1F0E9] rounded-3xl overflow-hidden shadow-lg border border-[#242527]/10 relative group ${isAdmin ? 'ring-4 ring-red-500 ring-opacity-50 cursor-crosshair' : ''}`}>
+        <div className={`w-full aspect-video md:aspect-[16/9] bg-[#F1F0E9] rounded-3xl overflow-hidden shadow-lg border border-[#242527]/10 relative group ${isAdmin ? 'ring-4 ring-red-500 ring-opacity-50 cursor-crosshair' : ''}`}>
             {/* Map Image Layer */}
             <img
                 src={mapImage || MAP_PLACEHOLDER_URL}
                 alt="Village Map"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover select-none pointer-events-auto"
                 onClick={handleMapClick}
+                onDragStart={(e) => e.preventDefault()}
             />
 
             {/* Pins Layer */}
@@ -157,8 +158,8 @@ export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations 
             </div>
 
             {/* Legend / Overlay */}
-            <div className="absolute top-6 left-6 pointer-events-none flex flex-col gap-2">
-                <span className="bg-white/90 px-4 py-2 rounded-full text-sm font-bold text-[#242527] backdrop-blur-sm shadow-sm border border-[#242527]/5">
+            <div className="absolute top-4 left-4 md:top-6 md:left-6 pointer-events-none flex flex-col gap-2">
+                <span className="bg-white/90 px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold text-[#242527] backdrop-blur-sm shadow-sm border border-[#242527]/5">
                     點擊標記查看詳情
                 </span>
             </div>
