@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { type LocationItem, type LocationCategory } from '../../data/villageMapData';
 import { Phone, MapPin, ExternalLink, X } from 'lucide-react';
+import villageMapImage from '../../assets/images/village_full_map_16_9.png';
 
-// Using a slightly better placeholder or keeping valid one
-const MAP_PLACEHOLDER_URL = "https://placehold.co/1200x600/e2e8f0/94a3b8?text=Map+Visualization+Coming+Soon";
+const MAP_PLACEHOLDER_URL = villageMapImage;
 
 interface MapViewerProps {
     activeCategory: LocationCategory;
@@ -55,7 +55,7 @@ export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations 
             <img
                 src={mapImage || MAP_PLACEHOLDER_URL}
                 alt="Village Map"
-                className={`w-full h-full object-cover ${mapImage ? '' : 'opacity-60'}`}
+                className="w-full h-full object-cover"
                 onClick={handleMapClick}
             />
 
