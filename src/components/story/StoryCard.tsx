@@ -159,14 +159,14 @@ export const StoryCard: React.FC<StoryCardProps> = ({ item }) => {
     // Small: ~384 -> 288 (matches grid cols)
 
     // Card Container Base Classes
-    const containerBase = "relative bg-white rounded-[27px] overflow-hidden group shadow-sm transition-all duration-300 hover:shadow-md";
+    const containerBase = "relative rounded-[27px] overflow-hidden group shadow-sm transition-all duration-300 hover:shadow-md";
 
     // 1. Banner Variant (Image Left, Text Right)
     if (item.variant === 'banner') {
         return (
             <>
                 <MobileStoryCard item={item} />
-                <div className={`hidden desktop:flex w-full max-w-[1260px] h-[360px] p-[24px] items-center gap-[84px] ${containerBase}`}>
+                <div className={`hidden desktop:flex w-full max-w-[1260px] h-[360px] p-[24px] items-center gap-[84px] bg-white ${containerBase}`}>
                     <div className="flex-1 flex flex-col justify-start items-start gap-4 z-10 h-full overflow-hidden">
                         <h3 className="w-[382px] text-stone-900 text-[37.5px] font-bold font-noto-sans-tc leading-[52.5px] whitespace-pre-line flex-shrink-0">
                             {item.title}
@@ -285,13 +285,19 @@ export const StoryCard: React.FC<StoryCardProps> = ({ item }) => {
         return (
             <>
                 <MobileStoryCard item={item} />
-                <div className={`hidden desktop:block ${widthClass} h-[360px] relative ${containerBase}`}>
-                    <img
-                        src={item.imageUrl}
-                        alt={item.title}
-                        className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.1] ${item.imagePosition || ''}`}
-                        style={item.imageScale ? { transform: `scale(${item.imageScale})` } : {}}
-                    />
+                <div className={`hidden desktop:block ${widthClass} h-[360px] relative bg-neutral-900 ${containerBase}`}>
+                    {item.imageUrl ? (
+                        <img
+                            src={item.imageUrl}
+                            alt={item.title}
+                            className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.1] ${item.imagePosition || ''}`}
+                            style={item.imageScale ? { transform: `scale(${item.imageScale})` } : {}}
+                        />
+                    ) : (
+                        <div className="w-full h-full bg-neutral-800 flex items-center justify-center">
+                            <span className="text-white/20 font-bold font-noto-sans-tc">No Image</span>
+                        </div>
+                    )}
                     <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-[24px] pt-[60px] flex flex-col justify-end">
                         <h3 className="text-white text-[37.5px] font-bold font-noto-sans-tc leading-[52.5px] flex-shrink-0">
                             {item.title}

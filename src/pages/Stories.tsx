@@ -9,6 +9,8 @@ import { StoryCard } from '../components/story/StoryCard';
 import { getStories, type StoryCategory, type StoryItem } from '../data/storyData';
 import { useLanguage } from '../contexts/LanguageContext';
 import { client, urlFor } from '../utils/sanity';
+import imgSummerFestival from '../assets/images/Image_summer_festival.png';
+import imgCulturalTour from '../assets/images/Image_cultural_tour.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -38,7 +40,10 @@ export const Stories: React.FC = () => {
                         // Handle Bi-lingual fields with fallbacks
                         title: (language === 'zh' ? doc.title_zh : doc.title_en) || doc.title || "Untitled",
                         description: (language === 'zh' ? doc.description_zh : doc.description_en) || doc.excerpt || "",
-                        imageUrl: doc.coverImage ? urlFor(doc.coverImage).url() : undefined,
+                        imageUrl: doc.coverImage
+                            ? urlFor(doc.coverImage).url()
+                            : (doc.title_zh?.includes('夏日') || doc.title_en?.includes('Summer') ? imgSummerFestival :
+                                doc.title_zh?.includes('文化體驗') || doc.title_en?.includes('Cultural') ? imgCulturalTour : undefined),
                         images: doc.extraImages ? doc.extraImages.map((img: any) => urlFor(img).url()) : [],
                         tags: doc.tags || [],
                         variant: doc.variant || 'standard',
