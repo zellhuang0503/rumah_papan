@@ -1,13 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
-<<<<<<< HEAD
-import { ENVIRONMENT_DATA } from '../data/aboutData';
-import { client, urlFor } from '../utils/sanity';
-=======
 import { getEnvironmentData } from '../data/aboutData';
 import { useLanguage } from '../contexts/LanguageContext';
->>>>>>> main
 
 export const AboutEnvironment: React.FC = () => {
     const { language } = useLanguage();
@@ -23,26 +18,11 @@ export const AboutEnvironment: React.FC = () => {
     // Font 5xl (48px) -> 36px.
     // Font 2xl (24px) -> 18px.
 
-    const [items, setItems] = useState(ENVIRONMENT_DATA);
-
-    useEffect(() => {
-        const fetchEnvironment = async () => {
-            try {
-                const aboutDoc = await client.fetch(`*[_type == "about"][0]`);
-                if (aboutDoc && aboutDoc.environment) {
-                    const mapped = aboutDoc.environment.map((item: any) => ({
-                        title: item.title,
-                        desc: item.desc,
-                        image: item.image ? urlFor(item.image).url() : "https://placehold.co/408x341"
-                    }));
-                    setItems(mapped);
-                }
-            } catch (err) {
-                console.error("Failed to fetch environment data", err);
-            }
-        };
-        fetchEnvironment();
-    }, []);
+    // Layout:
+    // Navbar at top.
+    // Content starts below navbar.
+    // Title is "環境介紹" centered-ish.
+    // Grid of cards below.
 
     return (
         <div className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
@@ -56,15 +36,9 @@ export const AboutEnvironment: React.FC = () => {
                     </h1>
 
                     {/* Grid Section */}
-<<<<<<< HEAD
-                    <div className="w-[1440px] flex flex-wrap justify-center gap-[18px] px-[90px]">
-                        {items.map((item, index) => (
-                            <div key={index} className="w-[408px] flex flex-col items-start shadow-md rounded-[18px]">
-=======
                     <div className="w-full max-w-[1440px] flex flex-wrap justify-center gap-6 desktop:gap-[18px] px-6 desktop:px-[90px]">
                         {ENVIRONMENT_DATA.map((item, index) => (
                             <div key={index} className="w-full max-w-[408px] flex flex-col items-start shadow-md rounded-[18px]">
->>>>>>> main
                                 <img
                                     className="w-full h-auto aspect-[408/340.5] object-cover rounded-t-[18px]"
                                     src={item.image}

@@ -1,17 +1,9 @@
-<<<<<<< HEAD
-import React, { useState, useEffect } from 'react';
-import { HomeNavbar } from '../components/HomeNavbar';
-import { SiteFooter } from '../components/SiteFooter';
-import { ACTIVITIES_DATA } from '../data/villageData';
-import { client, urlFor } from '../utils/sanity';
-=======
 
 import React from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
 import { getActivitiesData } from '../data/villageData';
 import { useLanguage } from '../contexts/LanguageContext';
->>>>>>> main
 
 export const VillageActivities: React.FC = () => {
     const { language } = useLanguage();
@@ -24,40 +16,9 @@ export const VillageActivities: React.FC = () => {
     // Card Height: 288px (was 384/404)
     // Card Padding: 30px 60px (was 40 80)
 
-<<<<<<< HEAD
-    const [data, setData] = useState(ACTIVITIES_DATA);
-
-    useEffect(() => {
-        const fetchActivities = async () => {
-            try {
-                const villageDoc = await client.fetch(`*[_type == "village"][0]`);
-                if (villageDoc && villageDoc.activities) {
-                    const act = villageDoc.activities;
-                    setData({
-                        hero: { title: act.heroTitle || ACTIVITIES_DATA.hero.title },
-                        items: act.items?.map((item: any) => ({
-                            title: item.title,
-                            desc: item.desc,
-                            image: item.image ? urlFor(item.image).url() : "https://placehold.co/828x384"
-                        })) || ACTIVITIES_DATA.items,
-                        quote: {
-                            title: act.quote?.title || ACTIVITIES_DATA.quote.title,
-                            desc: act.quote?.desc || ACTIVITIES_DATA.quote.desc
-                        },
-                        notices: act.notices || ACTIVITIES_DATA.notices
-                    });
-                }
-            } catch (err) {
-                console.error("Failed to fetch village activities", err);
-            }
-        };
-        fetchActivities();
-    }, []);
-=======
     const labels = {
         notices: language === 'zh' ? '注意事項' : 'Notices'
     };
->>>>>>> main
 
     return (
         <div className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
@@ -65,16 +26,6 @@ export const VillageActivities: React.FC = () => {
 
             <main className="w-full relative flex flex-col items-center pt-32 desktop:pt-[165px] gap-20 desktop:gap-[160px] px-6 desktop:px-0">
                 {/* Page Title */}
-<<<<<<< HEAD
-                <h1 className="text-black text-[54px] font-bold font-['Noto_Sans_TC'] leading-[1.4] text-center">
-                    {data.hero.title}
-                </h1>
-
-                {/* Zigzag Activities List */}
-                <section className="w-[1200px] flex flex-col gap-[40px]">
-                    {data.items.map((item, index) => (
-                        <div key={index} className={`flex items-center gap-[27px] ${index % 2 === 1 ? 'flex-row-reverse' : 'flex-row'} justify-center`}>
-=======
                 <h1 className="text-black text-3xl desktop:text-[54px] font-bold font-['Noto_Sans_TC'] leading-[1.4] text-center">
                     {ACTIVITIES_DATA.hero.title}
                 </h1>
@@ -83,7 +34,6 @@ export const VillageActivities: React.FC = () => {
                 <section className="w-full max-w-[1200px] flex flex-col gap-12 desktop:gap-[40px]">
                     {ACTIVITIES_DATA.items.map((item, index) => (
                         <div key={index} className={`flex items-center gap-6 desktop:gap-[27px] flex-col-reverse ${index % 2 === 1 ? 'desktop:flex-row-reverse' : 'desktop:flex-row'} justify-center`}>
->>>>>>> main
                             {/* Text Card */}
                             <div className="w-full desktop:w-[621px] h-auto desktop:h-[288px] bg-white rounded-[18px] px-6 py-8 desktop:py-0 desktop:px-[30px] flex flex-col justify-center items-start gap-4 desktop:gap-[18px] overflow-hidden shadow-sm">
                                 <h2 className="text-black/80 text-2xl desktop:text-[45px] font-bold font-['Noto_Sans_TC'] leading-tight">
@@ -105,21 +55,12 @@ export const VillageActivities: React.FC = () => {
                 </section>
 
                 {/* Quote Section */}
-<<<<<<< HEAD
-                <section className="w-[1200px] flex items-end justify-center gap-[120px]">
-                    <h2 className="text-neutral-900 text-[36px] font-bold font-['Noto_Sans_TC'] leading-[1.45] whitespace-nowrap">
-                        {data.quote.title}
-                    </h2>
-                    <p className="w-[527px] text-neutral-900 text-[22.5px] font-medium font-['Noto_Sans_TC'] leading-[1.4]">
-                        {data.quote.desc}
-=======
                 <section className="w-full max-w-[1200px] flex flex-col desktop:flex-row desktop:items-end justify-center gap-6 desktop:gap-[120px]">
                     <h2 className="text-neutral-900 text-2xl desktop:text-[36px] font-bold font-['Noto_Sans_TC'] leading-[1.45] whitespace-nowrap text-center desktop:text-left">
                         {ACTIVITIES_DATA.quote.title}
                     </h2>
                     <p className="w-full desktop:w-[527px] text-neutral-900 text-lg desktop:text-[22.5px] font-medium font-['Noto_Sans_TC'] leading-[1.4] text-center desktop:text-left">
                         {ACTIVITIES_DATA.quote.desc}
->>>>>>> main
                     </p>
                 </section>
 
@@ -131,19 +72,11 @@ export const VillageActivities: React.FC = () => {
                     </h2>
 
                     <div className="w-full flex flex-col items-center">
-<<<<<<< HEAD
-                        {data.notices.map((notice, index) => (
-                            <div key={index} className="w-[1152px] py-[48px] border-b border-neutral-900 flex flex-col gap-[24px]">
-                                <div className="flex items-center gap-[24px]">
-                                    <span className="text-neutral-900 text-[36px] font-semibold font-['Roboto_Slab'] leading-none mt-1">
-                                        {notice.id || (index + 1).toString().padStart(2, '0')}
-=======
                         {ACTIVITIES_DATA.notices.map((notice, index) => (
                             <div key={index} className="w-full desktop:w-[1152px] py-8 desktop:py-[48px] border-b border-neutral-900 flex flex-col gap-4 desktop:gap-[24px]">
                                 <div className="flex items-center gap-4 desktop:gap-[24px]">
                                     <span className="text-neutral-900 text-2xl desktop:text-[36px] font-semibold font-['Roboto_Slab'] leading-none mt-1">
                                         {notice.id}
->>>>>>> main
                                     </span>
                                     <h3 className="text-neutral-900 text-xl desktop:text-[36px] font-bold font-['Noto_Sans_TC'] leading-none">
                                         {notice.title}

@@ -1,15 +1,5 @@
 import React, { useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-<<<<<<< HEAD
-import { INTRO_SLIDES } from '../../data/homeData';
-import { urlFor } from '../../utils/sanity';
-
-interface IntroSectionProps {
-    slides?: any[];
-}
-
-export const IntroSection: React.FC<IntroSectionProps> = ({ slides }) => {
-=======
 import { getIntroSlides } from '../../data/homeData';
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -28,30 +18,14 @@ export const IntroSection: React.FC = () => {
     const { language } = useLanguage();
     const slides = getIntroSlides(language);
 
->>>>>>> main
     const [currentSlide, setCurrentSlide] = useState(0);
 
-    // Use CMS slides if available (and valid), otherwise fallback to local data
-    const activeSlides = (slides && slides.length > 0) ? slides.map(s => ({
-        ...s,
-        // Ensure image is converted to URL if it's a CMS object
-        image: s.image ? urlFor(s.image).url() : ''
-    })) : INTRO_SLIDES;
-
     const nextSlide = () => {
-<<<<<<< HEAD
-        setCurrentSlide((prev) => (prev + 1) % activeSlides.length);
-    };
-
-    const prevSlide = () => {
-        setCurrentSlide((prev) => (prev - 1 + activeSlides.length) % activeSlides.length);
-=======
         setCurrentSlide((prev) => (prev + 1) % slides.length);
     };
 
     const prevSlide = () => {
         setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
->>>>>>> main
     };
 
     return (
@@ -59,22 +33,11 @@ export const IntroSection: React.FC = () => {
             {/* Carousel Container */}
             <div className="relative w-full max-w-none desktop:max-w-[1260px] h-[500px] desktop:h-[600px] bg-white rounded-none desktop:rounded-[18px] overflow-hidden group">
                 {/* Slides */}
-<<<<<<< HEAD
-                {activeSlides.map((slide, index) => (
-=======
                 {slides.map((slide, index) => (
->>>>>>> main
                     <div
                         key={index}
-                        className={`absolute inset-0 transition-opacity duration-500 bg-cover bg-center ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
-                        style={{ backgroundImage: `url(${slide.image})` }}
+                        className={`absolute inset-0 transition-opacity duration-500 ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
                     >
-<<<<<<< HEAD
-                        {/* Background Placeholder */}
-                        <div className="w-full h-full bg-gradient-to-b from-black/10 to-black/40 flex flex-col justify-end p-[54px] pb-[80px]">
-                            <div className="absolute left-[54px] top-[421.5px]">
-                                <h3 className="text-white text-[36px] font-bold font-['Noto_Sans_TC'] leading-[52.5px] drop-shadow-md">
-=======
                         {/* Image Background */}
                         <img
                             src={slideImages[index]}
@@ -92,7 +55,6 @@ export const IntroSection: React.FC = () => {
                             {/* Title Position */}
                             <div className="w-full desktop:w-auto">
                                 <h3 className="text-white text-2xl desktop:text-[36px] font-bold font-['Noto_Sans_TC'] leading-tight desktop:leading-[52.5px] drop-shadow-md">
->>>>>>> main
                                     {slide.title}
                                 </h3>
                             </div>
@@ -107,13 +69,8 @@ export const IntroSection: React.FC = () => {
                 ))}
 
                 {/* Navigation Dots */}
-<<<<<<< HEAD
-                <div className="absolute left-[528.75px] top-[544.5px] flex gap-[12px] z-20">
-                    {activeSlides.map((_, idx) => (
-=======
                 <div className="absolute left-1/2 -translate-x-1/2 bottom-6 flex gap-[12px] z-20">
                     {slides.map((_, idx) => (
->>>>>>> main
                         <button
                             key={idx}
                             onClick={() => setCurrentSlide(idx)}

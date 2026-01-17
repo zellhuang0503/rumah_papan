@@ -157,25 +157,6 @@ const NEWS_DATA_ZH = [
     }
 ];
 
-<<<<<<< HEAD
-// Image Imports
-import imgRoosterBowl from '../assets/images/Image_village_tour.jpg';
-import imgPray from '../assets/images/Image_pray_heaven.jpg';
-import imgStoryHouse from '../assets/images/Image_house_story_gallery.jpg';
-import imgStreet from '../assets/images/Image_pandamaran_daily.jpg';
-import imgSkillSwap from '../assets/images/Image_skill_swap.jpg';
-import imgMarket from '../assets/images/Image_village_market.jpg';
-import imgBuddha from '../assets/images/Image_guan_tian_gong.jpg';
-
-export const INTRO_SLIDES = [
-    { title: "雞公碗", desc: "馬來西亞最大的華人新村入口，用一碗白飯和雞公碗，向每個來訪的人打招呼。", image: imgRoosterBowl },
-    { title: "拜天公", desc: "神壇、供品和煙火，把幾代福建人對天公與祖先的心意都放在這一夜。", image: imgPray },
-    { title: "班厝故事館", desc: "故事館裡收著新村記憶、展覽與飯桌，每次推門，都是班達馬蘭的新一頁。", image: imgStoryHouse },
-    { title: "班達馬蘭新村街景", desc: "海鮮店、肉骨茶與老招牌，把班達馬蘭最日常的生活節奏排成街景。", image: imgStreet },
-    { title: "技能換宿", desc: "帶著專長來幫忙，新村用飯桌、人情和故事，換給你一段住在這裡的日常。", image: imgSkillSwap },
-    { title: "新村市集", desc: "一攤攤新村美食與手作，把人情味和好味道一起打包，讓你帶回家。", image: imgMarket },
-    { title: "漢白玉佛祖像", desc: "全馬最大漢白玉佛像立在蓮花清人寺，成了班達馬蘭最安定的祝福地標。", image: imgBuddha },
-=======
 const NEWS_DATA_EN = [
     {
         date: "2025.12.02",
@@ -215,7 +196,6 @@ const INTRO_SLIDES_ZH = [
     { title: "技能換宿", desc: "帶著專長來幫忙，新村用飯桌、人情和故事，換給你一段住在這裡的日常。" },
     { title: "新村市集", desc: "一攤攤新村美食與手作，把人情味和好味道一起打包，讓你帶回家。" },
     { title: "漢白玉佛祖像", desc: "全馬最大漢白玉佛像立在蓮花清人寺，成了班達馬蘭最安定的祝福地標。" },
->>>>>>> main
 ];
 
 const INTRO_SLIDES_EN = [
