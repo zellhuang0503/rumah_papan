@@ -27,11 +27,7 @@ const getPolaroidContent = (lookupKey: string, lang: 'zh' | 'en') => {
     return { caption: data.caption, desc: data.description };
 };
 
-import imgVillageTour from '../assets/images/Image_village_tour.jpg';
-import imgStoryGallery from '../assets/images/Image_house_story_gallery.jpg';
-import imgTradition from '../assets/images/Image_pray_heaven.jpg';
-import imgSkillSwap from '../assets/images/Image_skill_swap.jpg';
-import imgBakKutTeh from '../assets/images/Image_bak_kut_teh.jpeg';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -149,13 +145,6 @@ export const Welcome: React.FC = () => {
     // Extra for variants if needed, or reuse.
 
     const images = [
-<<<<<<< HEAD
-        imgVillageTour,    // 0
-        imgStoryGallery,   // 1
-        imgTradition,      // 2
-        imgSkillSwap,      // 3
-        imgBakKutTeh       // 4
-=======
         homePolaroid2, // 0: 走進新村
         homePolaroid1, // 1: 班厝故事館
         homePolaroid3, // 2: 傳統習俗
@@ -163,7 +152,6 @@ export const Welcome: React.FC = () => {
         homePolaroid5, // 4: 節慶活動
         homePolaroid6, // 5: 肉骨茶
         homePolaroid7  // 6: 木鱉果
->>>>>>> main
     ];
 
     // Use Language Context
