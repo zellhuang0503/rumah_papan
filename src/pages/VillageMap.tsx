@@ -1,4 +1,5 @@
-import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect, useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { HomeNavbar } from '../components/HomeNavbar';
@@ -11,7 +12,7 @@ import {
     type LocationCategory,
     getMapPageTitle,
     getMapPageSubtitle,
-    LocationItem
+    type LocationItem
 } from '../data/villageMapData';
 import { useLanguage } from '../contexts/LanguageContext';
 import { client, urlFor } from '../utils/sanity';
@@ -22,6 +23,7 @@ interface MapCMS {
     map?: {
         title?: string; title_en?: string;
         subtitle?: string; subtitle_en?: string;
+        mapImage?: any;
         locations?: Array<{
             id?: string;
             name?: string; name_en?: string;
@@ -32,6 +34,8 @@ interface MapCMS {
             featureDescription?: string[]; featureDescription_en?: string[];
             distanceInfo?: string; distanceInfo_en?: string;
             coordinateX?: number; coordinateY?: number;
+            phone?: string;
+            googleMapLink?: string;
             image?: any;
         }>;
     };
@@ -69,18 +73,30 @@ export const VillageMap: React.FC = () => {
     const pageTitle = getLocalized(cmsMap?.title, cmsMap?.title_en, MAP_PAGE_TITLE);
     const pageSubtitle = getLocalized(cmsMap?.subtitle, cmsMap?.subtitle_en, MAP_PAGE_SUBTITLE);
 
-    const villageLocations: LocationItem[] = (cmsMap?.locations && cmsMap.locations.length > 0)
-        ? cmsMap.locations.map((item: any) => {
-            const staticItem = staticLocations.find(l => l.id === item.id) || staticLocations.find(l => l.category === item.category); // Fallback logic might be loose if ID missing, but ID should exist.
+    const processedLocations = useMemo<LocationItem[]>(() => {
+        if (!cmsMap?.locations || cmsMap.locations.length === 0) {
+            return staticLocations || [];
+        }
 
-            // If staticItem is found by ID usage is safe. If not found, use partial data.
-            // Actually, we should iterate over CMS locations if they exist.
-            // But if CMS has FEWER items than static (e.g. user deleted some), we show fewer?
-            // Or do we merge lists?
-            // Usually CMS completely replaces the list.
+        return cmsMap.locations.map((item: any) => {
+            const staticItem = staticLocations.find(l => l.id === item.id) ||
+                staticLocations.find(l => l.category === item.category);
+
+            // Safer image processing
+            let imageUrl = "";
+            try {
+                if (item.image && item.image.asset) {
+                    imageUrl = urlFor(item.image).url();
+                } else {
+                    imageUrl = staticItem?.image || "";
+                }
+            } catch (err) {
+                console.error("Image URL processing error:", err);
+                imageUrl = staticItem?.image || "";
+            }
 
             return {
-                id: item.id || staticItem?.id || '',
+                id: item.id || staticItem?.id || Math.random().toString(36),
                 name: getLocalized(item.name, item.name_en, staticItem?.name || ''),
                 subName: getLocalized(item.subName, item.subName_en, staticItem?.subName),
                 address: getLocalized(item.address, item.address_en, staticItem?.address || ''),
@@ -91,10 +107,12 @@ export const VillageMap: React.FC = () => {
                 coordinates: (item.coordinateX !== undefined && item.coordinateY !== undefined)
                     ? { x: item.coordinateX, y: item.coordinateY }
                     : (staticItem?.coordinates || { x: 0, y: 0 }),
-                image: item.image ? urlFor(item.image).url() : (staticItem?.image || "")
+                phone: item.phone || staticItem?.phone,
+                googleMapLink: item.googleMapLink || staticItem?.googleMapLink,
+                image: imageUrl
             };
-        })
-        : staticLocations;
+        });
+    }, [cmsMap, staticLocations, language]);
 
     const [activeCategory, setActiveCategory] = useState<LocationCategory>('all');
     const containerRef = useRef<HTMLDivElement>(null);
@@ -135,6 +153,10 @@ export const VillageMap: React.FC = () => {
             animateIn(".anim-header", 0);
             animateIn(".anim-subtitle", 0.1);
             animateIn(".anim-filter", 0.2);
+            gsap.fromTo(q(".title-animate"), { autoAlpha: 0, y: 50 }, { autoAlpha: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.2 });
+            gsap.fromTo(q(".filter-animate"), { autoAlpha: 0, y: 50 }, { autoAlpha: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.4 });
+            gsap.fromTo(q(".map-animate"), { autoAlpha: 0, y: 50 }, { autoAlpha: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.6 });
+
 
             // 2. Sections (Title + Staggered Cards)
             const sections = q(".content-section");
@@ -174,16 +196,15 @@ export const VillageMap: React.FC = () => {
             });
 
             ScrollTrigger.refresh();
-
         }, containerRef);
 
         return () => ctx.revert();
-    }, [language, villageLocations]); // Depend on villageLocations to re-animate when data loads
+    }, [processedLocations, activeCategory]); // Modified dependencies
 
     // Refresh ScrollTrigger when category changes (content height changes)
     useLayoutEffect(() => {
         ScrollTrigger.refresh();
-    }, [activeCategory, language, villageLocations]);
+    }, [activeCategory, language, processedLocations]);
 
     // Labels for Sections
     const sectionLabels = {
@@ -193,39 +214,42 @@ export const VillageMap: React.FC = () => {
     };
 
     return (
-        <div ref={containerRef} className="min-h-screen w-full bg-[#F3E3CB] relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
+        <div ref={containerRef} className="min-h-screen w-full bg-[#f4f1ea] relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
             <HomeNavbar />
 
-            <main className="w-full max-w-[1440px] mx-auto px-6 md:px-[60px] desktop:px-[120px] pt-32 desktop:pt-[165px] pb-[80px] flex flex-col gap-[40px] desktop:gap-[80px]">
+            <main className="w-full relative flex flex-col items-center pt-32 md:pt-[165px] gap-20 md:gap-[160px] px-6 md:px-0">
+                {/* Page Title */}
+                <h1 className="title-animate opacity-0 text-[#242527] text-3xl md:text-[54px] font-bold font-noto-sans-tc leading-[1.4] text-center">
+                    {pageTitle}
+                    {isAdmin && <span className="block text-base text-red-500 mt-2 font-mono bg-red-100 py-1 px-3 rounded-full w-fit mx-auto border border-red-200">🔧 Admin Mode: Click Map to Get Coordinates</span>}
+                </h1>
 
-                {/* Header Section */}
-                <div className="text-center flex flex-col gap-6 items-center anim-header">
-                    <h1 className="text-3xl md:text-[3.375rem] font-bold text-[#242527] font-noto-sans-tc leading-tight">
-                        {pageTitle}
-                    </h1>
-                </div>
-
-                {/* Map & Filter Group */}
-                <div className="flex flex-col gap-[40px] w-full">
-                    {/* Subtitle / Map Intro */}
-                    <div className="flex flex-col gap-8 w-full anim-subtitle">
-                        <h2 className="text-2xl md:text-[2.5rem] font-bold text-[#242527] font-noto-sans-tc text-left">
-                            {pageSubtitle}
+                {/* Map Section */}
+                <section className="w-full max-w-[1200px] flex flex-col gap-[30px]">
+                    <div className="flex flex-col md:flex-row justify-between items-end gap-6 md:gap-0 filter-animate opacity-0">
+                        <h2 className="text-[#242527] text-[27px] font-bold font-noto-sans-tc leading-[1.35]">
+                            {activeCategory === 'all' ? pageSubtitle :
+                                activeCategory === 'food' ? (language === 'zh' ? '在地美食' : 'Local Food') :
+                                    activeCategory === 'temple' ? (language === 'zh' ? '廟宇文化' : 'Temples') :
+                                        (language === 'zh' ? '觀光景點' : 'Attractions')}
                         </h2>
 
-                        {/* Map Section */}
-                        <section className="w-full">
-                            <MapViewer activeCategory={activeCategory} />
-                        </section>
-                    </div>
-
-                    {/* Filter/Nav Section */}
-                    <section className="w-full anim-filter">
                         <MapFilter
                             activeCategory={activeCategory}
                             onCategoryChange={setActiveCategory}
                         />
-                    </section>
+                    </div>
+
+                    <div className="flex flex-col gap-6 map-animate opacity-0">
+                        <section className="relative w-full">
+                            <MapViewer
+                                activeCategory={activeCategory}
+                                locations={processedLocations}
+                                mapImage={(cmsMap?.mapImage && cmsMap.mapImage.asset) ? urlFor(cmsMap.mapImage).url() : undefined}
+                                isAdmin={isAdmin}
+                            />
+                        </section>
+                    </div>
                 </div>
 
                 {/* Locations Sections */}
@@ -241,7 +265,7 @@ export const VillageMap: React.FC = () => {
                                 </h4>
                             </div>
                             <div className="flex flex-wrap gap-x-[20px] gap-y-6 md:gap-y-[48px]">
-                                {villageLocations.filter(l => l.category === 'food').map(location => (
+                                {processedLocations.filter(l => l.category === 'food').map(location => (
                                     <LocationCard key={location.id} item={location} />
                                 ))}
                             </div>
@@ -258,7 +282,7 @@ export const VillageMap: React.FC = () => {
                                 </h4>
                             </div>
                             <div className="flex flex-wrap gap-x-[20px] gap-y-6 md:gap-y-[48px]">
-                                {villageLocations.filter(l => l.category === 'attraction').map(location => (
+                                {processedLocations.filter(l => l.category === 'attraction').map(location => (
                                     <LocationCard key={location.id} item={location} />
                                 ))}
                             </div>
@@ -275,7 +299,7 @@ export const VillageMap: React.FC = () => {
                                 </h4>
                             </div>
                             <div className="flex flex-wrap gap-x-[20px] gap-y-6 md:gap-y-[48px]">
-                                {villageLocations.filter(l => l.category === 'temple').map(location => (
+                                {processedLocations.filter(l => l.category === 'temple').map(location => (
                                     <LocationCard key={location.id} item={location} />
                                 ))}
                             </div>

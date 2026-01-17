@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
 const client = createClient({
-    projectId: process.env.VITE_SANITY_PROJECT_ID,
+    projectId: 'vm3p10fe',
     dataset: process.env.VITE_SANITY_DATASET,
     apiVersion: '2023-05-03',
     token: process.env.SANITY_API_WRITE_TOKEN,
@@ -54,7 +54,9 @@ const LOCATIONS = [
         featureTitle: '特色', featureTitle_en: 'Highlights',
         featureDescription: ['是比較「濃縮型」的湯，湯不多但很稠、很濃，油飯也很香。', '下午／晚上營業那種，很多人專程去吃晚餐。'],
         featureDescription_en: ['A "concentrated" type of soup—little broth but very thick and rich, served with fragrant oil rice.', 'Open in the afternoon/evening, a spot many drive specifically to for dinner.'],
-        coordinateX: 50, coordinateY: 50
+        coordinateX: 50, coordinateY: 50,
+        phone: '',
+        googleMapLink: '',
     },
     {
         id: 'f4',
@@ -66,7 +68,9 @@ const LOCATIONS = [
         featureTitle: '特色', featureTitle_en: 'Highlights',
         featureDescription: ['經典家鄉麵包，那是一份純樸的味道，椰香加上半熟蛋，口感交織美味，再配上KTM,堪稱一絕。'],
         featureDescription_en: ['Classic hometown bread, a rustic taste. Coconut jam with half-boiled eggs creates a delicious texture. Paired with Kopi O, it is absolutely superb.'],
-        coordinateX: 60, coordinateY: 35
+        coordinateX: 60, coordinateY: 35,
+        phone: '',
+        googleMapLink: '',
     },
     {
         id: 'f5',

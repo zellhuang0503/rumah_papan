@@ -269,7 +269,7 @@ export const AboutRental: React.FC = () => {
                     </div>
 
                     <div className="w-full flex flex-col desktop:flex-row gap-6 desktop:gap-[18px]">
-                        {RENTAL_DATA?.plans?.map((plan, index) => (
+                        {RENTAL_DATA?.plans?.map((plan: any, index: number) => (
                             <div key={index} className="flex-1 bg-transparent border-[2.25px] border-black rounded-[21px] p-8 desktop:p-[39px] flex flex-col justify-between min-h-[auto] desktop:min-h-[450px]">
                                 <div className="flex flex-col gap-[9px]">
                                     <h3 className="text-black text-[37.5px] font-bold font-['Noto_Sans_TC']">
@@ -280,7 +280,7 @@ export const AboutRental: React.FC = () => {
                                     </h4>
                                 </div>
                                 <div className="flex flex-col gap-[6px] mt-6 desktop:mt-0">
-                                    {plan?.items?.map((item, i) => (
+                                    {plan?.items?.map((item: any, i: number) => (
                                         <p key={i} className="text-black text-base desktop:text-[18px] font-medium font-['Noto_Sans_TC'] leading-[1.5]">
                                             {item}
                                         </p>

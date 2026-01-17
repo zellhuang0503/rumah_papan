@@ -23,6 +23,8 @@ export interface LocationItem {
     featureDescription?: string[];
     distanceInfo?: string;
     coordinates?: { x: number; y: number };
+    phone?: string;
+    googleMapLink?: string;
     image?: string;
 }
 

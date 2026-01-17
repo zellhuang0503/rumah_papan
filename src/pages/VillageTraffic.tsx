@@ -131,7 +131,7 @@ export const VillageTraffic: React.FC = () => {
                                         <div className="hidden desktop:block absolute left-[16px] top-[46px] w-[60px] h-0 border-t-[2.25px] border-neutral-900 border-dotted origin-top-left rotate-90"></div>
                                     )}
 
-                                    {method.steps.map((step, stepIndex) => (
+                                    {method.steps.map((step: any, stepIndex: number) => (
                                         <div key={stepIndex} className="flex items-start gap-[9px] relative z-10">
                                             {/* Step ID */}
                                             <span className="text-neutral-900 text-xl desktop:text-[27px] font-semibold font-['Roboto_Slab'] leading-[1.65] bg-white pr-2 shrink-0">

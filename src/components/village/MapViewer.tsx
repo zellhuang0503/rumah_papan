@@ -1,84 +1,168 @@
 import React, { useState, useMemo } from 'react';
-import { villageLocations, type LocationItem, type LocationCategory } from '../../data/villageMapData';
+import { type LocationItem, type LocationCategory } from '../../data/villageMapData';
+import { Phone, MapPin, ExternalLink, X } from 'lucide-react';
 
 // Using a slightly better placeholder or keeping valid one
 const MAP_PLACEHOLDER_URL = "https://placehold.co/1200x600/e2e8f0/94a3b8?text=Map+Visualization+Coming+Soon";
 
 interface MapViewerProps {
     activeCategory: LocationCategory;
+    locations: LocationItem[];
+    mapImage?: string;
+    isAdmin?: boolean;
 }
 
-export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory }) => {
-    const [hoveredLocation, setHoveredLocation] = useState<LocationItem | null>(null);
+export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations = [], mapImage, isAdmin }) => {
+    const [selectedLocation, setSelectedLocation] = useState<LocationItem | null>(null);
 
     // Filter locations based on active category
-    // This logic prepares for future Google Maps API integration where we would
-    // clear markers and add new ones based on this filtered list.
     const displayLocations = useMemo(() => {
+        if (!locations || !Array.isArray(locations)) return [];
         if (activeCategory === 'all') {
-            return villageLocations;
+            return locations;
         }
-        return villageLocations.filter(loc => loc.category === activeCategory);
-    }, [activeCategory]);
+        return locations.filter(loc => loc.category === activeCategory);
+    }, [activeCategory, locations]);
+
+    const handlePinClick = (loc: LocationItem) => {
+        if (selectedLocation?.id === loc.id) {
+            setSelectedLocation(null);
+        } else {
+            setSelectedLocation(loc);
+        }
+    };
+
+    const handleMapClick = (e: React.MouseEvent<HTMLImageElement>) => {
+        if (!isAdmin) {
+            setSelectedLocation(null);
+            return;
+        }
+
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+        const coordString = `X: ${Math.round(x)}, Y: ${Math.round(y)}`;
+        alert(`🎯 Coordinates Copied!\n${coordString}\n\nPaste these numbers into Sanity CMS.`);
+
+        // Also log to console for backup
+        console.log(`Coordinates: { x: ${Math.round(x)}, y: ${Math.round(y)} }`);
+    };
 
     return (
-        <div className="w-full h-[500px] md:h-[600px] bg-[#F1F0E9] rounded-3xl overflow-hidden shadow-lg border border-[#242527]/10 relative group">
-            {/* 
-                Future Google Maps Integration Placeholder:
-                Replace the <img> below with the Google Maps iframe or API container.
-                The 'displayLocations' array above contains the data source for the map markers.
-            */}
-
+        <div className={`w-full h-[500px] md:h-[600px] bg-[#F1F0E9] rounded-3xl overflow-hidden shadow-lg border border-[#242527]/10 relative group ${isAdmin ? 'ring-4 ring-red-500 ring-opacity-50 cursor-crosshair' : ''}`}>
             {/* Map Image Layer */}
             <img
-                src={MAP_PLACEHOLDER_URL}
+                src={mapImage || MAP_PLACEHOLDER_URL}
                 alt="Village Map"
-                className="w-full h-full object-cover opacity-60"
+                className={`w-full h-full object-cover ${mapImage ? '' : 'opacity-60'}`}
+                onClick={handleMapClick}
             />
 
             {/* Pins Layer */}
-            <div className="absolute inset-0">
+            <div className="absolute inset-0 pointer-events-none">
                 {displayLocations.map((loc) => (
                     loc.coordinates && (
                         <div
                             key={loc.id}
-                            className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer group/pin"
+                            className={`absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer pointer-events-auto transition-all duration-300 ${selectedLocation?.id === loc.id ? 'z-30' : 'z-10'}`}
                             style={{
                                 left: `${loc.coordinates.x}%`,
                                 top: `${loc.coordinates.y}%`
                             }}
-                            onMouseEnter={() => setHoveredLocation(loc)}
-                            onMouseLeave={() => setHoveredLocation(null)}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handlePinClick(loc);
+                            }}
                         >
                             <div className={`
                                 flex items-center justify-center
-                                w-10 h-10 md:w-12 md:h-12 bg-[#F1592C] rounded-full shadow-md
-                                border-4 border-white transition-transform duration-300 hover:scale-125
-                                ${hoveredLocation?.id === loc.id ? 'scale-125 z-20' : 'z-10'}
+                                w-8 h-8 md:w-10 md:h-10 rounded-full shadow-lg
+                                border-4 border-white transition-all duration-300
+                                ${selectedLocation?.id === loc.id ? 'bg-[#242527] scale-125' : 'bg-[#F1592C] hover:scale-110'}
                             `}>
-                                <div className="w-3 h-3 bg-white rounded-full" />
+                                <div className="w-2.5 h-2.5 bg-white rounded-full animate-pulse" />
                             </div>
 
-                            {/* Tooltip Label */}
-                            <div className={`
-                                absolute top-full mt-2 left-1/2 -translate-x-1/2
-                                bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-sm font-bold shadow-sm whitespace-nowrap
-                                transition-all duration-300
-                                ${hoveredLocation?.id === loc.id ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'}
-                            `}>
-                                {loc.name}
-                            </div>
+                            {/* Tooltip Card */}
+                            {selectedLocation?.id === loc.id && (
+                                <div className={`
+                                    absolute left-1/2 -translate-x-1/2 w-[280px] md:w-[320px] bg-white rounded-2xl shadow-2xl overflow-hidden z-50
+                                    animate-in fade-in duration-300
+                                    ${loc.coordinates.y < 50 ? 'top-full mt-4 slide-in-from-top-4' : 'bottom-full mb-4 slide-in-from-bottom-4'}
+                                `}>
+                                    <div className="p-1 absolute right-2 top-2 z-10">
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setSelectedLocation(null);
+                                            }}
+                                            className="p-1 bg-white/80 hover:bg-gray-100 rounded-full transition-colors shadow-sm"
+                                        >
+                                            <X className="w-4 h-4 text-gray-500" />
+                                        </button>
+                                    </div>
+
+                                    {loc.image && (
+                                        <div className="w-full h-32 overflow-hidden">
+                                            <img src={loc.image} alt={loc.name} className="w-full h-full object-cover" />
+                                        </div>
+                                    )}
+
+                                    <div className="p-5 flex flex-col gap-3 text-left">
+                                        <div>
+                                            <h3 className="text-lg font-bold text-[#242527] font-noto-sans-tc leading-tight">{loc.name}</h3>
+                                            {loc.subName && <p className="text-xs text-gray-500 font-medium mt-0.5">{loc.subName}</p>}
+                                        </div>
+
+                                        <div className="flex flex-col gap-2">
+                                            <div className="flex items-start gap-2 text-sm text-gray-600">
+                                                <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-[#F1592C]" />
+                                                <span className="leading-tight">{loc.address}</span>
+                                            </div>
+
+                                            {loc.phone && (
+                                                <div className="flex items-center gap-2 text-sm text-gray-600">
+                                                    <Phone className="w-4 h-4 shrink-0 text-[#F1592C]" />
+                                                    <span>{loc.phone}</span>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {loc.googleMapLink && (
+                                            <a
+                                                href={loc.googleMapLink}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="mt-2 w-full bg-[#F1592C] text-white py-2.5 rounded-xl text-center text-sm font-bold flex items-center justify-center gap-2 hover:bg-[#D44A24] transition-colors"
+                                            >
+                                                <ExternalLink className="w-4 h-4" />
+                                                在 Google 地圖中查看
+                                            </a>
+                                        )}
+                                    </div>
+
+                                    {/* Triangle Arrow */}
+                                    <div className={`
+                                        absolute left-1/2 -translate-x-1/2 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent
+                                        ${loc.coordinates.y < 50
+                                            ? 'bottom-full border-b-[10px] border-b-white'
+                                            : 'top-full border-t-[10px] border-t-white'}
+                                    `}></div>
+                                </div>
+                            )}
                         </div>
                     )
                 ))}
             </div>
 
-            {/* Overlay Title (Optional) */}
-            <div className="absolute top-6 left-6 pointer-events-none">
-                <span className="bg-white/80 px-4 py-2 rounded-full text-sm font-bold text-[#242527] backdrop-blur-sm shadow-sm border border-gray-100">
-                    Interactive Map
+            {/* Legend / Overlay */}
+            <div className="absolute top-6 left-6 pointer-events-none flex flex-col gap-2">
+                <span className="bg-white/90 px-4 py-2 rounded-full text-sm font-bold text-[#242527] backdrop-blur-sm shadow-sm border border-[#242527]/5">
+                    點擊標記查看詳情
                 </span>
             </div>
         </div>
     );
 };
+
