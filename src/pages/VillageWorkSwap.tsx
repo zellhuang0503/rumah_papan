@@ -1,19 +1,99 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
 import { getWorkSwapData } from '../data/villageData';
 import { useLanguage } from '../contexts/LanguageContext';
+import { client, urlFor } from '../utils/sanity';
+
+interface WorkSwapCMS {
+    workSwap?: {
+        heroTitle?: string; heroTitle_en?: string;
+        items?: Array<{
+            title?: string; title_en?: string; desc?: string; desc_en?: string; image?: any;
+        }>;
+        quote?: {
+            title?: string; title_en?: string; desc?: string; desc_en?: string;
+        };
+        booking?: {
+            title?: string; title_en?: string; button?: string; button_en?: string;
+        };
+        notices?: Array<{
+            title?: string; title_en?: string; desc?: string; desc_en?: string;
+        }>;
+    };
+}
 
 export const VillageWorkSwap: React.FC = () => {
     const { language } = useLanguage();
-    const WORK_SWAP_DATA = getWorkSwapData(language);
+    const STATIC_DATA = getWorkSwapData(language);
 
-    // RWD Implementation
-    // - Desktop (1440px): Matches Figma 1920 -> 1440 (0.75x) scale
-    // - Tablet/Mobile: Stacked layout with responsive sizing
-    // - Tablet Image Height: Fixed h-[360px] to prevent flattening
+    const [cmsData, setCmsData] = useState<WorkSwapCMS | null>(null);
+
+    useEffect(() => {
+        const fetchWorkSwap = async () => {
+            try {
+                const data = await client.fetch<WorkSwapCMS>(`*[_type == "village"][0]{workSwap}`);
+                if (data) {
+                    setCmsData(data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch work swap data", error);
+            }
+        };
+        fetchWorkSwap();
+    }, []);
+
+    const getLocalized = (zh: string | undefined, en: string | undefined, fallback: string | undefined) => {
+        if (language === 'en') return en || zh || fallback || "";
+        return zh || fallback || "";
+    };
+
+    const cmsWS = cmsData?.workSwap;
+
+    // Merge logic
+    const hero = {
+        title: getLocalized(cmsWS?.heroTitle, cmsWS?.heroTitle_en, STATIC_DATA.hero.title)
+    };
+
+    const items = (cmsWS?.items && cmsWS.items.length > 0 ? cmsWS.items : STATIC_DATA.items).map((item: any, i: number) => {
+        const staticItem = STATIC_DATA.items[i];
+        if (cmsWS?.items && cmsWS.items.length > 0) {
+            return {
+                title: getLocalized(item.title, item.title_en, staticItem?.title),
+                desc: getLocalized(item.desc, item.desc_en, staticItem?.desc),
+                image: item.image ? urlFor(item.image).url() : (staticItem?.image || ""),
+                imagePosition: staticItem?.imagePosition || ""
+            };
+        }
+        return item; // Static
+    });
+
+    const quote = {
+        title: getLocalized(cmsWS?.quote?.title, cmsWS?.quote?.title_en, STATIC_DATA.quote.title),
+        desc: getLocalized(cmsWS?.quote?.desc, cmsWS?.quote?.desc_en, STATIC_DATA.quote.desc)
+    };
+
+    const booking = {
+        title: getLocalized(cmsWS?.booking?.title, cmsWS?.booking?.title_en, STATIC_DATA.booking.title),
+        button: getLocalized(cmsWS?.booking?.button, cmsWS?.booking?.button_en, STATIC_DATA.booking.button)
+    };
+
+    const notices = (cmsWS?.notices && cmsWS.notices.length > 0 ? cmsWS.notices : STATIC_DATA.notices).map((item: any, i: number) => {
+        const staticItem = STATIC_DATA.notices[i];
+        if (cmsWS?.notices && cmsWS.notices.length > 0) {
+            return {
+                id: item.id || staticItem?.id || `0${i + 1}`,
+                title: getLocalized(item.title, item.title_en, staticItem?.title),
+                desc: getLocalized(item.desc, item.desc_en, staticItem?.desc)
+            };
+        }
+        return item;
+    });
+
+    const WORK_SWAP_DATA = {
+        hero, items, quote, booking, notices
+    };
 
     const labels = {
         notices: language === 'zh' ? '注意事項' : 'Notices'

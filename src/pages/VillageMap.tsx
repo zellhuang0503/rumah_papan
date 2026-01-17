@@ -1,5 +1,4 @@
-
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { HomeNavbar } from '../components/HomeNavbar';
@@ -11,17 +10,91 @@ import {
     getVillageLocations,
     type LocationCategory,
     getMapPageTitle,
-    getMapPageSubtitle
+    getMapPageSubtitle,
+    LocationItem
 } from '../data/villageMapData';
 import { useLanguage } from '../contexts/LanguageContext';
+import { client, urlFor } from '../utils/sanity';
 
 gsap.registerPlugin(ScrollTrigger);
 
+interface MapCMS {
+    map?: {
+        title?: string; title_en?: string;
+        subtitle?: string; subtitle_en?: string;
+        locations?: Array<{
+            id?: string;
+            name?: string; name_en?: string;
+            subName?: string; subName_en?: string;
+            address?: string; address_en?: string;
+            category?: string;
+            featureTitle?: string; featureTitle_en?: string;
+            featureDescription?: string[]; featureDescription_en?: string[];
+            distanceInfo?: string; distanceInfo_en?: string;
+            coordinateX?: number; coordinateY?: number;
+            image?: any;
+        }>;
+    };
+}
+
 export const VillageMap: React.FC = () => {
     const { language } = useLanguage();
-    const villageLocations = getVillageLocations(language);
+    const staticLocations = getVillageLocations(language);
     const MAP_PAGE_TITLE = getMapPageTitle(language);
     const MAP_PAGE_SUBTITLE = getMapPageSubtitle(language);
+
+    const [cmsData, setCmsData] = useState<MapCMS | null>(null);
+
+    useEffect(() => {
+        const fetchMap = async () => {
+            try {
+                const data = await client.fetch<MapCMS>(`*[_type == "village"][0]{map}`);
+                if (data) {
+                    setCmsData(data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch map data", error);
+            }
+        };
+        fetchMap();
+    }, []);
+
+    const getLocalized = (zh: any, en: any, fallback: any) => {
+        if (language === 'en') return en || zh || fallback;
+        return zh || fallback;
+    };
+
+    const cmsMap = cmsData?.map;
+
+    const pageTitle = getLocalized(cmsMap?.title, cmsMap?.title_en, MAP_PAGE_TITLE);
+    const pageSubtitle = getLocalized(cmsMap?.subtitle, cmsMap?.subtitle_en, MAP_PAGE_SUBTITLE);
+
+    const villageLocations: LocationItem[] = (cmsMap?.locations && cmsMap.locations.length > 0)
+        ? cmsMap.locations.map((item: any) => {
+            const staticItem = staticLocations.find(l => l.id === item.id) || staticLocations.find(l => l.category === item.category); // Fallback logic might be loose if ID missing, but ID should exist.
+
+            // If staticItem is found by ID usage is safe. If not found, use partial data.
+            // Actually, we should iterate over CMS locations if they exist.
+            // But if CMS has FEWER items than static (e.g. user deleted some), we show fewer?
+            // Or do we merge lists?
+            // Usually CMS completely replaces the list.
+
+            return {
+                id: item.id || staticItem?.id || '',
+                name: getLocalized(item.name, item.name_en, staticItem?.name || ''),
+                subName: getLocalized(item.subName, item.subName_en, staticItem?.subName),
+                address: getLocalized(item.address, item.address_en, staticItem?.address || ''),
+                category: (item.category as LocationCategory) || staticItem?.category || 'attraction',
+                featureTitle: getLocalized(item.featureTitle, item.featureTitle_en, staticItem?.featureTitle),
+                featureDescription: getLocalized(item.featureDescription, item.featureDescription_en, staticItem?.featureDescription || []),
+                distanceInfo: getLocalized(item.distanceInfo, item.distanceInfo_en, staticItem?.distanceInfo),
+                coordinates: (item.coordinateX !== undefined && item.coordinateY !== undefined)
+                    ? { x: item.coordinateX, y: item.coordinateY }
+                    : (staticItem?.coordinates || { x: 0, y: 0 }),
+                image: item.image ? urlFor(item.image).url() : (staticItem?.image || "")
+            };
+        })
+        : staticLocations;
 
     const [activeCategory, setActiveCategory] = useState<LocationCategory>('all');
     const containerRef = useRef<HTMLDivElement>(null);
@@ -105,12 +178,12 @@ export const VillageMap: React.FC = () => {
         }, containerRef);
 
         return () => ctx.revert();
-    }, [language]); // Depend on language to re-animate if needed or just re-render is fine.
+    }, [language, villageLocations]); // Depend on villageLocations to re-animate when data loads
 
     // Refresh ScrollTrigger when category changes (content height changes)
     useLayoutEffect(() => {
         ScrollTrigger.refresh();
-    }, [activeCategory, language]);
+    }, [activeCategory, language, villageLocations]);
 
     // Labels for Sections
     const sectionLabels = {
@@ -128,7 +201,7 @@ export const VillageMap: React.FC = () => {
                 {/* Header Section */}
                 <div className="text-center flex flex-col gap-6 items-center anim-header">
                     <h1 className="text-3xl md:text-[3.375rem] font-bold text-[#242527] font-noto-sans-tc leading-tight">
-                        {MAP_PAGE_TITLE}
+                        {pageTitle}
                     </h1>
                 </div>
 
@@ -137,7 +210,7 @@ export const VillageMap: React.FC = () => {
                     {/* Subtitle / Map Intro */}
                     <div className="flex flex-col gap-8 w-full anim-subtitle">
                         <h2 className="text-2xl md:text-[2.5rem] font-bold text-[#242527] font-noto-sans-tc text-left">
-                            {MAP_PAGE_SUBTITLE}
+                            {pageSubtitle}
                         </h2>
 
                         {/* Map Section */}

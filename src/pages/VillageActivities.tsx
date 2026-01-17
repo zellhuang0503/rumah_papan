@@ -1,20 +1,89 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
 import { getActivitiesData } from '../data/villageData';
 import { useLanguage } from '../contexts/LanguageContext';
+import { client, urlFor } from '../utils/sanity';
+
+interface ActivitiesCMS {
+    activities?: {
+        heroTitle?: string; heroTitle_en?: string;
+        items?: Array<{
+            title?: string; title_en?: string; desc?: string; desc_en?: string; image?: any;
+        }>;
+        quote?: {
+            title?: string; title_en?: string; desc?: string; desc_en?: string;
+        };
+        notices?: Array<{
+            title?: string; title_en?: string; desc?: string; desc_en?: string;
+        }>;
+    };
+}
 
 export const VillageActivities: React.FC = () => {
     const { language } = useLanguage();
-    const ACTIVITIES_DATA = getActivitiesData(language);
+    const STATIC_DATA = getActivitiesData(language);
 
-    // Scaling Rules (1920 -> 1440, 0.75x)
-    // Global Spacing: 120px
-    // Fonts: 72->54, 60->45, 48->36, 30->22.5, 24->18
-    // Card Width: 621px (was 828)
-    // Card Height: 288px (was 384/404)
-    // Card Padding: 30px 60px (was 40 80)
+    const [cmsData, setCmsData] = useState<ActivitiesCMS | null>(null);
+
+    useEffect(() => {
+        const fetchActivities = async () => {
+            try {
+                const data = await client.fetch<ActivitiesCMS>(`*[_type == "village"][0]{activities}`);
+                if (data) {
+                    setCmsData(data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch activities data", error);
+            }
+        };
+        fetchActivities();
+    }, []);
+
+    const getLocalized = (zh: string | undefined, en: string | undefined, fallback: string | undefined) => {
+        if (language === 'en') return en || zh || fallback || "";
+        return zh || fallback || "";
+    };
+
+    const cmsAct = cmsData?.activities;
+
+    const hero = {
+        title: getLocalized(cmsAct?.heroTitle, cmsAct?.heroTitle_en, STATIC_DATA.hero.title)
+    };
+
+    const items = (cmsAct?.items && cmsAct.items.length > 0 ? cmsAct.items : STATIC_DATA.items).map((item: any, i: number) => {
+        const staticItem = STATIC_DATA.items[i];
+        if (cmsAct?.items && cmsAct.items.length > 0) {
+            return {
+                title: getLocalized(item.title, item.title_en, staticItem?.title),
+                desc: getLocalized(item.desc, item.desc_en, staticItem?.desc),
+                image: item.image ? urlFor(item.image).url() : (staticItem?.image || ""),
+                imagePosition: staticItem?.imagePosition || ""
+            };
+        }
+        return item; // Static
+    });
+
+    const quote = {
+        title: getLocalized(cmsAct?.quote?.title, cmsAct?.quote?.title_en, STATIC_DATA.quote.title),
+        desc: getLocalized(cmsAct?.quote?.desc, cmsAct?.quote?.desc_en, STATIC_DATA.quote.desc)
+    };
+
+    const notices = (cmsAct?.notices && cmsAct.notices.length > 0 ? cmsAct.notices : STATIC_DATA.notices).map((item: any, i: number) => {
+        const staticItem = STATIC_DATA.notices[i];
+        if (cmsAct?.notices && cmsAct.notices.length > 0) {
+            return {
+                id: item.id || staticItem?.id || `0${i + 1}`,
+                title: getLocalized(item.title, item.title_en, staticItem?.title),
+                desc: getLocalized(item.desc, item.desc_en, staticItem?.desc)
+            };
+        }
+        return item;
+    });
+
+    const ACTIVITIES_DATA = {
+        hero, items, quote, notices
+    };
 
     const labels = {
         notices: language === 'zh' ? '注意事項' : 'Notices'

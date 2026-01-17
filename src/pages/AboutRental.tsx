@@ -1,19 +1,102 @@
-
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
 import { getRentalData } from '../data/aboutData';
 import { useLanguage } from '../contexts/LanguageContext';
 import { MoveRight, ArrowUpRight } from 'lucide-react';
+import { client, urlFor } from '../utils/sanity';
+
+interface RentalCMS {
+    rental?: {
+        highlights?: Array<{
+            title?: string; title_en?: string; desc?: string; desc_en?: string; image?: any;
+        }>;
+        process?: Array<{
+            step?: string; title?: string; title_en?: string; desc?: string; desc_en?: string;
+        }>;
+        plans?: Array<{
+            name?: string; name_en?: string; sub?: string; sub_en?: string; items?: string[]; items_en?: string[];
+        }>;
+        contact?: {
+            desc?: string; desc_en?: string;
+        };
+    };
+}
 
 export const AboutRental: React.FC = () => {
     const { language } = useLanguage();
-    const RENTAL_DATA = getRentalData(language);
+    const STATIC_DATA = getRentalData(language);
 
-    // Scaling Rules (1920 -> 1440, factor 0.75)
-    // Width: 1680 * 0.75 = 1260px
-    // Spacing: 120 * 0.75 = 90px
-    // Fonts: 72->54, 60->45, 50->37.5, 24->18
+    const [cmsData, setCmsData] = useState<RentalCMS | null>(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await client.fetch<RentalCMS>(`*[_type == "about"][0]{rental}`);
+                if (data) {
+                    setCmsData(data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch rental data", error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const getLocalized = (zh: string | undefined, en: string | undefined, fallback: string | undefined) => {
+        if (language === 'en') return en || zh || fallback || "";
+        return zh || fallback || "";
+    };
+
+    // Merge Data
+    const cmsRental = cmsData?.rental;
+
+    const highlights = (cmsRental?.highlights && cmsRental.highlights.length > 0 ? cmsRental.highlights : STATIC_DATA.highlights).map((item: any, i: number) => {
+        const staticItem = STATIC_DATA.highlights[i];
+        if (cmsRental?.highlights && cmsRental.highlights.length > 0) {
+            return {
+                title: getLocalized(item.title, item.title_en, staticItem?.title),
+                desc: getLocalized(item.desc, item.desc_en, staticItem?.desc),
+                image: item.image ? urlFor(item.image).url() : staticItem?.image
+            };
+        }
+        return item;
+    });
+
+    const process = (cmsRental?.process && cmsRental.process.length > 0 ? cmsRental.process : STATIC_DATA.process).map((item: any, i: number) => {
+        const staticItem = STATIC_DATA.process[i];
+        if (cmsRental?.process && cmsRental.process.length > 0) {
+            return {
+                step: item.step || staticItem?.step || `0${i + 1}`,
+                title: getLocalized(item.title, item.title_en, staticItem?.title),
+                desc: getLocalized(item.desc, item.desc_en, staticItem?.desc),
+            };
+        }
+        return item;
+    });
+
+    const plans = (cmsRental?.plans && cmsRental.plans.length > 0 ? cmsRental.plans : STATIC_DATA.plans).map((item: any, i: number) => {
+        const staticItem = STATIC_DATA.plans[i];
+        if (cmsRental?.plans && cmsRental.plans.length > 0) {
+            return {
+                name: getLocalized(item.name, item.name_en, staticItem?.name),
+                sub: getLocalized(item.sub, item.sub_en, staticItem?.sub),
+                items: (language === 'en' && item.items_en) ? item.items_en : (item.items || staticItem?.items || [])
+            };
+        }
+        return item;
+    });
+
+    const contact = {
+        desc: getLocalized(cmsRental?.contact?.desc, cmsRental?.contact?.desc_en, STATIC_DATA.contact.desc)
+    };
+
+    const RENTAL_DATA = {
+        highlights,
+        process,
+        plans,
+        contact
+    };
 
     // Translations
     const labels = {

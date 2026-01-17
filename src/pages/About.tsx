@@ -1,34 +1,81 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getAboutHeroData } from '../data/aboutData';
 import { useLanguage } from '../contexts/LanguageContext';
+import { client, urlFor } from '../utils/sanity';
+
+interface AboutCMS {
+    heroStory?: {
+        title?: string;
+        title_en?: string;
+        subtitle?: string;
+        subtitle_en?: string;
+        tag?: string;
+        tag_en?: string;
+        path?: string;
+        image?: any;
+    };
+    heroCards?: Array<{
+        title?: string;
+        title_en?: string;
+        subtitle?: string;
+        subtitle_en?: string;
+        path?: string;
+        image?: any;
+    }>;
+}
 
 export const About: React.FC = () => {
     const { language } = useLanguage();
     const ABOUT_HERO_DATA = getAboutHeroData(language);
 
-    // Scaling Rules (1920 -> 1440, factor 0.75)
-    // Padding Top: 220px -> 165px
-    // Padding X: 120px -> 90px
-    // Gap: 24px -> 18px
+    // CMS Data State
+    const [cmsData, setCmsData] = useState<AboutCMS | null>(null);
 
-    // Left Card:
-    // W 828 -> 621px
-    // H 748 -> 561px
-    // Rounded 24px -> 18px
-    // Outline 2px -> 1.5px (use 2px for visibility or 1.5px if possible, Tailwind default is fine, usually 1px or 2px. Design says 2px, scaled 1.5px. I'll use 2px for crispness or custom.)
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const result = await client.fetch<AboutCMS>(`*[_type == "about"][0]`);
+                if (result) {
+                    setCmsData(result);
+                }
+            } catch (error) {
+                console.error("Failed to fetch about data", error);
+            }
+        };
+        fetchData();
+    }, []);
 
-    // Typography:
-    // 6xl (60px) -> 45px
-    // 2xl (24px) -> 18px
-    // xl (20px) -> 15px
+    // Helper to get localized string with fallback
+    const getLocalized = (zh: string | undefined, en: string | undefined, fallback: string) => {
+        if (language === 'en') return en || zh || fallback;
+        return zh || fallback;
+    };
 
-    // Right Cards:
-    // H 240px -> 180px
-    // Gap 20px -> 15px
+    // Prepare Display Data
+    const heroStory = {
+        title: getLocalized(cmsData?.heroStory?.title, cmsData?.heroStory?.title_en, ABOUT_HERO_DATA.story.title),
+        subtitle: getLocalized(cmsData?.heroStory?.subtitle, cmsData?.heroStory?.subtitle_en, ABOUT_HERO_DATA.story.subtitle),
+        tag: getLocalized(cmsData?.heroStory?.tag, cmsData?.heroStory?.tag_en, ABOUT_HERO_DATA.story.tag),
+        path: cmsData?.heroStory?.path || ABOUT_HERO_DATA.story.path
+    };
+
+    // Merge Cards (CMS length might differ, map based on CMS if exists, else Static)
+    // Strategy: If CMS cards exist and not empty, try to map them. 
+    // BUT we need to match the static layout (3 cards). 
+    // If CMS has fewer cards, we might break layout. 
+    // Safest: Map static cards and try to find matching index in CMS.
+    const displayCards = ABOUT_HERO_DATA.cards.map((staticCard, index) => {
+        const cmsCard = cmsData?.heroCards?.[index];
+        return {
+            title: getLocalized(cmsCard?.title, cmsCard?.title_en, staticCard.title),
+            subtitle: getLocalized(cmsCard?.subtitle, cmsCard?.subtitle_en, staticCard.subtitle),
+            path: cmsCard?.path || staticCard.path,
+            image: cmsCard?.image ? urlFor(cmsCard.image).url() : null // Image logic if needed later
+        };
+    });
 
     return (
         <div className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white">
@@ -37,7 +84,7 @@ export const About: React.FC = () => {
             <main className="w-full max-w-[1440px] mx-auto px-6 pt-32 desktop:px-[90px] desktop:pt-[165px] flex flex-col desktop:flex-row justify-center items-center desktop:items-start gap-8 desktop:gap-[18px] pb-20 desktop:pb-0">
                 {/* Left Column - Main Story Card */}
                 <Link
-                    to={ABOUT_HERO_DATA.story.path}
+                    to={heroStory.path}
                     className="relative w-full max-w-[621px] min-h-[400px] desktop:min-h-0 desktop:h-[561px] bg-orange-100 rounded-[18px] outline outline-[1.5px] outline-neutral-900 overflow-hidden group hover:shadow-lg transition-all flex flex-col p-8 desktop:p-0"
                 >
                     {/* Circle Decoration */}
@@ -46,16 +93,16 @@ export const About: React.FC = () => {
                     {/* Content */}
                     <div className="relative desktop:absolute desktop:left-[58.5px] desktop:top-[60px] flex flex-col items-start z-10">
                         <h2 className="text-black/80 text-3xl desktop:text-[45px] font-bold font-['Noto_Sans_TC'] leading-tight desktop:leading-[63px]">
-                            {ABOUT_HERO_DATA.story.title}
+                            {heroStory.title}
                         </h2>
                         <p className="text-black/80 text-base desktop:text-[18px] font-medium font-['Noto_Sans_TC'] leading-normal desktop:leading-[24px] mt-4 desktop:mt-0">
-                            {ABOUT_HERO_DATA.story.subtitle}
+                            {heroStory.subtitle}
                         </p>
                     </div>
 
                     {/* Tag */}
                     <div className="relative desktop:absolute desktop:right-[60px] desktop:bottom-[60px] text-left desktop:text-right text-neutral-900 text-[15px] font-normal font-['Roboto_Slab'] leading-[21px] whitespace-pre-line mt-auto pt-8 desktop:pt-0 desktop:mt-0 z-10">
-                        {ABOUT_HERO_DATA.story.tag}
+                        {heroStory.tag}
                     </div>
 
                     {/* Arrow Icon */}
@@ -68,7 +115,7 @@ export const About: React.FC = () => {
 
                 {/* Right Column - 3 Stacked Cards */}
                 <div className="flex flex-col gap-4 desktop:gap-[15px] w-full max-w-[621px]">
-                    {ABOUT_HERO_DATA.cards.map((card, index) => (
+                    {displayCards.map((card, index) => (
                         <Link
                             key={index}
                             to={card.path}

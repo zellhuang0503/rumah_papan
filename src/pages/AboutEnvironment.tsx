@@ -1,28 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
 import { getEnvironmentData } from '../data/aboutData';
 import { useLanguage } from '../contexts/LanguageContext';
+import { client, urlFor } from '../utils/sanity';
+
+interface EnvironmentItem {
+    title?: string;
+    title_en?: string;
+    desc?: string;
+    desc_en?: string;
+    image?: any;
+    _key?: string;
+}
 
 export const AboutEnvironment: React.FC = () => {
     const { language } = useLanguage();
     const ENVIRONMENT_DATA = getEnvironmentData(language);
 
-    // Scaling Rules (1920 -> 1440, factor 0.75)
-    // Padding Top: 220px (from design) -> 165px?? 
-    // Wait, previous design had "pb-20 left-0 top-0 absolute bg-orange-100 inline-flex flex-col justify-start items-center gap-24".
-    // 24 (96px) -> 72px gap.
-    // Title Size: 7xl (72px) -> 54px.
-    // Card Width: 544px -> 408px.
-    // Card Image Height: 454px -> 340.5px.
-    // Font 5xl (48px) -> 36px.
-    // Font 2xl (24px) -> 18px.
+    const [cmsItems, setCmsItems] = useState<EnvironmentItem[]>([]);
 
-    // Layout:
-    // Navbar at top.
-    // Content starts below navbar.
-    // Title is "環境介紹" centered-ish.
-    // Grid of cards below.
+    useEffect(() => {
+        const fetchEnvironment = async () => {
+            try {
+                // Fetch only the environment array
+                const data = await client.fetch<{ environment: EnvironmentItem[] }>(`*[_type == "about"][0]{environment}`);
+                if (data?.environment) {
+                    setCmsItems(data.environment);
+                }
+            } catch (error) {
+                console.error("Failed to fetch environment data", error);
+            }
+        };
+        fetchEnvironment();
+    }, []);
+
+    // Helper to get localized string with fallback
+    const getLocalized = (zh: string | undefined, en: string | undefined, fallback: string) => {
+        if (language === 'en') return en || zh || fallback;
+        return zh || fallback;
+    };
+
+    // Determine Source to Iterate
+    // If CMS has items, use them (and fallback to static items by index for images if needed)
+    // If CMS is empty, use Static list entirely.
+    const useCmsList = cmsItems.length > 0;
+    const listToRender = useCmsList ? cmsItems : ENVIRONMENT_DATA;
 
     return (
         <div className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
@@ -37,25 +60,54 @@ export const AboutEnvironment: React.FC = () => {
 
                     {/* Grid Section */}
                     <div className="w-full max-w-[1440px] flex flex-wrap justify-center gap-6 desktop:gap-[18px] px-6 desktop:px-[90px]">
-                        {ENVIRONMENT_DATA.map((item, index) => (
-                            <div key={index} className="w-full max-w-[408px] flex flex-col items-start shadow-md rounded-[18px]">
-                                <img
-                                    className="w-full h-auto aspect-[408/340.5] object-cover rounded-t-[18px]"
-                                    src={item.image}
-                                    alt={item.title}
-                                />
-                                <div className="self-stretch px-6 pt-[15px] pb-[30px] bg-white rounded-b-[18px] flex flex-col justify-start items-start gap-[7.5px]">
-                                    <div className="self-stretch flex flex-col justify-center items-start gap-[9px]">
-                                        <h3 className="self-stretch text-neutral-900 text-2xl desktop:text-[36px] font-bold font-['Noto_Sans_TC'] leading-tight desktop:leading-[52.5px]">
-                                            {item.title}
-                                        </h3>
-                                        <p className="self-stretch text-neutral-900 text-base desktop:text-[18px] font-bold font-['Noto_Sans_TC'] leading-normal desktop:leading-[24px] whitespace-pre-line">
-                                            {item.desc}
-                                        </p>
+                        {listToRender.map((item: any, index: number) => {
+                            // Logic:
+                            // If iterating CMS item: use its fields, fallback to static[index] fields
+                            // If iterating Static item: use its fields directly (which are already localized via getEnvironmentData above, wait... NO)
+                            // getEnvironmentData returns ALREADY localized strings based on `language` passed to it?
+                            // Yes: `const ENVIRONMENT_DATA = getEnvironmentData(language);`
+
+                            // So if useCmsList is FALSE, `item` is a static item with simple title/desc/image.
+                            // If useCmsList is TRUE, `item` is a CMS item with `title`, `title_en`, `image` object.
+
+                            let displayTitle, displayDesc, displayImage;
+
+                            if (useCmsList) {
+                                const cmsItem = item as EnvironmentItem;
+                                const staticItem = ENVIRONMENT_DATA[index]; // Fallback Static Item
+
+                                displayTitle = getLocalized(cmsItem.title, cmsItem.title_en, staticItem?.title || "");
+                                displayDesc = getLocalized(cmsItem.desc, cmsItem.desc_en, staticItem?.desc || "");
+                                displayImage = cmsItem.image ? urlFor(cmsItem.image).url() : staticItem?.image;
+                            } else {
+                                // Static item
+                                displayTitle = item.title;
+                                displayDesc = item.desc;
+                                displayImage = item.image;
+                            }
+
+                            return (
+                                <div key={index} className="w-full max-w-[408px] flex flex-col items-start shadow-md rounded-[18px]">
+                                    {displayImage && (
+                                        <img
+                                            className="w-full h-auto aspect-[408/340.5] object-cover rounded-t-[18px]"
+                                            src={displayImage}
+                                            alt={displayTitle}
+                                        />
+                                    )}
+                                    <div className="self-stretch px-6 pt-[15px] pb-[30px] bg-white rounded-b-[18px] flex flex-col justify-start items-start gap-[7.5px]">
+                                        <div className="self-stretch flex flex-col justify-center items-start gap-[9px]">
+                                            <h3 className="self-stretch text-neutral-900 text-2xl desktop:text-[36px] font-bold font-['Noto_Sans_TC'] leading-tight desktop:leading-[52.5px]">
+                                                {displayTitle}
+                                            </h3>
+                                            <p className="self-stretch text-neutral-900 text-base desktop:text-[18px] font-bold font-['Noto_Sans_TC'] leading-normal desktop:leading-[24px] whitespace-pre-line">
+                                                {displayDesc}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
 

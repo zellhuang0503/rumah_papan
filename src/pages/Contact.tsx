@@ -8,9 +8,13 @@ import { client, urlFor } from '../utils/sanity';
 interface ContactData {
     founderImage?: any;
     founderName?: string;
+    founderName_en?: string;
     founderBio?: string;
+    founderBio_en?: string;
     founderTitle?: string;
+    founderTitle_en?: string;
     founderSubtitle?: string;
+    founderSubtitle_en?: string;
     facebookHandle?: string;
     facebookLink?: string;
     instagramHandle?: string;
@@ -45,10 +49,18 @@ export const Contact: React.FC = () => {
     };
 
     // Merged: CMS data takes precedence, fallback to Static Data
-    const displayFounderName = data?.founderName || FOUNDER_DATA.name;
-    const displayFounderBio = data?.founderBio || FOUNDER_DATA.bio;
-    const displayFounderTitle = data?.founderTitle || FOUNDER_DATA.title;
-    const displayFounderSubtitle = data?.founderSubtitle || FOUNDER_DATA.subtitle;
+    // Helper to get localized string
+    const getLocalized = (zh: string | undefined, en: string | undefined, fallback: string) => {
+        if (language === 'en') return en || zh || fallback;
+        return zh || fallback;
+    };
+
+    const displayFounderName = getLocalized(data?.founderName, data?.founderName_en, FOUNDER_DATA.name);
+    const displayFounderBio = getLocalized(data?.founderBio, data?.founderBio_en, FOUNDER_DATA.bio);
+    const displayFounderTitle = getLocalized(data?.founderTitle, data?.founderTitle_en, FOUNDER_DATA.title);
+    const displayFounderSubtitle = getLocalized(data?.founderSubtitle, data?.founderSubtitle_en, FOUNDER_DATA.subtitle);
+
+    // Image doesn't need localization usually, unless specified
     const displayFounderImage = data?.founderImage ? urlFor(data.founderImage).url() : FOUNDER_DATA.image;
 
     const displayFbLink = data?.facebookLink || CONTACT_LINKS[0].link;
@@ -85,7 +97,7 @@ export const Contact: React.FC = () => {
                             <h2 className="w-full text-black text-lg md:text-2xl desktop:text-[54px] font-semibold font-['Roboto_Slab'] leading-[1.45]">
                                 {displayFounderName}
                             </h2>
-                            <p className="w-full text-black/80 text-xs md:text-sm desktop:text-[18px] font-medium font-['Noto_Sans_TC'] leading-[1.6] desktop:leading-[1.8] line-clamp-4 desktop:line-clamp-none">
+                            <p className="w-full text-black/80 text-xs md:text-sm desktop:text-[18px] font-medium font-['Noto_Sans_TC'] leading-[1.6] desktop:leading-[1.8] line-clamp-4 desktop:line-clamp-none whitespace-pre-wrap">
                                 {displayFounderBio}
                             </p>
                         </div>

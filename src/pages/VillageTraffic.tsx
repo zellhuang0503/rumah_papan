@@ -1,18 +1,85 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
 import { getTrafficData } from '../data/villageData';
 import { useLanguage } from '../contexts/LanguageContext';
+import { client } from '../utils/sanity';
+
+interface TrafficCMS {
+    traffic?: {
+        heroTitle?: string; heroTitle_en?: string;
+        map?: {
+            address?: string; address_en?: string; googleMapLink?: string;
+        };
+        methods?: Array<{
+            type?: string; type_en?: string;
+            title?: string; title_en?: string;
+            note?: string; note_en?: string;
+            steps?: Array<{ id?: string; action?: string; action_en?: string; desc?: string; desc_en?: string; }>;
+        }>;
+    };
+}
 
 export const VillageTraffic: React.FC = () => {
     const { language } = useLanguage();
-    const TRAFFIC_DATA = getTrafficData(language);
+    const STATIC_DATA = getTrafficData(language);
 
-    // Layout Rules:
-    // Global Width: 1200px (Desktop) -> Fluid (Mobile)
-    // Global Spacing: 160px (Desktop) -> 80px (Mobile)
-    // Scaling: 0.75x
+    const [cmsData, setCmsData] = useState<TrafficCMS | null>(null);
+
+    useEffect(() => {
+        const fetchTraffic = async () => {
+            try {
+                const data = await client.fetch<TrafficCMS>(`*[_type == "village"][0]{traffic}`);
+                if (data) {
+                    setCmsData(data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch traffic data", error);
+            }
+        };
+        fetchTraffic();
+    }, []);
+
+    const getLocalized = (zh: string | undefined, en: string | undefined, fallback: string | undefined) => {
+        if (language === 'en') return en || zh || fallback || "";
+        return zh || fallback || "";
+    };
+
+    const cmsTraffic = cmsData?.traffic;
+
+    const hero = {
+        title: getLocalized(cmsTraffic?.heroTitle, cmsTraffic?.heroTitle_en, STATIC_DATA.hero.title)
+    };
+
+    // Map URL: if in CMS use it, else static (though static is hardcoded in iframe currently)
+    // Actually static data just has map: { ... }. The iframe uses hardcoded src.
+    // If we want CMS map, we might need a field for embed URL or similar.
+    // The schema has `googleMapLink` which is usually the share link, NOT the embed link.
+    // For now I'll just keep the iframe hardcoded or use the link if formatted correctly, but safer to use static/hardcoded structure for now unless user asks.
+
+    const methods = (cmsTraffic?.methods && cmsTraffic.methods.length > 0 ? cmsTraffic.methods : STATIC_DATA.methods).map((item: any, i: number) => {
+        const staticItem = STATIC_DATA.methods[i];
+        if (cmsTraffic?.methods && cmsTraffic.methods.length > 0) {
+            return {
+                type: getLocalized(item.type, item.type_en, staticItem?.type),
+                title: getLocalized(item.title, item.title_en, staticItem?.title),
+                note: getLocalized(item.note, item.note_en, staticItem?.note),
+                steps: (item.steps || []).map((step: any, si: number) => {
+                    const staticStep = staticItem?.steps?.[si];
+                    return {
+                        id: step.id || staticStep?.id || (si + 1).toString(),
+                        action: getLocalized(step.action, step.action_en, staticStep?.action),
+                        desc: getLocalized(step.desc, step.desc_en, staticStep?.desc)
+                    };
+                })
+            };
+        }
+        return item; // Static
+    });
+
+    const TRAFFIC_DATA = {
+        hero, methods
+    };
 
     return (
         <div className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
