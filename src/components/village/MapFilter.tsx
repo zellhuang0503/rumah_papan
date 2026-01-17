@@ -1,6 +1,6 @@
 import React from 'react';
 import type { LocationCategory } from '../../data/villageMapData';
-import { Utensils, MapPin, Landmark } from 'lucide-react';
+import { Soup, Camera, Landmark } from 'lucide-react'; // Icons: Soup(Food), Camera(Attraction), Landmark(Temple)
 
 interface MapFilterProps {
     activeCategory: LocationCategory;
@@ -8,29 +8,34 @@ interface MapFilterProps {
 }
 
 export const MapFilter: React.FC<MapFilterProps> = ({ activeCategory, onCategoryChange }) => {
-    const filters: { id: LocationCategory; label: string; icon: React.ReactNode }[] = [
-        { id: 'food', label: '肉骨茶', icon: <Utensils size={18} /> },
-        { id: 'attraction', label: '景點', icon: <MapPin size={18} /> },
-        { id: 'temple', label: '廟宇', icon: <Landmark size={18} /> },
+    // Defines the 3 main categories shown in the design
+    const categories: { id: LocationCategory; label: string; icon: React.ReactNode }[] = [
+        { id: 'food', label: '肉骨茶', icon: <Soup size={32} /> },
+        { id: 'attraction', label: '景點', icon: <Camera size={32} /> },
+        { id: 'temple', label: '廟宇', icon: <Landmark size={32} /> },
     ];
 
     return (
-        <div className="flex flex-wrap gap-4 items-center justify-center">
-            {filters.map((filter) => (
+        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            {categories.map((cat) => (
                 <button
-                    key={filter.id}
-                    onClick={() => onCategoryChange(filter.id)}
+                    key={cat.id}
+                    onClick={() => onCategoryChange(activeCategory === cat.id ? 'all' : cat.id)}
                     className={`
-                        flex items-center gap-3 px-8 py-3 rounded-[8px] border transition-all duration-300
-                        font-bold text-[1.125rem] tracking-wide
-                        ${activeCategory === filter.id
-                            ? 'bg-[#F3E3CB] border-[#F3E3CB] text-[#242527]' // Active state (based on screenshot beige)
-                            : 'bg-transparent border-[#242527] text-[#242527] hover:bg-[#F3E3CB]/20' // Inactive state
+                        relative overflow-hidden group rounded-[20px] px-6 py-6 md:px-8 md:py-10
+                        flex items-center justify-between
+                        text-2xl md:text-[2rem] font-bold tracking-wider font-noto-sans-tc
+                        border-[2px] transition-all duration-300
+                        ${activeCategory === cat.id
+                            ? 'bg-[#242527] text-[#F3E3CB] border-[#242527]'
+                            : 'bg-[#F3E3CB] text-[#242527] border-[#242527] hover:bg-[#242527]/5'
                         }
                     `}
                 >
-                    <span>{filter.label}</span>
-                    {filter.icon}
+                    <span className="z-10">{cat.label}</span>
+                    <span className={`z-10 transition-transform duration-300 ${activeCategory === cat.id ? 'scale-110' : 'group-hover:scale-110'}`}>
+                        {cat.icon}
+                    </span>
                 </button>
             ))}
         </div>

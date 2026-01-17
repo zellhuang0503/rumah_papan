@@ -2,10 +2,30 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, Mail, Menu } from 'lucide-react';
+import { ArrowRight, Mail } from 'lucide-react';
 import { BrandLogo } from '../components/BrandLogo';
 import { GuidelineLayer } from '../components/GuidelineLayer';
 import { Polaroid } from '../components/Polaroid';
+import { useLanguage } from '../contexts/LanguageContext';
+
+import homePolaroid1 from '../assets/images/Image_20250204102256.jpg';
+import homePolaroid2 from '../assets/images/Image_kampung.jpg';
+import homePolaroid3 from '../assets/images/Image_20251213-wa0015.jpg';
+import homePolaroid4 from '../assets/images/Image_20240716_178448.jpg';
+import homePolaroid5 from '../assets/images/Image_20240716_491306.jpg';
+import homePolaroid6 from '../assets/images/Image_20240716_165357.png';
+import homePolaroid7 from '../assets/images/Image_20240716_472533.jpg';
+import { WELCOME_POLAROID_DATA } from '../data/welcomeData';
+
+const getPolaroidContent = (lookupKey: string, lang: 'zh' | 'en') => {
+    const data = WELCOME_POLAROID_DATA.find(d => d.caption === lookupKey);
+    if (!data) return { caption: lookupKey, desc: lookupKey };
+
+    if (lang === 'en' && data.en) {
+        return { caption: data.en.caption, desc: data.en.description };
+    }
+    return { caption: data.caption, desc: data.description };
+};
 
 import imgVillageTour from '../assets/images/Image_village_tour.jpg';
 import imgStoryGallery from '../assets/images/Image_house_story_gallery.jpg';
@@ -93,6 +113,21 @@ export const Welcome: React.FC = () => {
             // CTA (with Line 7 from P7)
             revealItem(".cta-button", "#mask-path-7", ".cta-button");
 
+            // 5. Hero Text Entrance Animation (Wave Effect)
+            // Initial State: Hidden and shifted left
+            gsap.set([".hero-text-vertical", ".hero-text-row-1", ".hero-text-row-2", ".hero-text-row-3", ".hero-text-row-4", ".hero-text-vertical-mobile", ".hero-text-row-1-mobile", ".hero-text-row-2-mobile", ".hero-text-row-3-mobile", ".hero-text-row-4-mobile"], { autoAlpha: 0, x: -50 });
+
+            const textTl = gsap.timeline({ defaults: { ease: "power3.out", duration: 1 } });
+
+            // Animate Vertical Text first
+            textTl.to([".hero-text-vertical", ".hero-text-vertical-mobile"], { autoAlpha: 1, x: 0 })
+                // Then the horizontal rows sequentially with overlapping stagger (wave effect)
+                .to([".hero-text-row-1", ".hero-text-row-2", ".hero-text-row-3", ".hero-text-row-4", ".hero-text-row-1-mobile", ".hero-text-row-2-mobile", ".hero-text-row-3-mobile", ".hero-text-row-4-mobile"], {
+                    autoAlpha: 1,
+                    x: 0,
+                    stagger: 0.15
+                }, "-=0.5"); // Start slightly before vertical text finishes
+
             // Force ScrollTrigger to refresh positions after setup
             ScrollTrigger.refresh();
 
@@ -114,12 +149,29 @@ export const Welcome: React.FC = () => {
     // Extra for variants if needed, or reuse.
 
     const images = [
+<<<<<<< HEAD
         imgVillageTour,    // 0
         imgStoryGallery,   // 1
         imgTradition,      // 2
         imgSkillSwap,      // 3
         imgBakKutTeh       // 4
+=======
+        homePolaroid2, // 0: 走進新村
+        homePolaroid1, // 1: 班厝故事館
+        homePolaroid3, // 2: 傳統習俗
+        homePolaroid4, // 3: 技能換宿
+        homePolaroid5, // 4: 節慶活動
+        homePolaroid6, // 5: 肉骨茶
+        homePolaroid7  // 6: 木鱉果
+>>>>>>> main
     ];
+
+    // Use Language Context
+    const { language, setLanguage } = useLanguage();
+
+    const toggleLanguage = () => {
+        setLanguage(language === 'zh' ? 'en' : 'zh');
+    };
 
     return (
         <div ref={containerRef} className="relative w-full min-h-screen bg-[#F3E3CB] overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white">
@@ -135,58 +187,72 @@ export const Welcome: React.FC = () => {
                             <span className="font-serif text-[10px] text-[#181818]">RUMAH PAPAN</span>
                         </div>
                     </div>
-                    <button className="p-2"><Menu className="w-6 h-6 text-[#181818]" /></button>
+                    <Link to="/contact" className="px-4 py-2 bg-white/0 border-[2px] border-[#181818] rounded-full flex justify-center items-center gap-2 cursor-pointer active:bg-[#181818] active:text-white transition-all group">
+                        <Mail className="w-4 h-4 text-[#181818] group-hover:text-white transition-colors" />
+                        <span className="text-[#181818] text-sm font-bold font-sans leading-none group-hover:text-white pt-[1px]">{language === 'zh' ? '聯絡我們' : 'Contact Us'}</span>
+                    </Link>
                 </nav>
 
-                <div className="pt-24 px-6 pb-20 flex flex-col gap-12">
-                    {/* Hero Mobile */}
-                    <div className="text-center flex flex-col items-center">
-                        <div className="flex gap-2 mb-2 font-bold text-2xl text-[#181818]">
+                <div className="pt-24 px-6 pb-20 flex flex-col md:grid md:grid-cols-2 gap-12 md:gap-8 items-center md:items-start max-w-[768px] mx-auto">
+                    {/* Hero Mobile (Spans 2 cols on Tablet) */}
+                    <div className="md:col-span-2 text-center flex flex-col items-center mb-4">
+                        <div className="hero-text-vertical-mobile flex gap-2 mb-2 font-bold text-2xl text-[#181818]">
                             <span>歡</span><span>迎</span><span>來</span><span>到</span>
                         </div>
-                        <h2 className="font-serif font-semibold text-3xl text-[#000000cc]">Welcome to</h2>
-                        <h1 className="font-black text-5xl text-[#F1592C] mt-1">班達馬蘭</h1>
-                        <h3 className="font-serif font-semibold text-xl text-[#000000cc] mt-2">Selamat datang di</h3>
-                        <h2 className="font-serif font-semibold text-4xl text-[#F1592C] mt-1">Rumah Papan</h2>
+                        <h2 className="hero-text-row-1-mobile font-serif font-semibold text-3xl text-[#000000cc]">Welcome to</h2>
+                        <h1 className="hero-text-row-2-mobile font-black text-5xl text-[#F1592C] mt-1">班達馬蘭</h1>
+                        <h3 className="hero-text-row-3-mobile font-serif font-semibold text-xl text-[#000000cc] mt-2">Selamat datang di</h3>
+                        <h2 className="hero-text-row-4-mobile font-serif font-semibold text-4xl text-[#F1592C] mt-1">Rumah Papan</h2>
                     </div>
 
                     {/* Polaroids Mobile (Simplified Stack) - 7 Items, 240px width */}
                     {[
-                        { src: images[1], caption: "班厝故事館", desc: "班厝故事館" },
-                        { src: images[0], caption: "走進新村", desc: "走進新村" },
-                        { src: images[2], caption: "傳統習俗", desc: "傳統習俗" },
-                        { src: images[3], caption: "技能換宿", desc: "技能換宿" },
-                        { src: images[0], caption: "節慶活動", desc: "節慶活動" },
-                        { src: images[4], caption: "肉骨茶", desc: "肉骨茶" },
-                        { src: images[1], caption: "木鱉果", desc: "木鱉果" },
-                    ].map((item, i) => (
-                        <div key={i} className="pointer-events-auto flex justify-center w-full">
-                            {/* Wrapper: Width 240px. Original 465x523. Scale needed: 240/465 ≈ 0.516. Height ≈ 270px */}
-                            <div style={{ width: '240px', height: '270px', position: 'relative' }}>
-                                {/* Inner renders at full size (465x523) then scales down */}
-                                <div style={{ width: '465px', height: '523px', transform: 'scale(0.5161)', transformOrigin: 'top left' }}>
-                                    <Polaroid
-                                        src={item.src}
-                                        alt={item.caption}
-                                        caption={item.caption}
-                                        description={item.desc}
-                                        className="w-full h-full shadow-xl transform rotate-1"
-                                    />
+                        { src: images[1], lookup: "班厝故事館" },
+                        { src: images[0], lookup: "走進新村" },
+                        { src: images[2], lookup: "傳統習俗" },
+                        { src: images[3], lookup: "技能換宿" },
+                        { src: images[4], lookup: "節慶活動" },
+                        { src: images[5], lookup: "肉骨茶" },
+                        { src: images[6], lookup: "木鱉果" },
+                    ].map((item, i) => {
+                        const content = getPolaroidContent(item.lookup, language);
+                        return (
+                            <div key={i} className="pointer-events-auto flex justify-center w-full">
+                                {/* Wrapper: Width 240px. Original 465x523. Scale needed: 240/465 ≈ 0.516. Height ≈ 270px */}
+                                <div style={{ width: '240px', height: '270px', position: 'relative' }}>
+                                    {/* Inner renders at full size (465x523) then scales down */}
+                                    <div style={{ width: '465px', height: '523px', transform: 'scale(0.5161)', transformOrigin: 'top left' }}>
+                                        <Polaroid
+                                            src={item.src}
+                                            alt={content.caption}
+                                            caption={content.caption}
+                                            description={content.desc}
+                                            className="w-full h-full shadow-xl transform rotate-1"
+                                            imgPosition={
+                                                item.lookup === "班厝故事館" ? "25% center" :
+                                                    item.lookup === "肉骨茶" ? "75% center" :
+                                                        "center"
+                                            }
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
 
                     {/* CTA Mobile */}
-                    <div className="flex justify-center pb-8">
-                        <Link to="/home" className="bg-[#F3E3CB] border-2 border-[#242527] px-6 py-3 rounded-full font-bold text-xl text-[#242527]">進入新村</Link>
+                    <div className="flex justify-center pb-32 md:col-span-2 mt-8">
+                        <Link to="/home" className="bg-[#F3E3CB] border-2 border-[#242527] px-6 py-3 rounded-full font-bold text-xl text-[#242527]">{language === 'zh' ? '進入新村' : 'Enter Village'}</Link>
                     </div>
                 </div>
 
                 {/* Mobile Fixed Bottom Right Buttons */}
                 <div className="lg:hidden fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-auto">
-                    <div className="w-14 h-14 bg-neutral-800 rounded-full flex justify-center items-center shadow-xl cursor-pointer active:scale-95 transition-transform">
-                        <span className="text-orange-100 text-lg font-medium font-serif">中文</span>
+                    <div
+                        onClick={toggleLanguage}
+                        className="w-14 h-14 bg-neutral-800 rounded-full flex justify-center items-center shadow-xl cursor-pointer active:scale-95 transition-transform"
+                    >
+                        <span className="text-orange-100 text-lg font-medium font-serif">{language === 'zh' ? 'EN' : '中文'}</span>
                     </div>
                     <Link to="/home" className="w-14 h-14 bg-neutral-800 rounded-full flex justify-center items-center shadow-xl cursor-pointer active:scale-95 transition-transform border-[2px] border-[#F1592C]">
                         <ArrowRight className="w-6 h-6 text-[#F1592C]" />
@@ -216,17 +282,20 @@ export const Welcome: React.FC = () => {
                             <Polaroid
                                 src={images[1]}
                                 alt="班厝故事館"
-                                caption="班厝故事館"
+                                caption={getPolaroidContent("班厝故事館", language).caption}
+                                description={getPolaroidContent("班厝故事館", language).desc}
                                 rotation={6}
                                 className="absolute left-[1144.62px] top-[10px] w-[465px] h-[523px] origin-top-left polaroid-1"
                                 disableEntryAnim={true}
+                                imgPosition="25% center"
                             />
 
                             {/* Polaroid 2: 走進新村 (Left, Bottom) */}
                             <Polaroid
                                 src={images[0]}
                                 alt="走進新村"
-                                caption="走進新村"
+                                caption={getPolaroidContent("走進新村", language).caption}
+                                description={getPolaroidContent("走進新村", language).desc}
                                 rotation={-10.61}
                                 className="absolute left-[331px] top-[110px] w-[465px] h-[523px] origin-top-left polaroid-2"
                                 disableEntryAnim={true}
@@ -241,7 +310,8 @@ export const Welcome: React.FC = () => {
                             <Polaroid
                                 src={images[2]}
                                 alt="傳統習俗"
-                                caption="傳統習俗"
+                                caption={getPolaroidContent("傳統習俗", language).caption}
+                                description={getPolaroidContent("傳統習俗", language).desc}
                                 rotation={10.5}
                                 className="absolute left-[1212.25px] top-[300px] w-[465px] h-[523px] origin-top-left polaroid-3"
                                 disableEntryAnim={true}
@@ -256,7 +326,8 @@ export const Welcome: React.FC = () => {
                             <Polaroid
                                 src={images[3]}
                                 alt="技能換宿"
-                                caption="技能換宿"
+                                caption={getPolaroidContent("技能換宿", language).caption}
+                                description={getPolaroidContent("技能換宿", language).desc}
                                 rotation={-7.6}
                                 className="absolute left-[316px] top-[346px] w-[465px] h-[523px] origin-top-left polaroid-4"
                                 disableEntryAnim={true}
@@ -272,19 +343,23 @@ export const Welcome: React.FC = () => {
 
                             {/* 肉骨茶 - This is Visually Lower, so it's P6 */}
                             <Polaroid
-                                src={images[4]}
+                                src={images[5]}
                                 alt="肉骨茶"
-                                caption="肉骨茶"
+                                caption={getPolaroidContent("肉骨茶", language).caption}
+                                description={getPolaroidContent("肉骨茶", language).desc}
                                 rotation={-7.6}
                                 className="absolute left-[270px] top-[1131px] w-[465px] h-[523px] origin-top-left polaroid-6"
                                 disableEntryAnim={true}
+                                imgPosition="75% center"
+                                imgScale={1.3}
                             />
 
                             {/* 節慶活動 - This is Visually Higher, so it's P5 */}
                             <Polaroid
-                                src={images[0]}
+                                src={images[4]}
                                 alt="節慶活動"
-                                caption="節慶活動"
+                                caption={getPolaroidContent("節慶活動", language).caption}
+                                description={getPolaroidContent("節慶活動", language).desc}
                                 rotation={6.91}
                                 className="absolute left-[1137.90px] top-[50px] w-[465px] h-[523px] origin-top-left polaroid-5"
                                 disableEntryAnim={true}
@@ -297,9 +372,10 @@ export const Welcome: React.FC = () => {
 
 
                             <Polaroid
-                                src={images[1]}
+                                src={images[6]}
                                 alt="木鱉果"
-                                caption="木鱉果"
+                                caption={getPolaroidContent("木鱉果", language).caption}
+                                description={getPolaroidContent("木鱉果", language).desc}
                                 rotation={6}
                                 className="absolute left-[928.63px] top-[808px] w-[465px] h-[523px] origin-top-left pointer-events-auto polaroid-7"
                                 disableEntryAnim={true}
@@ -307,12 +383,15 @@ export const Welcome: React.FC = () => {
                         </div>
 
                         {/* Bottom CTA Button */}
-                        <Link to="/home" data-property-1="Default" className="left-[822px] top-[4500px] absolute inline-flex flex-col justify-start items-center cursor-pointer hover:scale-105 transition-transform cta-button">
-                            <div className="self-stretch px-14 py-8 relative bg-orange-100 rounded-full outline outline-4 outline-offset-[-4.05px] outline-neutral-800 inline-flex justify-center items-center gap-3.5 overflow-hidden">
-                                <div className="w-7 h-36 left-[-27.03px] top-[-11.62px] absolute bg-[#F1592C]"></div>
-                                <div className="text-center justify-start text-black text-4xl font-medium font-sans leading-[54.86px]">進入新村</div>
-                            </div>
-                        </Link>
+                        {/* Bottom CTA Button - Wrapped to Separate Positioning from GSAP Transform */}
+                        <div className="absolute left-[950px] top-[4500px] -translate-x-1/2 z-20">
+                            <Link to="/home" data-property-1="Default" className="inline-flex flex-col justify-start items-center cursor-pointer hover:scale-105 transition-transform cta-button">
+                                <div className="self-stretch px-14 py-8 relative bg-orange-100 rounded-full outline outline-4 outline-offset-[-4.05px] outline-neutral-800 inline-flex justify-center items-center gap-3.5 overflow-hidden">
+                                    <div className="w-7 h-36 left-[-27.03px] top-[-11.62px] absolute bg-[#F1592C]"></div>
+                                    <div className="text-center justify-start text-black text-4xl font-medium font-sans leading-[54.86px]">{language === 'zh' ? '進入新村' : 'Enter Village'}</div>
+                                </div>
+                            </Link>
+                        </div>
 
                     </div>
 
@@ -327,10 +406,10 @@ export const Welcome: React.FC = () => {
                                 <div className="whitespace-nowrap justify-start text-neutral-900 text-xl font-normal font-serif leading-7 tracking-[0.1em]">RUMAH PAPAN</div>
                             </div>
                         </div>
-                        <button className="px-8 py-4 bg-white/0 border-[3px] border-[#181818] rounded-full flex justify-center items-center gap-3 cursor-pointer hover:bg-[#181818] hover:text-white transition-all group">
-                            <Mail className="w-6 h-6 text-[#181818] group-hover:text-white fill-current" />
-                            <span className="justify-start text-neutral-900 text-2xl font-bold font-sans leading-8 group-hover:text-white">聯絡我們</span>
-                        </button>
+                        <Link to="/contact" className="px-8 py-4 bg-white/0 border-[3px] border-[#181818] rounded-full flex justify-center items-center gap-3 cursor-pointer hover:bg-[#181818] hover:text-white transition-all group">
+                            <Mail className="w-6 h-6 text-[#181818] group-hover:text-white transition-colors" />
+                            <span className="justify-start text-neutral-900 text-2xl font-bold font-sans leading-none group-hover:text-white pt-[3px]">{language === 'zh' ? '聯絡我們' : 'Contact Us'}</span>
+                        </Link>
                     </div>
 
                     {/* Hero Text Block */}
@@ -345,25 +424,25 @@ export const Welcome: React.FC = () => {
                         {/* Top Section: Vertical Text + Right Aligned Stack */}
                         <div className="flex justify-start gap-[10px] items-stretch w-full pr-0 pointer-events-auto">
                             {/* Left: Vertical Text (Justified to match Right Stack Height) */}
-                            <div className="flex flex-col justify-between h-full text-black/80 text-[56px] font-bold font-sans leading-none">
+                            <div className="hero-text-vertical flex flex-col justify-between h-full text-black/80 text-[56px] font-bold font-sans leading-none">
                                 <span>歡</span><span>迎</span><span>來</span><span>到</span>
                             </div>
 
                             {/* Right: Horizontal Text Stack - Flexible Width to fill remaining space of 470px */}
                             <div className="flex flex-col flex-1 gap-1">
                                 {/* Line 1: Welcome to */}
-                                <div className="flex justify-between w-full text-black/80 text-7xl font-semibold font-serif leading-none">
+                                <div className="hero-text-row-1 flex justify-between w-full text-black/80 text-7xl font-semibold font-serif leading-none">
                                     <span>Welcome</span>
                                     <span>to</span>
                                 </div>
 
                                 {/* Line 2: 班達馬蘭 */}
-                                <div className="flex justify-between w-full text-[#F1592C] text-8xl font-black font-sans leading-none mt-[-5px]">
+                                <div className="hero-text-row-2 flex justify-between w-full text-[#F1592C] text-8xl font-black font-sans leading-none mt-[-5px]">
                                     <span>班</span><span>達</span><span>馬</span><span>蘭</span>
                                 </div>
 
                                 {/* Line 3: Selamat datang di */}
-                                <div className="flex justify-between w-full text-black/80 text-5xl font-semibold font-serif leading-none mt-1">
+                                <div className="hero-text-row-3 flex justify-between w-full text-black/80 text-5xl font-semibold font-serif leading-none mt-1">
                                     <span>Selamat</span>
                                     <span>datang</span>
                                     <span>di</span>
@@ -372,7 +451,7 @@ export const Welcome: React.FC = () => {
                         </div>
 
                         {/* Bottom Section: Rumah Papan (Centered, 70px as compromise) */}
-                        <div className="w-[470px] text-center text-[#F1592C] text-[70px] font-semibold font-serif leading-none tracking-normal whitespace-nowrap">Rumah Papan</div>
+                        <div className="hero-text-row-4 w-[470px] text-center text-[#F1592C] text-[70px] font-semibold font-serif leading-none tracking-normal whitespace-nowrap">Rumah Papan</div>
                     </div>
 
 
@@ -391,8 +470,11 @@ export const Welcome: React.FC = () => {
 
                     {/* Bottom Right Floating Buttons - Fixed Position */}
                     <div className="p-10 left-[1728px] top-[798px] absolute z-50 flex flex-col gap-4 pointer-events-auto">
-                        <div className="w-28 h-28 bg-neutral-800 rounded-full flex justify-center items-center shadow-2xl cursor-pointer hover:scale-105 transition-transform">
-                            <span className="text-orange-100 text-4xl font-medium font-serif leading-[50.75px]">中文</span>
+                        <div
+                            onClick={toggleLanguage}
+                            className="w-28 h-28 bg-neutral-800 rounded-full flex justify-center items-center shadow-2xl cursor-pointer hover:scale-105 transition-transform"
+                        >
+                            <span className="text-orange-100 text-4xl font-medium font-serif leading-[50.75px]">{language === 'zh' ? 'EN' : '中文'}</span>
                         </div>
                         <Link to="/home" className="w-28 h-28 bg-neutral-800 rounded-full flex justify-center items-center shadow-2xl cursor-pointer hover:scale-105 transition-transform border-[3px] border-[#F1592C] flex justify-center items-center">
                             <ArrowRight className="w-10 h-10 text-[#F1592C]" />

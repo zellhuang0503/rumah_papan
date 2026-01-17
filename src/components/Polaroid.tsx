@@ -10,9 +10,11 @@ interface PolaroidProps {
     rotation?: number;
     className?: string;
     disableEntryAnim?: boolean; // Allow disabling internal entry animation
+    imgPosition?: string; // Optional: "left", "center", "right" or specific value for object-position
+    imgScale?: number; // Optional: scale the image (zoom)
 }
 
-export const Polaroid: React.FC<PolaroidProps & React.HTMLAttributes<HTMLDivElement>> = ({
+export const Polaroid: React.FC<PolaroidProps> = ({
     src,
     alt,
     caption,
@@ -20,7 +22,8 @@ export const Polaroid: React.FC<PolaroidProps & React.HTMLAttributes<HTMLDivElem
     rotation = 0,
     className = "",
     disableEntryAnim = false,
-    ...props
+    imgPosition = "center",
+    imgScale = 1
 }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const photoCardRef = useRef<HTMLDivElement>(null);
@@ -144,8 +147,7 @@ export const Polaroid: React.FC<PolaroidProps & React.HTMLAttributes<HTMLDivElem
     return (
         <div
             ref={containerRef}
-            className={`relative bg-transparent ${className} cursor-pointer perspective-1000 aspect-[3.5/4.2]`}
-            {...props}
+            className={`relative bg-transparent ${className} cursor-pointer perspective-1000`}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onClick={handleClick}
@@ -156,7 +158,15 @@ export const Polaroid: React.FC<PolaroidProps & React.HTMLAttributes<HTMLDivElem
                 className="absolute top-0 left-0 w-full h-full p-5 bg-white shadow-lg flex flex-col justify-between z-20 origin-center will-change-transform"
             >
                 <div className="w-full aspect-square bg-gray-100 overflow-hidden mb-2 relative">
-                    <img src={src} alt={alt} className="w-full h-full object-cover" />
+                    <img
+                        src={src}
+                        alt={alt}
+                        className="w-full h-full object-cover"
+                        style={{
+                            objectPosition: imgPosition,
+                            transform: `scale(${imgScale})`
+                        }}
+                    />
                 </div>
                 <div className="flex-1 flex items-end justify-center pb-1 opacity-60">
                     <BrandLogo className="h-10 w-auto text-[#242527]" />
@@ -171,7 +181,7 @@ export const Polaroid: React.FC<PolaroidProps & React.HTMLAttributes<HTMLDivElem
                 <div className="flex flex-col items-center justify-center gap-4 h-full">
                     <h3 className="font-bold text-2xl text-[#242527] tracking-widest">{caption || "技能換宿"}</h3>
                     <div className="w-8 h-1 bg-[#F1592C] rounded-full"></div>
-                    <p className="text-[#364153] text-base leading-relaxed font-medium">
+                    <p className="text-[#364153] text-base leading-relaxed font-medium whitespace-pre-line">
                         {description}
                     </p>
                 </div>

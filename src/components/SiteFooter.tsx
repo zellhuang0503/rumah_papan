@@ -1,116 +1,97 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BrandLogo } from './BrandLogo';
-import { FOOTER_DATA } from '../data/homeData';
-import { client } from '../utils/sanity';
+import { getFooterData } from '../data/homeData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export const SiteFooter: React.FC = () => {
-    const [footerData, setFooterData] = useState(FOOTER_DATA);
+    const { language } = useLanguage();
+    const FOOTER_DATA = getFooterData(language);
 
-    useEffect(() => {
-        const fetchSettings = async () => {
-            try {
-                const data = await client.fetch('*[_type == "siteSettings"][0]');
-                if (data) {
-                    setFooterData({
-                        title: data.title || FOOTER_DATA.title,
-                        subtitle: data.subtitle || FOOTER_DATA.subtitle,
-                        description: data.description || FOOTER_DATA.description,
-                        contact: {
-                            region: data.serviceRegion || FOOTER_DATA.contact.region,
-                            phone: data.phone || FOOTER_DATA.contact.phone,
-                            email: data.contactEmail || FOOTER_DATA.contact.email,
-                            address: data.address || FOOTER_DATA.contact.address
-                        }
-                    });
-                }
-            } catch (error) {
-                console.error("Failed to fetch footer data", error);
-            }
-        };
-        fetchSettings();
-    }, []);
     // Scaled dimensions
     // Width 1808 -> 1356px
     // Padding pl-28 (112) -> 84px. pr-24 (96) -> 72px. py-40 (160) -> 120px.
     // Rounded 30 -> 22.5px
 
     return (
-        <section className="w-full flex justify-center pb-[60px]">
-            <div className="w-[1356px] pl-[84px] pr-[72px] py-[120px] bg-neutral-800 rounded-[22.5px] flex flex-col justify-start items-start gap-[7.5px] overflow-hidden">
-                <div className="self-stretch flex justify-between items-start">
+        <section className="w-full flex justify-center pb-[60px] px-6 desktop:px-0">
+            <div className="w-full max-w-[1356px] px-6 md:px-20 py-12 desktop:pl-[84px] desktop:pr-[72px] desktop:py-[120px] bg-neutral-800 rounded-[18px] desktop:rounded-[22.5px] flex flex-col justify-start items-start gap-[7.5px] overflow-hidden">
+                <div className="self-stretch flex flex-col lg:flex-row justify-between items-center lg:items-start gap-12 desktop:gap-0">
                     {/* Left Column */}
-                    <div className="w-[360px] flex flex-col items-start gap-[24px]">
-                        <div className="flex items-center gap-[18px]">
+                    <div className="w-full lg:w-[360px] flex flex-col items-center lg:items-start gap-[24px] text-center lg:text-left">
+                        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-[18px]">
                             <BrandLogo className="w-[60px] h-[48px] text-orange-100" />
-                            <div className="flex flex-col items-start">
-                                <span className="text-orange-100 text-[22.5px] font-bold font-['Noto_Sans_TC'] leading-[30px]">
-                                    {footerData.title}
+                            <div className="flex flex-col items-center lg:items-start">
+                                <span className="text-orange-100 text-[22.5px] font-bold font-['Noto_Sans_TC'] leading-[30px] whitespace-nowrap">
+                                    {FOOTER_DATA.title}
                                 </span>
-                                <span className="text-orange-100 text-[15px] font-normal font-['Roboto_Slab'] leading-[21px]">
-                                    {footerData.subtitle}
+                                <span className="text-orange-100 text-[15px] font-normal font-['Roboto_Slab'] leading-[21px] whitespace-nowrap">
+                                    {FOOTER_DATA.subtitle}
                                 </span>
                             </div>
                         </div>
 
                         <p className="text-orange-100 text-[18px] font-bold font-['Noto_Sans_TC'] leading-[24px]">
-                            {footerData.description}
+                            {FOOTER_DATA.description}
                         </p>
 
-                        {/* Social Circles */}
-                        <div className="w-[132px] flex justify-between items-center">
-                            {[1, 2, 3].map((i) => (
-                                <div key={i} className="w-[36px] h-[36px] bg-red-400 rounded-full" />
+                        {/* Social Icons */}
+                        <div className="flex justify-center lg:justify-start items-center gap-[18px]">
+                            {(FOOTER_DATA as any).socials?.map((social: any) => (
+                                <a
+                                    key={social.id}
+                                    href={social.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-orange-100 hover:text-red-400 transition-colors flex items-center justify-center p-2"
+                                >
+                                    <i className={`${social.icon} text-[24px]`} />
+                                </a>
                             ))}
                         </div>
                     </div>
 
                     {/* Right Column - Info Grid */}
-                    <div className="flex flex-col items-start gap-[24px]">
-                        <div className="flex items-start gap-[48px]">
-                            <div className="flex flex-col gap-[12px]">
-                                <h4 className="opacity-70 text-orange-100 text-[18px] font-medium font-['Noto_Sans_TC'] leading-[24px]">
-                                    服務區域
+                    <div className="flex flex-col items-center lg:items-start gap-[24px] text-center lg:text-left w-full lg:w-auto">
+                        {/* Info Blocks: Grid on Mobile, Flex on Tablet+ */}
+                        <div className="grid grid-cols-2 md:flex md:flex-row items-start gap-8 desktop:gap-[48px] w-full md:w-auto">
+                            <div className="flex flex-col gap-[12px] items-center lg:items-start">
+                                <h4 className="opacity-70 text-orange-100 text-[15px] lg:text-[18px] font-medium font-['Noto_Sans_TC'] leading-[24px] whitespace-nowrap">
+                                    {language === 'zh' ? '服務區域' : 'Service Area'}
                                 </h4>
-                                <p className="text-red-400 text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide">
-                                    {footerData.contact.region}
+                                <p className="text-red-400 text-[15px] lg:text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide whitespace-nowrap">
+                                    {FOOTER_DATA.contact.region}
                                 </p>
                             </div>
-                            <div className="flex flex-col gap-[12px]">
-                                <h4 className="opacity-70 text-orange-100 text-[18px] font-medium font-['Noto_Sans_TC'] leading-[24px]">
-                                    行動電話
+                            <div className="flex flex-col gap-[12px] items-center lg:items-start">
+                                <h4 className="opacity-70 text-orange-100 text-[15px] lg:text-[18px] font-medium font-['Noto_Sans_TC'] leading-[24px] whitespace-nowrap">
+                                    {language === 'zh' ? '行動電話' : 'Phone'}
                                 </h4>
-                                <p className="text-red-400 text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide">
-                                    {footerData.contact.phone}
+                                <p className="text-red-400 text-[15px] lg:text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide whitespace-nowrap">
+                                    {FOOTER_DATA.contact.phone}
                                 </p>
                             </div>
-                            <div className="flex flex-col gap-[12px]">
-                                <h4 className="opacity-70 text-orange-100 text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide">
+                            {/* Email spans 2 cols on mobile for balance, or just 1 */}
+                            <div className="flex flex-col gap-[12px] items-center lg:items-start col-span-2 md:col-span-1">
+                                <h4 className="opacity-70 text-orange-100 text-[15px] lg:text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide whitespace-nowrap">
                                     Email
                                 </h4>
-                                <p className="text-red-400 text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide">
-                                    {footerData.contact.email}
+                                <p className="text-red-400 text-[15px] lg:text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide whitespace-nowrap">
+                                    {FOOTER_DATA.contact.email}
                                 </p>
                             </div>
                         </div>
 
-                        <div className="flex flex-col gap-[12px]">
-                            <h4 className="opacity-70 text-orange-100 text-[18px] font-medium font-['Noto_Sans_TC'] leading-[24px]">
-                                地址
+                        <div className="flex flex-col gap-[12px] items-center lg:items-start">
+                            <h4 className="opacity-70 text-orange-100 text-[15px] lg:text-[18px] font-medium font-['Noto_Sans_TC'] leading-[24px] whitespace-nowrap">
+                                {language === 'zh' ? '地址' : 'Address'}
                             </h4>
-                            <p className="text-red-400 text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide">
-                                {footerData.contact.address}
+                            <p className="text-red-400 text-[15px] lg:text-[18px] font-medium font-['Roboto_Slab'] leading-[27px] tracking-wide text-center lg:text-left">
+                                {FOOTER_DATA.contact.address}
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-
-            {/* Circular FAB or Badge at bottom right? 
-                HTML: w-28 h-28 left-[1703px] top-[891px] ...
-                It's likely the "Guide" or Chat button.
-                I'll leave it to be handled by the existing guide button logic or add it here if it's static.
-                The user's HTML shows it outside the footer card.
-            */}
         </section>
     );
 };

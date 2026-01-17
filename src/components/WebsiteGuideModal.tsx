@@ -1,6 +1,7 @@
 import React from 'react';
 import { X } from 'lucide-react';
-import { websiteGuideData } from '../data/websiteGuide';
+import { getWebsiteGuideData } from '../data/websiteGuide';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface WebsiteGuideModalProps {
     isOpen: boolean;
@@ -8,6 +9,9 @@ interface WebsiteGuideModalProps {
 }
 
 export const WebsiteGuideModal: React.FC<WebsiteGuideModalProps> = ({ isOpen, onClose }) => {
+    const { language } = useLanguage();
+    const websiteGuideData = getWebsiteGuideData(language);
+
     if (!isOpen) return null;
 
     return (

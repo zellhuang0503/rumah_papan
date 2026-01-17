@@ -10,8 +10,8 @@ interface BubbleLinkProps {
     isActive?: boolean;
 }
 
-export const BubbleLink: React.FC<BubbleLinkProps> = ({ text, to = "#", onClick, className = "", variant = 'default', isActive = false }) => {
-    const isLarge = variant === 'large';
+export const BubbleLink: React.FC<BubbleLinkProps> = ({ text, to = "#", onClick, className = "", isActive = false }) => {
+
 
     // User requested "shrink a little more".
     // Previous: px-9 py-5, text-2xl

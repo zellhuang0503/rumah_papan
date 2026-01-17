@@ -21,6 +21,10 @@ export default {
         serif: ['"Roboto Slab"', 'serif'],
         handwriting: ['cursive'],
       },
+      screens: {
+        'xs': '375px',
+        'desktop': '1440px',
+      },
     },
   },
   plugins: [],
