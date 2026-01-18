@@ -91,11 +91,16 @@ export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations 
                         >
                             <div className={`
                                 flex items-center justify-center
-                                w-8 h-8 md:w-10 md:h-10 rounded-full shadow-lg
-                                border-4 border-white transition-all duration-300
-                                ${selectedLocation?.id === loc.id ? 'bg-[#242527] scale-125' : 'bg-[#F1592C] hover:scale-110'}
+                                w-8 h-8 md:w-10 md:h-10 rounded-full
+                                shadow-[0_8px_16px_rgba(0,0,0,0.5)] 
+                                border-[3px] md:border-4 border-white 
+                                ring-1 ring-black/20
+                                transition-all duration-300
+                                ${selectedLocation?.id === loc.id
+                                    ? 'bg-[#242527] scale-125 z-40 shadow-[0_12px_24px_rgba(0,0,0,0.6)]'
+                                    : 'bg-[#F1592C] hover:scale-110 hover:shadow-[0_12px_20px_rgba(0,0,0,0.4)] z-20'}
                             `}>
-                                <div className="w-2.5 h-2.5 bg-white rounded-full animate-pulse" />
+                                <div className="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-sm" />
                             </div>
 
                             {/* Desktop Tooltip Card (Hidden on Mobile) */}
@@ -245,4 +250,3 @@ export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations 
         </div>
     );
 };
-
