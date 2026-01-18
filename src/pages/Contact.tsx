@@ -4,6 +4,7 @@ import { SiteFooter } from '../components/SiteFooter';
 import { getFounderData, CONTACT_LINKS } from '../data/contactData';
 import { useLanguage } from '../contexts/LanguageContext';
 import { client, urlFor } from '../utils/sanity';
+import { sanitizeUrl } from '../utils/security';
 
 interface ContactData {
     founderImage?: any;
@@ -145,7 +146,7 @@ export const Contact: React.FC = () => {
 
                     {/* Card 2: Facebook */}
                     <a
-                        href={displayFbLink}
+                        href={sanitizeUrl(displayFbLink)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-full desktop:flex-1 h-[180px] desktop:h-[344px] bg-white rounded-[27px] p-6 desktop:p-[18px] flex flex-col justify-end cursor-pointer transition-transform hover:scale-[1.02]"
@@ -163,7 +164,7 @@ export const Contact: React.FC = () => {
 
                     {/* Card 3: Instagram */}
                     <a
-                        href={displayIgLink}
+                        href={sanitizeUrl(displayIgLink)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-full desktop:basis-[calc(50%-9px)] h-[180px] desktop:h-[344px] bg-white rounded-[27px] p-6 desktop:p-[18px] flex flex-col justify-end cursor-pointer transition-transform hover:scale-[1.02]"
@@ -181,7 +182,7 @@ export const Contact: React.FC = () => {
 
                     {/* Card 4: WhatsApp */}
                     <a
-                        href={displayWaLink}
+                        href={sanitizeUrl(displayWaLink)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-full desktop:basis-[calc(50%-9px)] h-[180px] desktop:h-[344px] bg-white rounded-[27px] p-6 desktop:p-[18px] flex flex-col justify-end cursor-pointer transition-transform hover:scale-[1.02]"

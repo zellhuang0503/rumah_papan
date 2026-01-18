@@ -1,6 +1,7 @@
 import React from 'react';
 import type { LocationItem } from '../../data/villageMapData';
 import { MapPin, Phone, ExternalLink } from 'lucide-react';
+import { sanitizeUrl } from '../../utils/security';
 
 interface LocationCardProps {
     item: LocationItem;
@@ -34,7 +35,7 @@ export const LocationCard: React.FC<LocationCardProps> = ({ item }) => {
                     {item.subName && <span className="text-sm font-bold tracking-wider uppercase">{item.subName}</span>}
                     {item.googleMapLink ? (
                         <a
-                            href={item.googleMapLink}
+                            href={sanitizeUrl(item.googleMapLink)}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-start justify-center gap-1.5 px-4 hover:opacity-80 transition-opacity"
@@ -69,7 +70,7 @@ export const LocationCard: React.FC<LocationCardProps> = ({ item }) => {
                         <div className="flex flex-col gap-3 py-4 border-t border-white/10 mt-2">
                             {item.googleMapLink ? (
                                 <a
-                                    href={item.googleMapLink}
+                                    href={sanitizeUrl(item.googleMapLink)}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex items-start gap-3 hover:text-white transition-colors group/addr"
@@ -102,7 +103,7 @@ export const LocationCard: React.FC<LocationCardProps> = ({ item }) => {
 
                 {item.googleMapLink && (
                     <a
-                        href={item.googleMapLink}
+                        href={sanitizeUrl(item.googleMapLink)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="mt-6 w-full bg-[#F1592C] text-white py-3 rounded-xl text-center font-bold flex items-center justify-center gap-2 hover:bg-white hover:text-[#F1592C] transition-all duration-300"

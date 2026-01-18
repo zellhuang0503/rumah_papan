@@ -19,7 +19,3 @@ export interface ServiceItem {
     booking_link: string;
     thumbnail: string;
 }
-
-// Placeholder for Supabase Database types
-// TODO: Generate this using Supabase CLI
-export type Database = any;

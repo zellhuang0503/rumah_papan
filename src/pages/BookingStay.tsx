@@ -6,8 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useLanguage } from '../contexts/LanguageContext';
+import { isValidEmail, isValidPhone, sanitizeInput, validateNumberRange } from '../utils/security';
 
-// Type definitions for future Supabase integration
+// Type definitions for booking form
 export interface BookingStayFormData {
     // Basic Info
     name: string;
@@ -49,15 +50,115 @@ export const BookingStay: React.FC = () => {
         remarks: ''
     });
 
+    // Form validation errors
+    const [errors, setErrors] = useState<Partial<Record<keyof BookingStayFormData, string>>>({});
+    // Prevent double submission
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const handleInputChange = (field: keyof BookingStayFormData, value: any) => {
+        // Clear error when user starts typing
+        if (errors[field]) {
+            setErrors(prev => ({ ...prev, [field]: undefined }));
+        }
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
-    const handleSubmit = () => {
-        console.log("Submitting form:", formData);
-        const msg = language === 'zh' ? "申請已送出！我們會盡快聯繫您。" : "Application submitted! We will contact you shortly.";
-        alert(msg);
-        // Future: Call Supabase API here
+    // Validate all required fields
+    const validateForm = (): boolean => {
+        const newErrors: Partial<Record<keyof BookingStayFormData, string>> = {};
+        const requiredMsg = language === 'zh' ? '此欄位為必填' : 'This field is required';
+        const invalidEmailMsg = language === 'zh' ? '請輸入有效的電子郵件' : 'Please enter a valid email';
+        const invalidPhoneMsg = language === 'zh' ? '請輸入有效的電話號碼' : 'Please enter a valid phone number';
+
+        // Required text fields
+        if (!sanitizeInput(formData.name)) newErrors.name = requiredMsg;
+        if (!sanitizeInput(formData.email)) {
+            newErrors.email = requiredMsg;
+        } else if (!isValidEmail(formData.email)) {
+            newErrors.email = invalidEmailMsg;
+        }
+        if (!sanitizeInput(formData.phone)) {
+            newErrors.phone = requiredMsg;
+        } else if (!isValidPhone(formData.phone)) {
+            newErrors.phone = invalidPhoneMsg;
+        }
+        if (!sanitizeInput(formData.nationality)) newErrors.nationality = requiredMsg;
+
+        // Required date/time fields
+        if (!formData.checkInDate) newErrors.checkInDate = requiredMsg;
+        if (!formData.checkInTime) newErrors.checkInTime = requiredMsg;
+        if (!formData.checkOutDate) newErrors.checkOutDate = requiredMsg;
+        if (!formData.checkOutTime) newErrors.checkOutTime = requiredMsg;
+
+        // Required selection fields
+        if (!formData.preferredBedType) newErrors.preferredBedType = requiredMsg;
+        if (!formData.paymentMethod) newErrors.paymentMethod = requiredMsg;
+
+        // Validate date logic
+        if (formData.checkInDate && formData.checkOutDate) {
+            const checkIn = new Date(formData.checkInDate);
+            const checkOut = new Date(formData.checkOutDate);
+            if (checkOut <= checkIn) {
+                newErrors.checkOutDate = language === 'zh' ? '退房日期必須在入住日期之後' : 'Check-out must be after check-in';
+            }
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSubmit = async () => {
+        // Prevent double submission
+        if (isSubmitting) return;
+
+        // Validate form
+        if (!validateForm()) {
+            const errorMsg = language === 'zh' ? '請填寫所有必填欄位' : 'Please fill in all required fields';
+            alert(errorMsg);
+            return;
+        }
+
+        setIsSubmitting(true);
+
+        try {
+            // Sanitize data before submission
+            const sanitizedData = {
+                ...formData,
+                name: sanitizeInput(formData.name, 100),
+                email: sanitizeInput(formData.email, 254),
+                phone: sanitizeInput(formData.phone, 30),
+                nationality: sanitizeInput(formData.nationality, 100),
+                remarks: sanitizeInput(formData.remarks, 2000),
+                roomCount: validateNumberRange(formData.roomCount, 1, 20, 1),
+            };
+
+            // TODO: Integrate with backend API for booking submission
+            console.log('[BookingStay] Form validated and sanitized:', sanitizedData);
+
+            const msg = language === 'zh' ? "申請已送出！我們會盡快聯繫您。" : "Application submitted! We will contact you shortly.";
+            alert(msg);
+
+            // Reset form after successful submission
+            setFormData({
+                name: '',
+                email: '',
+                phone: '',
+                nationality: '',
+                checkInDate: '',
+                checkInTime: '',
+                checkOutDate: '',
+                checkOutTime: '',
+                preferredBedType: '',
+                roomCount: 1,
+                paymentMethod: '',
+                remarks: ''
+            });
+        } catch (error) {
+            const errorMsg = language === 'zh' ? '提交失敗，請稍後再試' : 'Submission failed, please try again';
+            alert(errorMsg);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     // Translations

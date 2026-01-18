@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { client } from '../../utils/sanity';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { sanitizeUrl } from '../../utils/security';
 
 interface Announcement {
     title: string;
@@ -44,7 +45,7 @@ export const NewsSection: React.FC = () => {
                 {announcements.map((news, index) => (
                     <a
                         key={index}
-                        href={news.link}
+                        href={sanitizeUrl(news.link)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-full py-8 border-b border-neutral-900 group hover:bg-white/30 transition-colors flex flex-row justify-between items-center px-4 lg:px-8 gap-4 lg:gap-12"

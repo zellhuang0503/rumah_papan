@@ -5,11 +5,31 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/logo.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Security: Content Security Policy meta tag as fallback -->
+  <meta http-equiv="Content-Security-Policy" 
+    content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn-uicons.flaticon.com; font-src 'self' https://fonts.gstatic.com https://cdn-uicons.flaticon.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.sanity.io https://cdn.sanity.io;">
+  
+  <!-- Security: Prevent referrer leakage -->
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  
+  <!-- Google Fonts with crossorigin for security -->
   <link
     href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Roboto+Slab:wght@400;500;700&display=swap"
-    rel="stylesheet">
-  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
-  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css'>
+    rel="stylesheet"
+    crossorigin="anonymous">
+  
+  <!-- Flaticon UI Icons with crossorigin for security -->
+  <!-- Note: SRI hashes would require specific versions; using crossorigin as minimum security -->
+  <link 
+    rel='stylesheet' 
+    href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'
+    crossorigin="anonymous">
+  <link 
+    rel='stylesheet' 
+    href='https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css'
+    crossorigin="anonymous">
+  
   <title>Rumah Papan</title>
 </head>
 

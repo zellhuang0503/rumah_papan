@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { type LocationItem, type LocationCategory } from '../../data/villageMapData';
-import { Phone, MapPin, ExternalLink, X } from 'lucide-react';
+import { Phone, ExternalLink, X } from 'lucide-react';
 import villageMapImage from '../../assets/images/pandamaran_tourist_map.jpg';
+import { sanitizeUrl } from '../../utils/security';
 
 const MAP_PLACEHOLDER_URL = villageMapImage;
 
@@ -140,7 +141,7 @@ export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations 
 
                                         {loc.googleMapLink && (
                                             <a
-                                                href={loc.googleMapLink}
+                                                href={sanitizeUrl(loc.googleMapLink)}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="mt-2 w-full bg-[#F1592C] text-white py-2.5 rounded-xl text-center text-sm font-bold flex items-center justify-center gap-2 hover:bg-[#D44A24] transition-colors"
@@ -215,7 +216,7 @@ export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations 
 
                                 {selectedLocation.googleMapLink && (
                                     <a
-                                        href={selectedLocation.googleMapLink}
+                                        href={sanitizeUrl(selectedLocation.googleMapLink)}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="mt-2 w-full bg-[#F1592C] text-white py-3.5 rounded-xl text-center text-base font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform"
