@@ -14,6 +14,7 @@ interface MapViewerProps {
 
 export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations = [], mapImage, isAdmin }) => {
     const [selectedLocation, setSelectedLocation] = useState<LocationItem | null>(null);
+    const [lastCoords, setLastCoords] = useState<{ x: number; y: number } | null>(null);
 
     // Filter locations based on active category
     const displayLocations = useMemo(() => {
@@ -32,32 +33,42 @@ export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations 
         }
     };
 
-    const handleMapClick = (e: React.MouseEvent<HTMLImageElement>) => {
+    const handleMapClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isAdmin) {
             setSelectedLocation(null);
             return;
         }
 
+        // Get coordinates relative to the container div
         const rect = e.currentTarget.getBoundingClientRect();
         const x = ((e.clientX - rect.left) / rect.width) * 100;
         const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-        const coordString = `X: ${Math.round(x)}, Y: ${Math.round(y)}`;
-        alert(`🎯 Coordinates Copied!\n${coordString}\n\nPaste these numbers into Sanity CMS.`);
+        const roundedX = Math.round(x);
+        const roundedY = Math.round(y);
 
-        // Also log to console for backup
-        console.log(`Coordinates: { x: ${Math.round(x)}, y: ${Math.round(y)} }`);
+        setLastCoords({ x: roundedX, y: roundedY });
+
+        const coordString = `X: ${roundedX}, Y: ${roundedY}`;
+
+        // Log to console for backup
+        console.log(`[Admin] Map Clicked:`, { x: roundedX, y: roundedY });
+
+        // Show alert as requested, but also updated the UI
+        window.alert(`🎯 Coordinates Captured!\n\n${coordString}\n\nPaste these numbers into Sanity CMS.`);
     };
 
     return (
-        <div className={`w-full aspect-video md:aspect-[16/9] bg-[#F1F0E9] rounded-3xl overflow-hidden shadow-lg border border-[#242527]/10 relative group ${isAdmin ? 'ring-4 ring-red-500 ring-opacity-50 cursor-crosshair' : ''}`}>
+        <div
+            className={`w-full aspect-video md:aspect-[16/9] bg-[#F1F0E9] rounded-3xl overflow-hidden shadow-lg border border-[#242527]/10 relative group ${isAdmin ? 'ring-4 ring-pink-500 ring-opacity-50 cursor-crosshair' : ''}`}
+            onClick={handleMapClick}
+        >
             {/* Map Image Layer */}
             <img
                 src={mapImage || MAP_PLACEHOLDER_URL}
                 alt="Village Map"
-                className="w-full h-full object-cover select-none pointer-events-auto transition-transform duration-700 hover:scale-105"
+                className={`w-full h-full object-cover select-none pointer-events-none transition-transform duration-700 hover:scale-105 ${isAdmin ? 'cursor-crosshair' : ''}`}
                 style={{ filter: 'sepia(0.15) contrast(1.05) saturate(1.1) brightness(1.05)' }} // Subtle illustration effect
-                onClick={handleMapClick}
                 onDragStart={(e) => e.preventDefault()}
             />
 
@@ -231,8 +242,14 @@ export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations 
             {/* Legend / Overlay */}
             <div className="absolute top-4 left-4 md:top-6 md:left-6 pointer-events-none flex flex-col gap-2">
                 <span className="bg-white/90 px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold text-[#242527] backdrop-blur-sm shadow-sm border border-[#242527]/5">
-                    點擊標記查看詳情
+                    {isAdmin ? 'Admin: Click anywhere to pick coordinates' : '點擊標記查看詳情'}
                 </span>
+
+                {isAdmin && lastCoords && (
+                    <div className="bg-pink-600 text-white px-4 py-2 rounded-xl text-sm font-mono shadow-lg border border-pink-400 animate-bounce">
+                        Last Click: {lastCoords.x}, {lastCoords.y}
+                    </div>
+                )}
             </div>
         </div>
     );

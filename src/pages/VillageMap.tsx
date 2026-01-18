@@ -44,7 +44,7 @@ interface MapCMS {
 export const VillageMap: React.FC = () => {
     const { language } = useLanguage();
     const [searchParams] = useSearchParams();
-    const isAdmin = searchParams.get('admin') === 'true';
+    const isAdmin = searchParams.get('admin') === 'true' || searchParams.get('mode')?.toLowerCase() === 'admin';
 
     const staticLocations = getVillageLocations(language);
     const MAP_PAGE_TITLE = getMapPageTitle(language);
