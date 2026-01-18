@@ -1,6 +1,4 @@
-import React from 'react';
-import type { LocationCategory } from '../../data/villageMapData';
-import { Soup, Camera, Landmark } from 'lucide-react'; // Icons: Soup(Food), Camera(Attraction), Landmark(Temple)
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface MapFilterProps {
     activeCategory: LocationCategory;
@@ -8,11 +6,25 @@ interface MapFilterProps {
 }
 
 export const MapFilter: React.FC<MapFilterProps> = ({ activeCategory, onCategoryChange }) => {
+    const { language } = useLanguage();
+
     // Defines the 3 main categories shown in the design
     const categories: { id: LocationCategory; label: string; icon: React.ReactNode }[] = [
-        { id: 'food', label: '肉骨茶', icon: <Soup size={32} /> },
-        { id: 'attraction', label: '景點', icon: <Camera size={32} /> },
-        { id: 'temple', label: '廟宇', icon: <Landmark size={32} /> },
+        {
+            id: 'food',
+            label: language === 'zh' ? '肉骨茶' : 'Bak Kut Teh',
+            icon: <Soup size={32} />
+        },
+        {
+            id: 'attraction',
+            label: language === 'zh' ? '景點' : 'Attractions',
+            icon: <Camera size={32} />
+        },
+        {
+            id: 'temple',
+            label: language === 'zh' ? '廟宇' : 'Temples',
+            icon: <Landmark size={32} />
+        },
     ];
 
     return (
