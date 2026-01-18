@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { type LocationItem, type LocationCategory } from '../../data/villageMapData';
 import { Phone, MapPin, ExternalLink, X } from 'lucide-react';
-import villageMapImage from '../../assets/images/village_full_map_16_9.png';
+import villageMapImage from '../../assets/images/pandamaran_tourist_map.jpg';
 
 const MAP_PLACEHOLDER_URL = villageMapImage;
 
@@ -55,7 +55,8 @@ export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations 
             <img
                 src={mapImage || MAP_PLACEHOLDER_URL}
                 alt="Village Map"
-                className="w-full h-full object-cover select-none pointer-events-auto"
+                className="w-full h-full object-cover select-none pointer-events-auto transition-transform duration-700 hover:scale-105"
+                style={{ filter: 'sepia(0.15) contrast(1.05) saturate(1.1) brightness(1.05)' }} // Subtle illustration effect
                 onClick={handleMapClick}
                 onDragStart={(e) => e.preventDefault()}
             />
@@ -85,9 +86,10 @@ export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations 
                                 <div className="w-2.5 h-2.5 bg-white rounded-full animate-pulse" />
                             </div>
 
-                            {/* Tooltip Card */}
+                            {/* Desktop Tooltip Card (Hidden on Mobile) */}
                             {selectedLocation?.id === loc.id && (
                                 <div className={`
+                                    hidden md:block
                                     absolute left-1/2 -translate-x-1/2 w-[280px] md:w-[320px] bg-white rounded-2xl shadow-2xl overflow-hidden z-50
                                     animate-in fade-in duration-300
                                     ${loc.coordinates.y < 50 ? 'top-full mt-4 slide-in-from-top-4' : 'bottom-full mb-4 slide-in-from-bottom-4'}
@@ -157,6 +159,75 @@ export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations 
                 ))}
             </div>
 
+            {/* Mobile Bottom Sheet (Fixed Overlay) */}
+            {selectedLocation && (
+                <div className="md:hidden fixed inset-0 z-[100] flex flex-col justify-end pointer-events-none">
+                    {/* Backdrop - Click to close */}
+                    <div
+                        className="absolute inset-0 bg-black/30 backdrop-blur-[2px] animate-in fade-in duration-300 pointer-events-auto"
+                        onClick={() => setSelectedLocation(null)}
+                    />
+
+                    {/* Bottom Sheet Card */}
+                    <div className="bg-white w-full rounded-t-[24px] shadow-[0_-8px_30px_rgba(0,0,0,0.12)] overflow-hidden animate-in slide-in-from-bottom duration-300 pointer-events-auto relative z-10 max-h-[85vh] flex flex-col">
+
+                        {/* Drag Handle / Header */}
+                        <div className="w-full flex justify-center pt-3 pb-1" onClick={() => setSelectedLocation(null)}>
+                            <div className="w-12 h-1.5 bg-gray-300 rounded-full" />
+                        </div>
+
+                        {/* Close Button */}
+                        <button
+                            onClick={() => setSelectedLocation(null)}
+                            className="absolute right-4 top-4 p-2 bg-gray-100/80 rounded-full hover:bg-gray-200 transition-colors z-20"
+                        >
+                            <X className="w-5 h-5 text-gray-500" />
+                        </button>
+
+                        <div className="overflow-y-auto overscroll-contain pb-safe">
+                            {selectedLocation.image && (
+                                <div className="w-full h-48 sm:h-56 relative -mt-6 rounded-b-[24px] overflow-hidden">
+                                    {/* Overlay gradient for text readability if needed, or just image */}
+                                    <img src={selectedLocation.image} alt={selectedLocation.name} className="w-full h-full object-cover" />
+                                </div>
+                            )}
+
+                            <div className="p-6 flex flex-col gap-5">
+                                <div>
+                                    <h3 className="text-2xl font-bold text-[#242527] font-noto-sans-tc leading-tight">{selectedLocation.name}</h3>
+                                    {selectedLocation.subName && <p className="text-sm text-gray-500 font-medium mt-1">{selectedLocation.subName}</p>}
+                                </div>
+
+                                <div className="flex flex-col gap-3">
+                                    <div className="flex items-start gap-3 text-base text-gray-600">
+                                        <MapPin className="w-5 h-5 mt-0.5 shrink-0 text-[#F1592C]" />
+                                        <span className="leading-relaxed">{selectedLocation.address}</span>
+                                    </div>
+
+                                    {selectedLocation.phone && (
+                                        <div className="flex items-center gap-3 text-base text-gray-600">
+                                            <Phone className="w-5 h-5 shrink-0 text-[#F1592C]" />
+                                            <span>{selectedLocation.phone}</span>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {selectedLocation.googleMapLink && (
+                                    <a
+                                        href={selectedLocation.googleMapLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="mt-2 w-full bg-[#F1592C] text-white py-3.5 rounded-xl text-center text-base font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform"
+                                    >
+                                        <ExternalLink className="w-5 h-5" />
+                                        開啟 Google 地圖
+                                    </a>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
             {/* Legend / Overlay */}
             <div className="absolute top-4 left-4 md:top-6 md:left-6 pointer-events-none flex flex-col gap-2">
                 <span className="bg-white/90 px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold text-[#242527] backdrop-blur-sm shadow-sm border border-[#242527]/5">

@@ -8,7 +8,7 @@ interface LocationCardProps {
 
 export const LocationCard: React.FC<LocationCardProps> = ({ item }) => {
     return (
-        <div className="w-full md:w-[calc(50%-10px)] desktop:w-[384px] h-[400px] desktop:h-[445px] relative rounded-[16px] overflow-hidden group shadow-md shrink-0 location-card-item border border-[#242527]/5">
+        <div className="w-full md:w-[calc(50%-10px)] desktop:w-[calc(33.333%-14px)] h-[400px] desktop:h-[445px] relative rounded-[16px] overflow-hidden group shadow-md shrink-0 location-card-item border border-[#242527]/5">
             {/* Background Image */}
             {item.image && (
                 <img
