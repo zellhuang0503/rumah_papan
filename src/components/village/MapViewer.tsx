@@ -130,11 +130,6 @@ export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations 
                                         </div>
 
                                         <div className="flex flex-col gap-2">
-                                            <div className="flex items-start gap-2 text-sm text-gray-600">
-                                                <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-[#F1592C]" />
-                                                <span className="leading-tight">{loc.address}</span>
-                                            </div>
-
                                             {loc.phone && (
                                                 <div className="flex items-center gap-2 text-sm text-gray-600">
                                                     <Phone className="w-4 h-4 shrink-0 text-[#F1592C]" />
@@ -210,11 +205,6 @@ export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations 
                                 </div>
 
                                 <div className="flex flex-col gap-3">
-                                    <div className="flex items-start gap-3 text-base text-gray-600">
-                                        <MapPin className="w-5 h-5 mt-0.5 shrink-0 text-[#F1592C]" />
-                                        <span className="leading-relaxed">{selectedLocation.address}</span>
-                                    </div>
-
                                     {selectedLocation.phone && (
                                         <div className="flex items-center gap-3 text-base text-gray-600">
                                             <Phone className="w-5 h-5 shrink-0 text-[#F1592C]" />

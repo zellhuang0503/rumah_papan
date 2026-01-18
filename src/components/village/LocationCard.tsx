@@ -32,10 +32,22 @@ export const LocationCard: React.FC<LocationCardProps> = ({ item }) => {
                     ${item.image ? 'text-white/90' : 'text-[#242527]/70'}
                 `}>
                     {item.subName && <span className="text-sm font-bold tracking-wider uppercase">{item.subName}</span>}
-                    <div className="flex items-start justify-center gap-1.5 px-4">
-                        <MapPin className={`w-4 h-4 mt-0.5 shrink-0 ${item.image ? 'text-white' : 'text-[#F1592C]'}`} />
-                        <span className="text-sm md:text-base font-medium leading-relaxed">{item.address}</span>
-                    </div>
+                    {item.googleMapLink ? (
+                        <a
+                            href={item.googleMapLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-start justify-center gap-1.5 px-4 hover:opacity-80 transition-opacity"
+                        >
+                            <MapPin className={`w-4 h-4 mt-0.5 shrink-0 ${item.image ? 'text-white' : 'text-[#F1592C]'}`} />
+                            <span className="text-sm md:text-base font-medium leading-relaxed underline underline-offset-4 decoration-current/30">{item.address}</span>
+                        </a>
+                    ) : (
+                        <div className="flex items-start justify-center gap-1.5 px-4">
+                            <MapPin className={`w-4 h-4 mt-0.5 shrink-0 ${item.image ? 'text-white' : 'text-[#F1592C]'}`} />
+                            <span className="text-sm md:text-base font-medium leading-relaxed">{item.address}</span>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -55,10 +67,22 @@ export const LocationCard: React.FC<LocationCardProps> = ({ item }) => {
                         </p>
 
                         <div className="flex flex-col gap-3 py-4 border-t border-white/10 mt-2">
-                            <div className="flex items-start gap-3">
-                                <MapPin className="w-5 h-5 mt-1 shrink-0 text-[#F1592C]" />
-                                <span className="text-orange-50/80 text-sm md:text-base">{item.address}</span>
-                            </div>
+                            {item.googleMapLink ? (
+                                <a
+                                    href={item.googleMapLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-start gap-3 hover:text-white transition-colors group/addr"
+                                >
+                                    <MapPin className="w-5 h-5 mt-1 shrink-0 text-[#F1592C] group-hover/addr:scale-110 transition-transform" />
+                                    <span className="text-orange-50/80 text-sm md:text-base group-hover/addr:underline underline-offset-4 decoration-orange-50/30">{item.address}</span>
+                                </a>
+                            ) : (
+                                <div className="flex items-start gap-3">
+                                    <MapPin className="w-5 h-5 mt-1 shrink-0 text-[#F1592C]" />
+                                    <span className="text-orange-50/80 text-sm md:text-base">{item.address}</span>
+                                </div>
+                            )}
 
                             {item.phone && (
                                 <div className="flex items-center gap-3">
