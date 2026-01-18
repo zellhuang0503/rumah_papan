@@ -1,4 +1,7 @@
+import React from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import type { LocationCategory } from '../../data/villageMapData';
+import { Soup, Camera, Landmark } from 'lucide-react';
 
 interface MapFilterProps {
     activeCategory: LocationCategory;
