@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  
+
   // Security headers for development server
   server: {
     headers: {
@@ -20,7 +20,7 @@ export default defineConfig({
       'Permissions-Policy': 'camera=(), microphone=(), geolocation=(self)',
     }
   },
-  
+
   // Security headers for preview server (production-like)
   preview: {
     headers: {
@@ -44,12 +44,12 @@ export default defineConfig({
       ].join('; '),
     }
   },
-  
+
   // Build optimizations for security
   build: {
     // Generate source maps only in development (disabled for production security)
     sourcemap: false,
     // Minify for production
-    minify: 'terser',
+    minify: 'esbuild',
   },
 })
