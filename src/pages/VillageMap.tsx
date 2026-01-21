@@ -1,4 +1,5 @@
 import React, { useState, useRef, useLayoutEffect, useEffect, useMemo } from 'react';
+import villageMapImage from '../assets/images/pandamaran_tourist_map.jpg';
 import { useSearchParams } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -55,10 +56,10 @@ export const VillageMap: React.FC = () => {
     useEffect(() => {
         const fetchMap = async () => {
             try {
-                const data = await client.fetch<MapCMS>(`*[_type == "village"][0]{map}`);
+                const data = await client.fetch<MapCMS['map']>(`*[_type == "village"][0].map`);
                 console.log("Fetched Sanity Map Data:", data);
-                if (data && data.map) {
-                    setCmsData(data);
+                if (data) {
+                    setCmsData({ map: data });
                 }
             } catch (error) {
                 console.error("Failed to fetch map data", error);
@@ -71,6 +72,13 @@ export const VillageMap: React.FC = () => {
         if (language === 'en') return en || zh || fallback;
         return zh || fallback;
     };
+
+    const currentMapImage = useMemo(() => {
+        if (cmsData?.map?.mapImage?.asset) {
+            return urlFor(cmsData.map.mapImage).url();
+        }
+        return villageMapImage;
+    }, [cmsData]);
 
     const cmsMap = cmsData?.map;
 
