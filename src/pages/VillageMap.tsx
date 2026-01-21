@@ -56,7 +56,8 @@ export const VillageMap: React.FC = () => {
         const fetchMap = async () => {
             try {
                 const data = await client.fetch<MapCMS>(`*[_type == "village"][0]{map}`);
-                if (data) {
+                console.log("Fetched Sanity Map Data:", data);
+                if (data && data.map) {
                     setCmsData(data);
                 }
             } catch (error) {
