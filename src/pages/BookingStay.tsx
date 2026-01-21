@@ -132,8 +132,22 @@ export const BookingStay: React.FC = () => {
                 roomCount: validateNumberRange(formData.roomCount, 1, 20, 1),
             };
 
-            // TODO: Integrate with backend API for booking submission
-            console.log('[BookingStay] Form validated and sanitized:', sanitizedData);
+            // Call Vercel Serverless Function
+            const response = await fetch('/api/submitBooking', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(sanitizedData),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Submission failed');
+            }
+
+            console.log('[BookingStay] Application submitted successfully:', result);
 
             const msg = language === 'zh' ? "申請已送出！我們會盡快聯繫您。" : "Application submitted! We will contact you shortly.";
             alert(msg);
@@ -153,8 +167,11 @@ export const BookingStay: React.FC = () => {
                 paymentMethod: '',
                 remarks: ''
             });
-        } catch (error) {
-            const errorMsg = language === 'zh' ? '提交失敗，請稍後再試' : 'Submission failed, please try again';
+        } catch (error: any) {
+            console.error('Submission error:', error);
+            const errorMsg = language === 'zh'
+                ? `提交失敗：${error.message || '請稍後再試'}`
+                : `Submission failed: ${error.message || 'Please try again later'}`;
             alert(errorMsg);
         } finally {
             setIsSubmitting(false);
