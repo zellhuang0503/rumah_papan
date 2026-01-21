@@ -1,5 +1,4 @@
 import React, { useState, useRef, useLayoutEffect, useEffect, useMemo } from 'react';
-import villageMapImage from '../assets/images/pandamaran_tourist_map.jpg';
 import { useSearchParams } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -73,14 +72,15 @@ export const VillageMap: React.FC = () => {
         return zh || fallback;
     };
 
-    const currentMapImage = useMemo(() => {
-        if (cmsData?.map?.mapImage?.asset) {
-            return urlFor(cmsData.map.mapImage).url();
-        }
-        return villageMapImage;
-    }, [cmsData]);
-
     const cmsMap = cmsData?.map;
+
+    // Compute CMS map image URL, falling back to static image
+    const currentMapImage = useMemo(() => {
+        if (cmsMap?.mapImage?.asset) {
+            return urlFor(cmsMap.mapImage).url();
+        }
+        return undefined; // Let MapViewer use its default
+    }, [cmsMap]);
 
     const pageTitle = getLocalized(cmsMap?.title, cmsMap?.title_en, MAP_PAGE_TITLE);
     const pageSubtitle = getLocalized(cmsMap?.subtitle, cmsMap?.subtitle_en, MAP_PAGE_SUBTITLE);
@@ -252,7 +252,7 @@ export const VillageMap: React.FC = () => {
                     <MapViewer
                         activeCategory={activeCategory}
                         locations={processedLocations}
-                        mapImage={(cmsMap?.mapImage && cmsMap.mapImage.asset) ? urlFor(cmsMap.mapImage).url() : undefined}
+                        mapImage={currentMapImage}
                         isAdmin={isAdmin}
                     />
                 </div>

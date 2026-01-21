@@ -10,9 +10,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const client = createClient({
-    projectId: 'vm3p10fe',
+    projectId: 'pt01rhvf',
     dataset: 'production',
-    apiVersion: '2023-05-03',
+    apiVersion: '2024-03-24',
     useCdn: false,
     token: process.env.SANITY_API_WRITE_TOKEN
 });

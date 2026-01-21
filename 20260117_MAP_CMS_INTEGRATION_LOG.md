@@ -44,7 +44,7 @@
 
 1.  **Schema 結構升級**:
     *   Sanity `village` 文件新增 `phone`, `googleMapLink`, `mapImage` 等欄位。
-    *   修正 Project ID 配置 (`vm3p10fe`)。
+    *   修正 Project ID 配置 (`pt01rhvf`)。
 2.  **地圖管理者模式 (`?mode=admin`)**:
     *   **功能**：在網址加入特定參數後開啟。
     *   **點擊座標獲取器**：在地圖上任意點擊，系統會自動彈出並複製該點的 X 與 Y 座標。
