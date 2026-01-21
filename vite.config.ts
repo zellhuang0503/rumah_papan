@@ -51,5 +51,6 @@ export default defineConfig({
     sourcemap: false,
     // Minify for production
     minify: 'esbuild',
+    chunkSizeWarningLimit: 1000,
   },
 })
