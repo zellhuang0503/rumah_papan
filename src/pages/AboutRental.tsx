@@ -215,7 +215,7 @@ export const AboutRental: React.FC = () => {
                         <div className="w-full flex flex-col desktop:flex-row items-center desktop:items-start justify-center relative gap-8 desktop:gap-6">
                             {RENTAL_DATA?.process?.map((step, index) => (
                                 <React.Fragment key={index}>
-                                    <div className="flex flex-col gap-[18px] w-full desktop:w-[250px] relative z-10 items-center desktop:items-start text-center desktop:text-left">
+                                    <div className="flex flex-col gap-[18px] w-full desktop:w-[280px] relative z-10 items-center desktop:items-start text-center desktop:text-left">
                                         <div className="flex items-center gap-[15px]">
                                             {/* Custom Icons for Steps */}
                                             <div className="w-[54px] h-[54px] flex-shrink-0">
