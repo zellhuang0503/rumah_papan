@@ -1,7 +1,5 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
 import { MapViewer } from '../components/village/MapViewer';
@@ -16,8 +14,6 @@ import {
 } from '../data/villageMapData';
 import { useLanguage } from '../contexts/LanguageContext';
 import { client, urlFor } from '../utils/sanity';
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface MapCMS {
     map?: {
@@ -50,8 +46,15 @@ export const VillageMap: React.FC = () => {
     const MAP_PAGE_SUBTITLE = getMapPageSubtitle(language);
 
     const [cmsData, setCmsData] = useState<MapCMS | null>(null);
+    const [activeCategory, setActiveCategory] = useState<LocationCategory>('all');
+    const containerRef = useRef<HTMLDivElement>(null);
+    const fetchedRef = useRef(false);
 
+    // Fetch CMS data only once
     useEffect(() => {
+        if (fetchedRef.current) return;
+        fetchedRef.current = true;
+
         const fetchMap = async () => {
             try {
                 const data = await client.fetch<MapCMS['map']>(`*[_type == "village"][0].map`);
@@ -72,21 +75,25 @@ export const VillageMap: React.FC = () => {
             return urlFor(cmsMap.mapImage).url();
         }
         return undefined;
-    }, [cmsMap]);
+    }, [cmsMap?.mapImage?.asset]);
 
-    const getLocalized = (zh: any, en: any, fallback: any) => {
+    // Memoize getLocalized to prevent recreation on every render
+    const getLocalized = useCallback((zh: any, en: any, fallback: any) => {
         if (language === 'en') return en || zh || fallback;
         return zh || fallback;
-    };
+    }, [language]);
+
+    // Get static locations based on language
+    const staticLocations = useMemo(() => {
+        return getVillageLocations(language);
+    }, [language]);
 
     const processedLocations = useMemo<LocationItem[]>(() => {
-        const staticLocations = getVillageLocations(language);
-
         if (!cmsMap?.locations || cmsMap.locations.length === 0) {
-            return staticLocations || [];
+            return staticLocations;
         }
 
-        return cmsMap.locations.map((item: any) => {
+        return cmsMap.locations.map((item: any, index: number) => {
             const staticItem = staticLocations.find(l => l.id === item.id) ||
                 staticLocations.find(l => l.category === item.category);
 
@@ -103,7 +110,7 @@ export const VillageMap: React.FC = () => {
             }
 
             return {
-                id: item.id || staticItem?.id || `temp-${item.name || 'unknown'}`,
+                id: item.id || staticItem?.id || `cms-item-${index}`,
                 name: getLocalized(item.name, item.name_en, staticItem?.name || ''),
                 subName: getLocalized(item.subName, item.subName_en, staticItem?.subName),
                 address: getLocalized(item.address, item.address_en, staticItem?.address || ''),
@@ -119,18 +126,24 @@ export const VillageMap: React.FC = () => {
                 image: imageUrl
             };
         });
-    }, [cmsMap, language]);
+    }, [cmsMap?.locations, staticLocations, getLocalized]);
 
-    const [activeCategory, setActiveCategory] = useState<LocationCategory>('all');
-    const containerRef = useRef<HTMLDivElement>(null);
-
-    const shouldShowSection = (category: LocationCategory) => {
+    const shouldShowSection = useCallback((category: LocationCategory) => {
         return activeCategory === 'all' || activeCategory === category;
-    };
+    }, [activeCategory]);
 
-    const foodLocations = processedLocations.filter(l => l.category === 'food');
-    const attractionLocations = processedLocations.filter(l => l.category === 'attraction');
-    const templeLocations = processedLocations.filter(l => l.category === 'temple');
+    const foodLocations = useMemo(() => 
+        processedLocations.filter(l => l.category === 'food'), 
+        [processedLocations]
+    );
+    const attractionLocations = useMemo(() => 
+        processedLocations.filter(l => l.category === 'attraction'), 
+        [processedLocations]
+    );
+    const templeLocations = useMemo(() => 
+        processedLocations.filter(l => l.category === 'temple'), 
+        [processedLocations]
+    );
 
     return (
         <div ref={containerRef} className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
@@ -173,7 +186,7 @@ export const VillageMap: React.FC = () => {
                     </h2>
 
                     {/* Food Section (Bak Kut Teh) */}
-                    {shouldShowSection('food') && (
+                    {shouldShowSection('food') && foodLocations.length > 0 && (
                         <div className="content-section w-full flex flex-col items-center gap-12 desktop:gap-[60px]">
                             <h3 className="section-title text-black text-2xl desktop:text-[45px] font-bold font-['Noto_Sans_TC'] leading-none w-full text-center desktop:text-left desktop:px-[60px]">
                                 {language === 'zh' ? '人氣肉骨茶' : 'Popular BKT'}
@@ -189,7 +202,7 @@ export const VillageMap: React.FC = () => {
                     )}
 
                     {/* Attraction Section */}
-                    {shouldShowSection('attraction') && (
+                    {shouldShowSection('attraction') && attractionLocations.length > 0 && (
                         <div className="content-section w-full flex flex-col items-center gap-12 desktop:gap-[60px]">
                             <h3 className="section-title text-black text-2xl desktop:text-[45px] font-bold font-['Noto_Sans_TC'] leading-none w-full text-center desktop:text-left desktop:px-[60px]">
                                 {language === 'zh' ? '必訪景點' : 'Must-visit Spots'}
@@ -205,7 +218,7 @@ export const VillageMap: React.FC = () => {
                     )}
 
                     {/* Temple Section */}
-                    {shouldShowSection('temple') && (
+                    {shouldShowSection('temple') && templeLocations.length > 0 && (
                         <div className="content-section w-full flex flex-col items-center gap-12 desktop:gap-[60px]">
                             <h3 className="section-title text-black text-2xl desktop:text-[45px] font-bold font-['Noto_Sans_TC'] leading-none w-full text-center desktop:text-left desktop:px-[60px]">
                                 {language === 'zh' ? '在地廟宇' : 'Local Temples'}

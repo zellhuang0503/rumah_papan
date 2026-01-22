@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { Welcome } from './pages/Welcome';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
@@ -17,9 +18,29 @@ import { BookingStay } from './pages/BookingStay'; // Added BookingStay import
 import { ScrollToTop } from './components/ScrollToTop';
 import { VillageMap } from './pages/VillageMap';
 
+// Handle GitHub Pages 404 redirect with ?p= parameter
+function RedirectHandler() {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const redirectPath = searchParams.get('p');
+        
+        if (redirectPath && location.pathname === '/') {
+            // Decode and navigate to the original path
+            const decodedPath = decodeURIComponent(redirectPath);
+            navigate(decodedPath, { replace: true });
+        }
+    }, [location, navigate]);
+
+    return null;
+}
+
 function App() {
     return (
         <Router>
+            <RedirectHandler />
             <ScrollToTop />
             <Routes>
                 <Route path="/" element={<Welcome />} />

@@ -4,24 +4,27 @@
     <meta charset="UTF-8" />
     <title>Rumah Papan</title>
     <script type="text/javascript">
-      // GitHub Pages SPA 路由处理
-      // 将所有 404 请求重定向到 index.html
-      var pathSegmentsToKeep = 1;
-
-      var l = window.location;
-      l.replace(
-        l.protocol +
-          '//' +
-          l.hostname +
-          (l.port ? ':' + l.port : '') +
-          l.pathname
-            .split('/')
-            .slice(0, 1 + pathSegmentsToKeep)
-            .join('/') +
-          '/?/' +
-          l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/') +
-          l.search
-      );
+      // GitHub Pages SPA 路由處理
+      // 使用自定義域名時，直接重定向到 index.html 並保留路徑
+      (function() {
+        var location = window.location;
+        
+        // 如果已經有 ?/ 參數，不要再重定向（防止無限循環）
+        if (location.search.indexOf('?/') === 0) {
+          return;
+        }
+        
+        // 對於自定義域名（不是 github.io），直接重定向到首頁並帶上路徑參數
+        // 格式：/?p=/original/path
+        var path = location.pathname + location.search + location.hash;
+        
+        // 重定向到首頁，將原始路徑作為查詢參數傳遞
+        location.replace(
+          location.protocol + '//' + location.hostname + 
+          (location.port ? ':' + location.port : '') + 
+          '/?p=' + encodeURIComponent(path)
+        );
+      })();
     </script>
   </head>
   <body></body>
