@@ -8,7 +8,7 @@
 
 ### 需要的信息
 - GitHub 仓库名称：`zellhuang0503/rumah_papan`
-- 自定义域名：[请填写你的域名]
+- 自定义域名：[rumahpapanKlang.com]
 - Sanity Project ID 和 Dataset：已配置在项目中
 
 ### 预估时间
