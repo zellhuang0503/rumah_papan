@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect, useRef } from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { getEnvironmentData } from '../data/aboutData';
 import { useLanguage } from '../contexts/LanguageContext';
 import { client, urlFor } from '../utils/sanity';
@@ -13,6 +15,8 @@ interface EnvironmentItem {
     image?: any;
     _key?: string;
 }
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const AboutEnvironment: React.FC = () => {
     const { language } = useLanguage();
@@ -47,19 +51,59 @@ export const AboutEnvironment: React.FC = () => {
     const useCmsList = cmsItems.length > 0;
     const listToRender = useCmsList ? cmsItems : ENVIRONMENT_DATA;
 
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+            // 1. Header Animation (Fade up) - RUNS ONCE
+            gsap.fromTo(".anim-header",
+                { autoAlpha: 0, y: 20 },
+                { autoAlpha: 1, y: 0, duration: 1, ease: "power2.out" }
+            );
+        }, containerRef);
+        return () => ctx.revert();
+    }, []);
+
+    useLayoutEffect(() => {
+        if (listToRender.length === 0) return;
+
+        const ctx = gsap.context(() => {
+            // 2. Grid Items Animation (Staggered fade up)
+            const items = document.querySelectorAll(".env-card");
+            if (items.length > 0) {
+                gsap.fromTo(items,
+                    { autoAlpha: 0, y: 30 },
+                    {
+                        autoAlpha: 1,
+                        y: 0,
+                        duration: 0.8,
+                        stagger: 0.1,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: ".env-grid",
+                            start: "top 85%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            }
+        }, containerRef);
+        return () => ctx.revert();
+    }, [listToRender]);
+
     return (
-        <div className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
+        <div ref={containerRef} className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
             <HomeNavbar />
 
-            <main className="w-full relative flex flex-col items-center pt-32 desktop:pt-[165px] gap-12 desktop:gap-[120px]">
+            <main className="w-full relative flex flex-col items-center pt-32 desktop:pt-[165px] gap-12 desktop:gap-[120px] px-6 desktop:px-0">
                 {/* Header Section */}
-                <div className="w-full flex flex-col items-center gap-8 desktop:gap-[72px]">
+                <div className="w-full flex flex-col items-center gap-8 desktop:gap-[72px] anim-header opacity-0">
                     <h1 className="text-black text-3xl desktop:text-[54px] font-bold font-['Noto_Sans_TC'] leading-tight desktop:leading-[75.6px] text-center">
                         {language === 'zh' ? '環境介紹' : 'Environment'}
                     </h1>
 
                     {/* Grid Section */}
-                    <div className="w-full max-w-[1440px] flex flex-wrap justify-center gap-6 desktop:gap-[18px] px-6 desktop:px-[90px]">
+                    <div className="w-full max-w-[1440px] flex flex-wrap justify-center gap-6 desktop:gap-[18px] env-grid">
                         {listToRender.map((item: any, index: number) => {
                             // Logic:
                             // If iterating CMS item: use its fields, fallback to static[index] fields
@@ -87,7 +131,7 @@ export const AboutEnvironment: React.FC = () => {
                             }
 
                             return (
-                                <div key={index} className="w-full max-w-[408px] flex flex-col items-start shadow-md rounded-[18px]">
+                                <div key={index} className="env-card opacity-0 w-full max-w-[408px] flex flex-col items-start shadow-md rounded-[18px]">
                                     {displayImage && (
                                         <img
                                             className="w-full h-auto aspect-[408/340.5] object-cover rounded-t-[18px]"

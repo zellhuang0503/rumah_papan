@@ -56,7 +56,6 @@ export const VillageMap: React.FC = () => {
         const fetchMap = async () => {
             try {
                 const data = await client.fetch<MapCMS['map']>(`*[_type == "village"][0].map`);
-                console.log("Fetched Sanity Map Data:", data);
                 if (data) {
                     setCmsData({ map: data });
                 }
@@ -74,12 +73,11 @@ export const VillageMap: React.FC = () => {
 
     const cmsMap = cmsData?.map;
 
-    // Compute CMS map image URL, falling back to static image
     const currentMapImage = useMemo(() => {
         if (cmsMap?.mapImage?.asset) {
             return urlFor(cmsMap.mapImage).url();
         }
-        return undefined; // Let MapViewer use its default
+        return undefined;
     }, [cmsMap]);
 
     const pageTitle = getLocalized(cmsMap?.title, cmsMap?.title_en, MAP_PAGE_TITLE);
@@ -94,7 +92,6 @@ export const VillageMap: React.FC = () => {
             const staticItem = staticLocations.find(l => l.id === item.id) ||
                 staticLocations.find(l => l.category === item.category);
 
-            // Safer image processing
             let imageUrl = "";
             try {
                 if (item.image && item.image.asset) {
@@ -129,96 +126,14 @@ export const VillageMap: React.FC = () => {
     const [activeCategory, setActiveCategory] = useState<LocationCategory>('all');
     const containerRef = useRef<HTMLDivElement>(null);
 
-    // Helper to determine if a section should be shown
     const shouldShowSection = (category: LocationCategory) => {
         return activeCategory === 'all' || activeCategory === category;
     };
 
-    useLayoutEffect(() => {
-        const ctx = gsap.context(() => {
-            // Scoped selector
-            const q = gsap.utils.selector(containerRef);
+    const foodLocations = processedLocations.filter(l => l.category === 'food');
+    const attractionLocations = processedLocations.filter(l => l.category === 'attraction');
+    const templeLocations = processedLocations.filter(l => l.category === 'temple');
 
-            // Helper for simple fade-in elements
-            const animateIn = (className: string, delay: number = 0) => {
-                const targets = q(className);
-                if (targets.length > 0) {
-                    gsap.fromTo(targets,
-                        { autoAlpha: 0, x: 100 },
-                        {
-                            scrollTrigger: {
-                                trigger: targets,
-                                start: "top 85%",
-                                toggleActions: "play none none reverse"
-                            },
-                            autoAlpha: 1,
-                            x: 0,
-                            duration: 1,
-                            delay: delay,
-                            ease: "power3.out"
-                        }
-                    );
-                }
-            };
-
-            // 1. Header Elements
-            animateIn(".anim-header", 0);
-            animateIn(".anim-subtitle", 0.1);
-            animateIn(".anim-filter", 0.2);
-            gsap.fromTo(q(".title-animate"), { autoAlpha: 0, y: 50 }, { autoAlpha: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.2 });
-            gsap.fromTo(q(".map-animate"), { autoAlpha: 0, y: 50 }, { autoAlpha: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.4 });
-            gsap.fromTo(q(".filter-animate"), { autoAlpha: 0, y: 50 }, { autoAlpha: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.6 });
-
-
-            // 2. Sections (Title + Staggered Cards)
-            const sections = q(".content-section");
-            sections.forEach((section) => {
-                // Find title and cards *inside* this specific section
-                const title = section.querySelector(".section-title");
-                const cards = section.querySelectorAll(".location-card-item");
-
-                const tl = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: section,
-                        start: "top 75%", // Trigger a bit earlier/higher
-                        toggleActions: "play none none reverse"
-                    }
-                });
-
-                if (title) {
-                    tl.fromTo(title,
-                        { autoAlpha: 0, x: 100 },
-                        { autoAlpha: 1, x: 0, duration: 0.8, ease: "power3.out" }
-                    );
-                }
-
-                if (cards.length > 0) {
-                    tl.fromTo(cards,
-                        { autoAlpha: 0, x: 100 },
-                        {
-                            autoAlpha: 1,
-                            x: 0,
-                            duration: 0.8,
-                            stagger: 0.1,
-                            ease: "power3.out"
-                        },
-                        title ? "-=0.6" : 0
-                    );
-                }
-            });
-
-            ScrollTrigger.refresh();
-        }, containerRef);
-
-        return () => ctx.revert();
-    }, [processedLocations, activeCategory]); // Modified dependencies
-
-    // Refresh ScrollTrigger when category changes (content height changes)
-    useLayoutEffect(() => {
-        ScrollTrigger.refresh();
-    }, [activeCategory, language, processedLocations]);
-
-    // Labels for Sections
     const sectionLabels = {
         food: language === 'zh' ? '肉骨茶' : 'Bak Kut Teh',
         attraction: language === 'zh' ? '景點' : 'Attractions',
@@ -229,17 +144,17 @@ export const VillageMap: React.FC = () => {
         <div ref={containerRef} className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
             <HomeNavbar />
 
-            <main className="w-full flex flex-col items-center pt-32 desktop:pt-[165px] pb-[120px]">
+            <main className="w-full flex flex-col items-center pt-32 desktop:pt-[165px] pb-[120px] px-6 desktop:px-0">
 
-                {/* Header Section: Title + Filter */}
-                <div className="w-full max-w-[1260px] px-6 desktop:px-[90px] mb-6 desktop:mb-[24px] flex flex-col items-center gap-6 desktop:gap-10 anim-header opacity-0">
-                    <h1 className="text-3xl desktop:text-[54px] font-bold text-[#242527] font-noto-sans-tc leading-[1.4] text-center">
-                        {pageTitle}
+                {/* Header Section */}
+                <div className="w-full max-w-[1260px] flex flex-col items-center gap-[60px]">
+                    <h1 className="text-black text-3xl desktop:text-[54px] font-bold font-['Noto_Sans_TC'] leading-[1.4] text-center">
+                        {MAP_PAGE_TITLE}
                         {isAdmin && <span className="block text-base text-red-500 mt-2 font-mono bg-red-100 py-1 px-3 rounded-full w-fit mx-auto border border-red-200">🔧 Admin Mode: Click Map to Get Coordinates</span>}
                     </h1>
 
-                    {/* Filter */}
-                    <div className="filter-animate opacity-0">
+                    {/* Filter Section */}
+                    <div className="w-full flex justify-center">
                         <MapFilter
                             activeCategory={activeCategory}
                             onCategoryChange={setActiveCategory}
@@ -248,75 +163,69 @@ export const VillageMap: React.FC = () => {
                 </div>
 
                 {/* Map Section */}
-                <div className="w-full max-w-[1200px] px-6 desktop:px-0 mb-12 desktop:mb-[60px] map-animate opacity-0">
+                <section className="w-full max-w-[1240px] relative mb-12 desktop:mb-[60px]">
                     <MapViewer
                         activeCategory={activeCategory}
                         locations={processedLocations}
                         mapImage={currentMapImage}
                         isAdmin={isAdmin}
                     />
-                </div>
+                </section>
 
                 {/* Content Section: Location Cards */}
-                <div className="w-full max-w-[1260px] px-6 desktop:px-[90px] flex flex-col gap-12 desktop:gap-[60px]">
+                <div className="w-full max-w-[1260px] flex flex-col gap-12 desktop:gap-[60px]">
 
-                    {/* Category Subtitle */}
-                    <h2 className="text-[#242527] text-xl desktop:text-[27px] font-bold font-noto-sans-tc leading-[1.35] title-animate opacity-0">
-                        {activeCategory === 'all' ? pageSubtitle :
-                            activeCategory === 'food' ? (language === 'zh' ? '在地美食' : 'Local Food') :
-                                activeCategory === 'temple' ? (language === 'zh' ? '廟宇文化' : 'Temples') :
-                                    (language === 'zh' ? '觀光景點' : 'Attractions')}
+                    {/* Popular Spots Title */}
+                    <h2 className="text-black text-3xl desktop:text-[54px] font-bold font-['Noto_Sans_TC'] leading-[1.4] text-center">
+                        {MAP_PAGE_SUBTITLE}
                     </h2>
 
-                    {/* Food Section */}
+                    {/* Food Section (Bak Kut Teh) */}
                     {shouldShowSection('food') && (
-                        <section className="flex flex-col gap-6 desktop:gap-8 content-section">
-                            <div className="flex items-center gap-3 desktop:gap-4 section-title">
-                                <span className="w-1.5 desktop:w-2 h-6 desktop:h-10 bg-[#242527]"></span>
-                                <h4 className="text-xl desktop:text-[2rem] font-bold text-[#242527] font-noto-sans-tc">
-                                    {sectionLabels.food}
-                                </h4>
-                            </div>
-                            <div className="flex flex-wrap gap-x-4 desktop:gap-x-[20px] gap-y-6 desktop:gap-y-[48px]">
-                                {processedLocations.filter(l => l.category === 'food').map(location => (
-                                    <LocationCard key={location.id} item={location} />
+                        <div className="content-section w-full flex flex-col items-center gap-12 desktop:gap-[60px]">
+                            <h3 className="section-title text-black text-2xl desktop:text-[45px] font-bold font-['Noto_Sans_TC'] leading-none w-full text-center desktop:text-left">
+                                {language === 'zh' ? '人氣肉骨茶' : 'Popular BKT'}
+                            </h3>
+                            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+                                {foodLocations.map((location) => (
+                                    <div key={location.id} className="location-card-item">
+                                        <LocationCard item={location} />
+                                    </div>
                                 ))}
                             </div>
-                        </section>
+                        </div>
                     )}
 
                     {/* Attraction Section */}
                     {shouldShowSection('attraction') && (
-                        <section className="flex flex-col gap-6 desktop:gap-8 content-section">
-                            <div className="flex items-center gap-3 desktop:gap-4 section-title">
-                                <span className="w-1.5 desktop:w-2 h-6 desktop:h-10 bg-[#242527]"></span>
-                                <h4 className="text-xl desktop:text-[2rem] font-bold text-[#242527] font-noto-sans-tc">
-                                    {sectionLabels.attraction}
-                                </h4>
-                            </div>
-                            <div className="flex flex-wrap gap-x-4 desktop:gap-x-[20px] gap-y-6 desktop:gap-y-[48px]">
-                                {processedLocations.filter(l => l.category === 'attraction').map(location => (
-                                    <LocationCard key={location.id} item={location} />
+                        <div className="content-section w-full flex flex-col items-center gap-12 desktop:gap-[60px]">
+                            <h3 className="section-title text-black text-2xl desktop:text-[45px] font-bold font-['Noto_Sans_TC'] leading-none w-full text-center desktop:text-left">
+                                {language === 'zh' ? '必訪景點' : 'Must-visit Spots'}
+                            </h3>
+                            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+                                {attractionLocations.map((location) => (
+                                    <div key={location.id} className="location-card-item">
+                                        <LocationCard item={location} />
+                                    </div>
                                 ))}
                             </div>
-                        </section>
+                        </div>
                     )}
 
                     {/* Temple Section */}
                     {shouldShowSection('temple') && (
-                        <section className="flex flex-col gap-6 desktop:gap-8 content-section">
-                            <div className="flex items-center gap-3 desktop:gap-4 section-title">
-                                <span className="w-1.5 desktop:w-2 h-6 desktop:h-10 bg-[#242527]"></span>
-                                <h4 className="text-xl desktop:text-[2rem] font-bold text-[#242527] font-noto-sans-tc">
-                                    {sectionLabels.temple}
-                                </h4>
-                            </div>
-                            <div className="flex flex-wrap gap-x-4 desktop:gap-x-[20px] gap-y-6 desktop:gap-y-[48px]">
-                                {processedLocations.filter(l => l.category === 'temple').map(location => (
-                                    <LocationCard key={location.id} item={location} />
+                        <div className="content-section w-full flex flex-col items-center gap-12 desktop:gap-[60px]">
+                            <h3 className="section-title text-black text-2xl desktop:text-[45px] font-bold font-['Noto_Sans_TC'] leading-none w-full text-center desktop:text-left">
+                                {language === 'zh' ? '在地廟宇' : 'Local Temples'}
+                            </h3>
+                            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+                                {templeLocations.map((location) => (
+                                    <div key={location.id} className="location-card-item">
+                                        <LocationCard item={location} />
+                                    </div>
                                 ))}
                             </div>
-                        </section>
+                        </div>
                     )}
                 </div>
 

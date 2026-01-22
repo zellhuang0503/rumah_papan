@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { getStayData } from '../data/villageData';
 import { useLanguage } from '../contexts/LanguageContext';
 import { client, urlFor } from '../utils/sanity';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface StayCMS {
     stay?: {
@@ -99,8 +103,18 @@ export const VillageStay: React.FC = () => {
         notices: language === 'zh' ? '注意事項' : 'Notices'
     };
 
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useLayoutEffect(() => {
+        // Removed GSAP animations
+    }, []);
+
+    useLayoutEffect(() => {
+        // Removed GSAP animations
+    }, [cmsData]);
+
     return (
-        <div className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
+        <div ref={containerRef} className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
             <HomeNavbar />
 
             <main className="w-full relative flex flex-col items-center pt-32 desktop:pt-[165px] gap-20 desktop:gap-[160px] px-6 desktop:px-0">
@@ -110,9 +124,9 @@ export const VillageStay: React.FC = () => {
                 </h1>
 
                 {/* Zigzag Room List */}
-                <section className="w-full max-w-[1200px] flex flex-col gap-12 desktop:gap-[40px]">
+                <section className="w-full max-w-[1200px] flex flex-col gap-12 desktop:gap-[40px] rooms-list">
                     {STAY_DATA.rooms.map((room, index) => (
-                        <div key={index} className={`flex items-center gap-6 desktop:gap-[27px] flex-col-reverse ${index % 2 === 1 ? 'desktop:flex-row-reverse' : 'desktop:flex-row'} justify-center`}>
+                        <div key={index} className={`room-item flex items-center gap-6 desktop:gap-[27px] flex-col-reverse ${index % 2 === 1 ? 'desktop:flex-row-reverse' : 'desktop:flex-row'} justify-center`}>
                             {/* Text Card */}
                             <div className="w-full desktop:w-[621px] h-auto desktop:h-[288px] bg-white rounded-[18px] px-6 py-8 desktop:py-0 desktop:px-[30px] flex flex-col justify-center items-start gap-4 desktop:gap-[18px] overflow-hidden shadow-sm">
                                 <h2 className="text-black/80 text-2xl desktop:text-[45px] font-bold font-['Noto_Sans_TC'] leading-tight">

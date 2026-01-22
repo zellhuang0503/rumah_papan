@@ -370,7 +370,7 @@ export const ACTIVITIES_DATA = ACTIVITIES_DATA_ZH;
 
 // --- Traffic Data ---
 const TRAFFIC_DATA_ZH = {
-    hero: { title: "交通資訊" },
+    hero: { title: "交通方式" },
     title: "如何抵達",
     methods: [
         {
@@ -401,7 +401,7 @@ const TRAFFIC_DATA_ZH = {
     ]
 };
 const TRAFFIC_DATA_EN = {
-    hero: { title: "Traffic Info" },
+    hero: { title: "Traffic Methods" },
     title: "How to Get Here",
     methods: [
         {

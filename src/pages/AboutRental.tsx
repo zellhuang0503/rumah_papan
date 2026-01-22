@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect, useRef } from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { getRentalData } from '../data/aboutData';
 import { useLanguage } from '../contexts/LanguageContext';
 import { MoveRight, ArrowUpRight } from 'lucide-react';
 import { client, urlFor } from '../utils/sanity';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface RentalCMS {
     rental?: {
@@ -123,13 +127,46 @@ export const AboutRental: React.FC = () => {
         setCurrentHighlight((prev) => (prev - 1 + RENTAL_DATA.highlights.length) % RENTAL_DATA.highlights.length);
     };
 
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+            // 1. Header Animation (Fade up) - RUNS ONCE
+            gsap.fromTo(".anim-header",
+                { autoAlpha: 0, y: 20 },
+                { autoAlpha: 1, y: 0, duration: 1, ease: "power2.out" }
+            );
+
+            // 2. Section Staggered Intro
+            const sections = document.querySelectorAll(".rental-section");
+            if (sections.length > 0) {
+                gsap.fromTo(sections,
+                    { autoAlpha: 0, y: 30 },
+                    {
+                        autoAlpha: 1,
+                        y: 0,
+                        duration: 0.8,
+                        stagger: 0.2,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: ".rental-container",
+                            start: "top 80%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            }
+        }, containerRef);
+        return () => ctx.revert();
+    }, []);
+
     return (
-        <div className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
+        <div ref={containerRef} className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
             <HomeNavbar />
 
-            <main className="w-full relative flex flex-col items-center pt-32 desktop:pt-[165px] gap-20 desktop:gap-[160px] px-6 desktop:px-0">
+            <main className="w-full relative flex flex-col items-center pt-32 desktop:pt-[165px] gap-20 desktop:gap-[160px] px-6 desktop:px-0 rental-container">
                 {/* Header Group */}
-                <div className="w-full flex flex-col items-center gap-12 desktop:gap-[100px]">
+                <div className="w-full flex flex-col items-center gap-12 desktop:gap-[100px] anim-header opacity-0">
                     {/* Page Title */}
                     <h1 className="text-black text-3xl desktop:text-[54px] font-bold font-['Noto_Sans_TC'] leading-[1.4] text-center">
                         {labels.title}
@@ -257,8 +294,8 @@ export const AboutRental: React.FC = () => {
                     </div>
                 </section>
 
-                {/* Pricing Plans */}
-                <section className="w-full max-w-[1200px] flex flex-col items-center gap-[18px]">
+                {/* Rental Process Section */}
+                <section className="rental-section opacity-0 w-full max-w-[1200px] flex flex-col items-center gap-12 desktop:gap-[100px]">
                     <div className="text-center mb-[18px]">
                         <h2 className="text-black text-3xl desktop:text-[45px] font-bold font-['Noto_Sans_TC']">
                             {labels.pricing}
@@ -291,8 +328,8 @@ export const AboutRental: React.FC = () => {
                     </div>
                 </section>
 
-                {/* Contact Section */}
-                <section className="w-full max-w-[1200px] flex flex-col gap-[18px]">
+                {/* Contact Info Section */}
+                <section className="rental-section opacity-0 w-full max-w-[1200px] flex flex-col gap-10 desktop:gap-[60px]">
                     <div className="w-full flex flex-col desktop:flex-row desktop:h-[345px] gap-6 desktop:gap-[18px]">
                         {/* Left Contact Card */}
                         <div className="w-full desktop:w-[301px] bg-white rounded-[27px] p-[30px] flex flex-col justify-between shrink-0 h-auto desktop:h-full gap-8 desktop:gap-0">

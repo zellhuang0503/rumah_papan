@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect, useRef } from 'react';
 import { HomeNavbar } from '../components/HomeNavbar';
 import { SiteFooter } from '../components/SiteFooter';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { getTrafficData } from '../data/villageData';
 import { useLanguage } from '../contexts/LanguageContext';
 import { client, urlFor } from '../utils/sanity';
 import villageMapImage from '../assets/images/pandamaran_tourist_map.jpg';
 import { ArrowRight } from 'lucide-react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface TrafficCMS {
     traffic?: {
@@ -91,8 +95,14 @@ export const VillageTraffic: React.FC = () => {
         hero, methods
     };
 
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useLayoutEffect(() => {
+        ScrollTrigger.refresh();
+    }, [cmsData]); // Only when CMS data loads
+
     return (
-        <div className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
+        <div ref={containerRef} className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
             <HomeNavbar />
 
             <main className="w-full relative flex flex-col items-center pt-32 desktop:pt-[165px] gap-20 desktop:gap-[160px] px-6 desktop:px-0">
@@ -102,7 +112,7 @@ export const VillageTraffic: React.FC = () => {
                 </h1>
 
                 {/* Map Section */}
-                <section className="w-full max-w-[1200px] flex flex-col gap-[30px]">
+                <section className="w-full max-w-[1240px] relative flex flex-col gap-[30px]">
                     {/* Map Container - Optimized with UI/UX Pro Max */}
                     <div className="w-full relative group">
                         {/* Decorative Background Blur/Glow */}
@@ -140,18 +150,18 @@ export const VillageTraffic: React.FC = () => {
                     </div>
                 </section>
 
-                {/* Transportation Methods List */}
-                <section className="w-full max-w-[1200px] flex flex-col items-center gap-8 desktop:gap-[40px]">
+                {/* Traffic Methods Section */}
+                <section className="w-full max-w-[1240px] flex flex-col gap-10 desktop:gap-[60px] traffic-list">
                     {
                         TRAFFIC_DATA.methods.map((method, index) => (
-                            <div key={index} className="w-full bg-white rounded-[18px] px-6 py-8 desktop:px-[84px] desktop:py-[60px] flex flex-col desktop:flex-row justify-between items-start desktop:items-end relative overflow-hidden shadow-sm gap-8 desktop:gap-0">
+                            <div key={index} className="traffic-card bg-white rounded-[18px] p-8 desktop:p-[60px] flex flex-col desktop:flex-row desktop:items-start gap-10 desktop:gap-[80px] shadow-sm">
                                 {/* Left: Method Type */}
-                                <h2 className="text-neutral-900 text-3xl desktop:text-[54px] font-bold font-['Noto_Sans_TC'] leading-[1.4]">
+                                <h2 className="text-neutral-900 text-3xl desktop:text-[54px] font-bold font-['Noto_Sans_TC'] leading-[1.4] desktop:w-[300px] shrink-0">
                                     {method.type}
                                 </h2>
 
                                 {/* Right: Content */}
-                                <div className="w-full desktop:w-[528px] flex flex-col items-start gap-6 desktop:gap-[24px]">
+                                <div className="w-full flex-1 desktop:max-w-[600px] flex flex-col items-start gap-6 desktop:gap-[24px]">
                                     {/* Method Title */}
                                     <h3 className="w-full text-neutral-900 text-xl desktop:text-[27px] font-bold font-['Noto_Sans_TC'] leading-[1.35]">
                                         {method.title}

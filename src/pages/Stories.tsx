@@ -83,45 +83,6 @@ export const Stories: React.FC = () => {
         return matchesCategory && matchesSearch;
     });
 
-    // Animations (GSAP)
-    useLayoutEffect(() => {
-        const ctx = gsap.context(() => {
-
-            // Header Animation
-            gsap.fromTo(".anim-header",
-                { autoAlpha: 0, y: 50 },
-                { autoAlpha: 1, y: 0, duration: 1, ease: "power3.out" }
-            );
-
-            // Filter Animation
-            gsap.fromTo(".anim-filter",
-                { autoAlpha: 0, y: 30 },
-                { autoAlpha: 1, y: 0, duration: 0.8, delay: 0.3, ease: "power3.out" }
-            );
-
-            // Stories Stagger Animation
-            const cards = document.querySelectorAll(".story-card-item");
-            if (cards.length > 0) {
-                gsap.fromTo(cards,
-                    { autoAlpha: 0, y: 50 },
-                    {
-                        autoAlpha: 1,
-                        y: 0,
-                        duration: 0.8,
-                        stagger: 0.1,
-                        delay: 0.5,
-                        ease: "power3.out"
-                    }
-                );
-            }
-
-            ScrollTrigger.refresh();
-
-        }, containerRef);
-
-        return () => ctx.revert();
-    }, [filteredStories]); // Re-run anim when list changes
-
     // Refresh layout when filtering changes
     useLayoutEffect(() => {
         ScrollTrigger.refresh();
@@ -137,10 +98,10 @@ export const Stories: React.FC = () => {
         <div ref={containerRef} className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
             <HomeNavbar />
 
-            <main className="w-full flex flex-col items-center pt-[165px] pb-[120px]">
+            <main className="w-full flex flex-col items-center pt-[165px] pb-[120px] px-6 desktop:px-0">
 
                 {/* Header Section */}
-                <div className="w-full max-w-[1260px] px-[90px] mb-[24px] flex flex-col items-center gap-10 anim-header opacity-0">
+                <div className="w-full max-w-[1260px] mb-[24px] flex flex-col items-center gap-10">
                     <h1 className="text-[54px] font-bold text-[#242527] font-noto-sans-tc leading-[75px]">
                         {labels.title}
                     </h1>
@@ -161,7 +122,7 @@ export const Stories: React.FC = () => {
                 </div>
 
                 {/* Filter Section */}
-                <div className="mb-[60px] anim-filter opacity-0">
+                <div className="mb-[60px]">
                     <StoryFilter
                         activeCategory={activeCategory}
                         onCategoryChange={setActiveCategory}
@@ -169,11 +130,11 @@ export const Stories: React.FC = () => {
                 </div>
 
                 {/* Stories Grid */}
-                {/* 
+                {/*
                    Figma Width: 1680px -> Scaled: 1260px
                    Gap: 24px -> Scaled: 18px
                 */}
-                <div className="w-full px-6 desktop:px-0 desktop:max-w-[1260px] flex flex-wrap gap-6 desktop:gap-[24px]">
+                <div className="w-full max-w-[1260px] flex flex-wrap gap-6 desktop:gap-[24px]">
                     {loading && !useCms ? (
                         // Optional Loading State (or just show static initially)
                         // We display static immediately if useCms is false, so no flash of white.
