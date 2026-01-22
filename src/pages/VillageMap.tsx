@@ -155,7 +155,7 @@ export const VillageMap: React.FC = () => {
 
                     {/* Filter Section */}
                     <div className="w-full flex justify-center desktop:px-0">
-                        <LocationFilter
+                        <MapFilter
                             activeCategory={activeCategory}
                             onCategoryChange={setActiveCategory}
                         />
