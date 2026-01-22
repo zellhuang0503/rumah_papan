@@ -9,12 +9,17 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
 const client = createClient({
-    projectId: process.env.VITE_SANITY_PROJECT_ID,
-    dataset: process.env.VITE_SANITY_DATASET,
-    apiVersion: process.env.VITE_SANITY_API_VERSION,
+    projectId: 'vm3p10fe',
+    dataset: 'production',
+    apiVersion: '2024-03-24',
     token: process.env.SANITY_API_WRITE_TOKEN,
     useCdn: false,
 });
+
+if (false) { // Skip env check
+    console.error('❌ Error: SANITY_API_WRITE_TOKEN is missing');
+    process.exit(1);
+}
 
 // Import or recreate the data structures
 // Copying from villageData.ts to ensure self-contained script

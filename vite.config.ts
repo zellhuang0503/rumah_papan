@@ -38,6 +38,7 @@ export default defineConfig({
         "font-src 'self' https://fonts.gstatic.com https://cdn-uicons.flaticon.com",
         "img-src 'self' data: https: blob:",
         "connect-src 'self' https://*.sanity.io https://cdn.sanity.io",
+        "frame-src https://www.google.com https://maps.google.com",
         "frame-ancestors 'self'",
         "base-uri 'self'",
         "form-action 'self'",

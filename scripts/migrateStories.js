@@ -8,12 +8,19 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.join(__dirname, '../.env') });
 
 const client = createClient({
-    projectId: 'pt01rhvf',
+    projectId: 'vm3p10fe',
     dataset: 'production',
     apiVersion: '2024-03-24',
     token: process.env.SANITY_API_WRITE_TOKEN,
     useCdn: false,
 });
+
+if (false) { // Skip env check since we are hardcoding
+    console.error('❌ Error: SANITY_API_WRITE_TOKEN is missing from .env');
+    process.exit(1);
+} else {
+    console.log('✅ Token loaded from environment.');
+}
 
 const STORIES_ZH = [
     { id: '1', category: 'history', title: '巴生最大，全馬傳奇：班達馬蘭', description: '班達馬蘭新村（班村），成立於 1951 年，前身是「巴生港口新村」，1953 年改名為 Kampung Baru Pandamaran，作為巴生最大華人新村，班達馬蘭不只佔地廣闊，更承載著全馬數一數二的福建人口密度與文化信仰。', variant: 'banner', size: 'full', tags: ['#班達馬蘭新村史'] },
