@@ -3,6 +3,9 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
+  // GitHub Pages 配置
+  // 使用自定义域名时设置为 '/', 否则设置为仓库名称如 '/rumah_papan'
+  base: '/',
   plugins: [react()],
 
   // Security headers for development server

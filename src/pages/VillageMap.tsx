@@ -144,18 +144,18 @@ export const VillageMap: React.FC = () => {
         <div ref={containerRef} className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
             <HomeNavbar />
 
-            <main className="w-full flex flex-col items-center pt-32 desktop:pt-[165px] pb-[120px] px-6 desktop:px-0">
+            <main className="w-full flex flex-col items-center pt-32 desktop:pt-[165px] pb-[120px]">
 
                 {/* Header Section */}
-                <div className="w-full max-w-[1260px] flex flex-col items-center gap-[60px]">
-                    <h1 className="text-black text-3xl md:text-4xl desktop:text-[54px] font-bold font-['Noto_Sans_TC'] leading-[1.4] text-center">
+                <div className="w-full flex flex-col items-center gap-[60px]">
+                    <h1 className="text-black text-3xl desktop:text-[54px] font-bold font-['Noto_Sans_TC'] leading-[1.4] text-center">
                         {MAP_PAGE_TITLE}
                         {isAdmin && <span className="block text-base text-red-500 mt-2 font-mono bg-red-100 py-1 px-3 rounded-full w-fit mx-auto border border-red-200">🔧 Admin Mode: Click Map to Get Coordinates</span>}
                     </h1>
 
                     {/* Filter Section */}
-                    <div className="w-full flex justify-center">
-                        <MapFilter
+                    <div className="w-full flex justify-center desktop:px-0">
+                        <LocationFilter
                             activeCategory={activeCategory}
                             onCategoryChange={setActiveCategory}
                         />
@@ -173,20 +173,20 @@ export const VillageMap: React.FC = () => {
                 </section>
 
                 {/* Content Section: Location Cards */}
-                <div className="w-full max-w-[1260px] flex flex-col gap-12 desktop:gap-[60px]">
+                <div className="w-full max-w-[1260px] px-6 desktop:px-[90px] flex flex-col gap-12 desktop:gap-[60px]">
 
                     {/* Popular Spots Title */}
-                    <h2 className="text-black text-2xl md:text-3xl desktop:text-[42px] font-bold font-['Noto_Sans_TC'] leading-[1.4] text-center">
+                    <h2 className="text-black text-3xl desktop:text-[54px] font-bold font-['Noto_Sans_TC'] leading-[1.4] text-center">
                         {MAP_PAGE_SUBTITLE}
                     </h2>
 
                     {/* Food Section (Bak Kut Teh) */}
                     {shouldShowSection('food') && (
                         <div className="content-section w-full flex flex-col items-center gap-12 desktop:gap-[60px]">
-                            <h3 className="section-title text-black text-lg md:text-xl desktop:text-[30px] font-bold font-['Noto_Sans_TC'] leading-none w-full text-left">
+                            <h3 className="section-title text-black text-2xl desktop:text-[45px] font-bold font-['Noto_Sans_TC'] leading-none w-full text-center desktop:text-left desktop:px-[60px]">
                                 {language === 'zh' ? '人氣肉骨茶' : 'Popular BKT'}
                             </h3>
-                            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+                            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-6 desktop:px-0 auto-rows-fr">
                                 {foodLocations.map((location) => (
                                     <div key={location.id} className="location-card-item">
                                         <LocationCard item={location} />
@@ -199,10 +199,10 @@ export const VillageMap: React.FC = () => {
                     {/* Attraction Section */}
                     {shouldShowSection('attraction') && (
                         <div className="content-section w-full flex flex-col items-center gap-12 desktop:gap-[60px]">
-                            <h3 className="section-title text-black text-lg md:text-xl desktop:text-[30px] font-bold font-['Noto_Sans_TC'] leading-none w-full text-left">
+                            <h3 className="section-title text-black text-2xl desktop:text-[45px] font-bold font-['Noto_Sans_TC'] leading-none w-full text-center desktop:text-left desktop:px-[60px]">
                                 {language === 'zh' ? '必訪景點' : 'Must-visit Spots'}
                             </h3>
-                            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+                            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-6 desktop:px-0 auto-rows-fr">
                                 {attractionLocations.map((location) => (
                                     <div key={location.id} className="location-card-item">
                                         <LocationCard item={location} />
@@ -215,10 +215,10 @@ export const VillageMap: React.FC = () => {
                     {/* Temple Section */}
                     {shouldShowSection('temple') && (
                         <div className="content-section w-full flex flex-col items-center gap-12 desktop:gap-[60px]">
-                            <h3 className="section-title text-black text-lg md:text-xl desktop:text-[30px] font-bold font-['Noto_Sans_TC'] leading-none w-full text-left">
+                            <h3 className="section-title text-black text-2xl desktop:text-[45px] font-bold font-['Noto_Sans_TC'] leading-none w-full text-center desktop:text-left desktop:px-[60px]">
                                 {language === 'zh' ? '在地廟宇' : 'Local Temples'}
                             </h3>
-                            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+                            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-6 desktop:px-0 auto-rows-fr">
                                 {templeLocations.map((location) => (
                                     <div key={location.id} className="location-card-item">
                                         <LocationCard item={location} />

@@ -1,0 +1,62 @@
+name: Deploy to GitHub Pages
+
+# 触发条件：推送到 main 分支，或手动触发（用于 Sanity webhook）
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: '触发生发的原因'
+        required: false
+        default: 'Manual deployment'
+
+# GitHub Pages 需要的权限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 防止并发部署
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+
+    steps:
+      # 检出代码
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 设置 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 安装依赖
+      - name: Install dependencies
+        run: npm ci
+
+      # 构建项目（使用环境变量）
+      - name: Build
+        run: npm run build
+        env:
+          # Sanity 配置
+          VITE_SANITY_PROJECT_ID: ${{ secrets.VITE_SANITY_PROJECT_ID }}
+          VITE_SANITY_DATASET: ${{ secrets.VITE_SANITY_DATASET }}
+
+      # 上传构建产物
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      # 部署到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
