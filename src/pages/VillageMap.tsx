@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -46,7 +46,6 @@ export const VillageMap: React.FC = () => {
     const [searchParams] = useSearchParams();
     const isAdmin = searchParams.get('admin') === 'true' || searchParams.get('mode')?.toLowerCase() === 'admin';
 
-    const staticLocations = getVillageLocations(language);
     const MAP_PAGE_TITLE = getMapPageTitle(language);
     const MAP_PAGE_SUBTITLE = getMapPageSubtitle(language);
 
@@ -66,11 +65,6 @@ export const VillageMap: React.FC = () => {
         fetchMap();
     }, []);
 
-    const getLocalized = (zh: any, en: any, fallback: any) => {
-        if (language === 'en') return en || zh || fallback;
-        return zh || fallback;
-    };
-
     const cmsMap = cmsData?.map;
 
     const currentMapImage = useMemo(() => {
@@ -80,10 +74,14 @@ export const VillageMap: React.FC = () => {
         return undefined;
     }, [cmsMap]);
 
-    const pageTitle = getLocalized(cmsMap?.title, cmsMap?.title_en, MAP_PAGE_TITLE);
-    const pageSubtitle = getLocalized(cmsMap?.subtitle, cmsMap?.subtitle_en, MAP_PAGE_SUBTITLE);
+    const getLocalized = (zh: any, en: any, fallback: any) => {
+        if (language === 'en') return en || zh || fallback;
+        return zh || fallback;
+    };
 
     const processedLocations = useMemo<LocationItem[]>(() => {
+        const staticLocations = getVillageLocations(language);
+
         if (!cmsMap?.locations || cmsMap.locations.length === 0) {
             return staticLocations || [];
         }
@@ -105,7 +103,7 @@ export const VillageMap: React.FC = () => {
             }
 
             return {
-                id: item.id || staticItem?.id || Math.random().toString(36),
+                id: item.id || staticItem?.id || `temp-${item.name || 'unknown'}`,
                 name: getLocalized(item.name, item.name_en, staticItem?.name || ''),
                 subName: getLocalized(item.subName, item.subName_en, staticItem?.subName),
                 address: getLocalized(item.address, item.address_en, staticItem?.address || ''),
@@ -121,7 +119,7 @@ export const VillageMap: React.FC = () => {
                 image: imageUrl
             };
         });
-    }, [cmsMap, staticLocations, language]);
+    }, [cmsMap, language]);
 
     const [activeCategory, setActiveCategory] = useState<LocationCategory>('all');
     const containerRef = useRef<HTMLDivElement>(null);
@@ -133,12 +131,6 @@ export const VillageMap: React.FC = () => {
     const foodLocations = processedLocations.filter(l => l.category === 'food');
     const attractionLocations = processedLocations.filter(l => l.category === 'attraction');
     const templeLocations = processedLocations.filter(l => l.category === 'temple');
-
-    const sectionLabels = {
-        food: language === 'zh' ? '肉骨茶' : 'Bak Kut Teh',
-        attraction: language === 'zh' ? '景點' : 'Attractions',
-        temple: language === 'zh' ? '廟宇' : 'Temples'
-    };
 
     return (
         <div ref={containerRef} className="min-h-screen w-full bg-orange-100 relative overflow-x-hidden font-sans selection:bg-[#F1592C] selection:text-white pb-[120px]">
