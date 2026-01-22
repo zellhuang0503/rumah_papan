@@ -1,9 +1,13 @@
 name: Deploy to GitHub Pages
 
-# 触发条件：推送到 main 分支，或手动触发（用于 Sanity webhook）
+# 触发条件：推送到 main 分支，或接收 Sanity Webhook，或手动触发
 on:
   push:
     branches: [main]
+  # --- 新增以下這段來接收 Sanity Webhook ---
+  repository_dispatch:
+    types: [sanity-update]
+  # --------------------------------------
   workflow_dispatch:
     inputs:
       reason:
