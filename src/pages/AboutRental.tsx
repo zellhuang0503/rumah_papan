@@ -212,7 +212,7 @@ export const AboutRental: React.FC = () => {
                             {labels.process}
                         </h2>
 
-                        <div className="w-full flex flex-col desktop:flex-row items-center desktop:items-start justify-between relative gap-12 desktop:gap-0">
+                        <div className="w-full flex flex-col desktop:flex-row items-center desktop:items-start justify-center relative gap-8 desktop:gap-6">
                             {RENTAL_DATA?.process?.map((step, index) => (
                                 <React.Fragment key={index}>
                                     <div className="flex flex-col gap-[18px] w-full desktop:w-[280px] relative z-10 items-center desktop:items-start text-center desktop:text-left">
@@ -253,7 +253,7 @@ export const AboutRental: React.FC = () => {
                                     {/* Arrow except last */}
                                     {index < RENTAL_DATA.process.length - 1 && (
                                         <div className="hidden desktop:block pt-[10px]">
-                                            <svg width="60" viewBox="0 0 130 10" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-8">
+                                            <svg width="60" viewBox="0 0 130 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M0 -2C-1.10457 -2 -2 -1.10457 -2 0C-2 1.10457 -1.10457 2 0 2V0V-2ZM131.414 1.41421C132.195 0.633165 132.195 -0.633165 131.414 -1.41421L118.686 -14.1421C117.905 -14.9232 116.639 -14.9232 115.858 -14.1421C115.077 -13.3611 115.077 -12.0948 115.858 -11.3137L127.172 0L115.858 11.3137C115.077 12.0948 115.077 13.3611 115.858 14.1421C116.639 14.9232 117.905 14.9232 118.686 14.1421L131.414 1.41421ZM0 0V2H130V0V-2H0V0Z" fill="#181818" transform="scale(0.6) translate(0, 10)" />
                                             </svg>
                                         </div>

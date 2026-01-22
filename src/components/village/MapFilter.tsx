@@ -16,30 +16,30 @@ export const MapFilter: React.FC<MapFilterProps> = ({ activeCategory, onCategory
         {
             id: 'food',
             label: language === 'zh' ? '肉骨茶' : 'Bak Kut Teh',
-            icon: <Soup size={32} />
+            icon: <Soup size={28} strokeWidth={2} />
         },
         {
             id: 'attraction',
             label: language === 'zh' ? '景點' : 'Attractions',
-            icon: <Camera size={32} />
+            icon: <Camera size={28} strokeWidth={2} />
         },
         {
             id: 'temple',
             label: language === 'zh' ? '廟宇' : 'Temples',
-            icon: <Landmark size={32} />
+            icon: <Landmark size={28} strokeWidth={2} />
         },
     ];
 
     return (
-        <div className="w-full max-w-[1260px] grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+        <div className="w-full max-w-[630px] grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
             {categories.map((cat) => (
                 <button
                     key={cat.id}
                     onClick={() => onCategoryChange(activeCategory === cat.id ? 'all' : cat.id)}
                     className={`
-                        relative overflow-hidden group rounded-[20px] px-6 py-4 md:px-8 md:py-6 desktop:py-8
+                        relative overflow-hidden group rounded-[20px] px-5 py-3 md:px-6 md:py-4 lg:px-8 lg:py-5
                         flex items-center justify-between
-                        text-xl md:text-2xl desktop:text-[2rem] font-bold tracking-wider font-noto-sans-tc
+                        text-lg md:text-xl lg:text-2xl font-bold tracking-wider font-noto-sans-tc
                         border-[2px] transition-all duration-300
                         ${activeCategory === cat.id
                             ? 'bg-[#242527] text-[#F3E3CB] border-[#242527]'
