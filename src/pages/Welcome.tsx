@@ -468,22 +468,40 @@ export const Welcome: React.FC = () => {
                         <div className="origin-top-left rotate-90 justify-start text-neutral-800 text-base font-medium font-serif capitalize leading-6 tracking-widest whitespace-nowrap mt-20">rumah papan</div>
                     </div>
 
-                    {/* Bottom Right Floating Buttons - Responsive Position */}
-                    <div className="fixed bottom-12 right-12 z-50 flex flex-col gap-5 pointer-events-auto" style={{ transform: `scale(${scale})`, transformOrigin: 'bottom right' }}>
-                        <div
-                            onClick={toggleLanguage}
-                            className="w-28 h-28 bg-neutral-800 rounded-full flex justify-center items-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] cursor-pointer hover:scale-110 active:scale-90 transition-all duration-300 border border-white/10"
-                        >
-                            <span className="text-orange-100 text-4xl font-medium font-serif leading-none">{language === 'zh' ? 'EN' : '中文'}</span>
-                        </div>
-                        <Link
-                            to="/home"
-                            className="w-28 h-28 bg-neutral-800 rounded-full flex justify-center items-center shadow-[0_20px_50px_rgba(241,89,44,0.2)] cursor-pointer hover:scale-110 active:scale-90 transition-all duration-300 border-[3px] border-[#F1592C] hover:shadow-[0_0_30px_rgba(241,89,44,0.4)]"
-                        >
-                            <ArrowRight className="w-10 h-10 text-[#F1592C]" />
-                        </Link>
-                    </div>
+
                 </div>
+            </div>
+
+
+            {/* ================= GLOBAL FLOATING BUTTONS (FIXED Z-9999) ================= */}
+
+            {/* Desktop Buttons */}
+            <div className="hidden lg:flex fixed bottom-12 right-12 z-[9999] flex-col gap-5 pointer-events-auto">
+                <div
+                    onClick={toggleLanguage}
+                    className="w-28 h-28 bg-neutral-800 rounded-full flex justify-center items-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] cursor-pointer hover:scale-110 active:scale-90 transition-all duration-300 border border-white/10"
+                >
+                    <span className="text-orange-100 text-4xl font-medium font-serif leading-none">{language === 'zh' ? 'EN' : '中文'}</span>
+                </div>
+                <Link
+                    to="/home"
+                    className="w-28 h-28 bg-neutral-800 rounded-full flex justify-center items-center shadow-[0_20px_50px_rgba(241,89,44,0.2)] cursor-pointer hover:scale-110 active:scale-90 transition-all duration-300 border-[3px] border-[#F1592C] hover:shadow-[0_0_30px_rgba(241,89,44,0.4)]"
+                >
+                    <ArrowRight className="w-10 h-10 text-[#F1592C]" />
+                </Link>
+            </div>
+
+            {/* Mobile Buttons */}
+            <div className="lg:hidden fixed bottom-6 right-6 z-[9999] flex flex-col gap-3 pointer-events-auto">
+                <div
+                    onClick={toggleLanguage}
+                    className="w-14 h-14 bg-neutral-800 rounded-full flex justify-center items-center shadow-xl cursor-pointer active:scale-95 transition-transform"
+                >
+                    <span className="text-orange-100 text-lg font-medium font-serif">{language === 'zh' ? 'EN' : '中文'}</span>
+                </div>
+                <Link to="/home" className="w-14 h-14 bg-neutral-800 rounded-full flex justify-center items-center shadow-xl cursor-pointer active:scale-95 transition-transform border-[2px] border-[#F1592C]">
+                    <ArrowRight className="w-6 h-6 text-[#F1592C]" />
+                </Link>
             </div>
 
         </div>
