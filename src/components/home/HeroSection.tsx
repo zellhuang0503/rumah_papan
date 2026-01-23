@@ -72,8 +72,9 @@ export const HeroSection: React.FC = () => {
                             const introSection = document.getElementById('intro-carousel');
                             if (introSection) {
                                 const yOffset = -100; // Offset for fixed navbar
-                                const y = introSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                                window.scrollTo({ top: y, behavior: 'smooth' });
+                                const scrollY = window.scrollY || window.pageYOffset;
+                                const targetY = introSection.getBoundingClientRect().top + scrollY + yOffset;
+                                window.scrollTo({ top: targetY, behavior: 'smooth' });
                             }
                         }}
                     >
