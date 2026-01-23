@@ -89,13 +89,16 @@ export const VillageMap: React.FC = () => {
     }, [language]);
 
     const processedLocations = useMemo<LocationItem[]>(() => {
+        // Output logs for debugging
+        console.log("VillageMap: Processing data... CMS Map:", cmsMap);
+
         if (!cmsMap?.locations || cmsMap.locations.length === 0) {
+            console.warn("VillageMap: No CMS locations found, falling back to static data.");
             return staticLocations;
         }
 
-        return cmsMap.locations.map((item: any, index: number) => {
-            const staticItem = staticLocations.find(l => l.id === item.id) ||
-                staticLocations.find(l => l.category === item.category);
+        const items = cmsMap.locations.map((item: any, index: number) => {
+            const staticItem = staticLocations.find(l => l.id === item.id);
 
             let imageUrl = "";
             try {
@@ -105,13 +108,13 @@ export const VillageMap: React.FC = () => {
                     imageUrl = staticItem?.image || "";
                 }
             } catch (err) {
-                console.error("Image URL processing error:", err);
+                console.error("Image URL processing error for item:", item.name, err);
                 imageUrl = staticItem?.image || "";
             }
 
             return {
-                id: item.id || staticItem?.id || `cms-item-${index}`,
-                name: getLocalized(item.name, item.name_en, staticItem?.name || ''),
+                id: item.id || `cms-item-${index}`,
+                name: getLocalized(item.name, item.name_en, staticItem?.name || 'Unknown'),
                 subName: getLocalized(item.subName, item.subName_en, staticItem?.subName),
                 address: getLocalized(item.address, item.address_en, staticItem?.address || ''),
                 category: (item.category as LocationCategory) || staticItem?.category || 'attraction',
@@ -126,22 +129,25 @@ export const VillageMap: React.FC = () => {
                 image: imageUrl
             };
         });
+
+        console.log("VillageMap: Processed locations:", items);
+        return items;
     }, [cmsMap?.locations, staticLocations, getLocalized]);
 
     const shouldShowSection = useCallback((category: LocationCategory) => {
         return activeCategory === 'all' || activeCategory === category;
     }, [activeCategory]);
 
-    const foodLocations = useMemo(() => 
-        processedLocations.filter(l => l.category === 'food'), 
+    const foodLocations = useMemo(() =>
+        processedLocations.filter(l => l.category === 'food'),
         [processedLocations]
     );
-    const attractionLocations = useMemo(() => 
-        processedLocations.filter(l => l.category === 'attraction'), 
+    const attractionLocations = useMemo(() =>
+        processedLocations.filter(l => l.category === 'attraction'),
         [processedLocations]
     );
-    const templeLocations = useMemo(() => 
-        processedLocations.filter(l => l.category === 'temple'), 
+    const templeLocations = useMemo(() =>
+        processedLocations.filter(l => l.category === 'temple'),
         [processedLocations]
     );
 
