@@ -134,9 +134,8 @@ export const About: React.FC = () => {
                                 </p>
                             </div>
 
-                            {/* Tag */}
                             <div className="relative desktop:absolute desktop:right-[60px] desktop:bottom-[30px] text-left desktop:text-right text-neutral-900 text-[15px] font-normal font-['Roboto_Slab'] leading-[21px] whitespace-pre-line mt-auto pt-4 desktop:pt-0 desktop:mt-0 z-10">
-                                about {'\n'}RUMAH PAPAN
+                                {language === 'zh' ? '關於\n班厝' : 'about\nRUMAH PAPAN'}
                             </div>
 
                             {/* Arrow Icon */}

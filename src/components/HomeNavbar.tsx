@@ -34,7 +34,7 @@ export const HomeNavbar: React.FC = () => {
                     <Link to="/home" className="pointer-events-auto flex items-center gap-2 z-50">
                         <BrandLogo className="w-10 h-10 text-[#181818]" />
                         <div className="flex flex-col">
-                            <h1 className="font-bold text-lg text-[#181818] tracking-wide">班厝故事館</h1>
+                            <h1 className="font-bold text-lg text-[#181818] tracking-wide">{language === 'zh' ? '班厝故事館' : 'Rumah Papan Story House'}</h1>
                             <span className="font-serif text-xs text-[#181818] tracking-widest">RUMAH PAPAN</span>
                         </div>
                     </Link>
@@ -110,7 +110,7 @@ export const HomeNavbar: React.FC = () => {
                     <Link to="/home" className="flex items-center gap-2 z-50" onClick={() => setIsOpen(false)}>
                         <BrandLogo className="w-8 h-8 text-[#181818]" />
                         <div className="flex flex-col">
-                            <h1 className="font-bold text-base text-[#181818] tracking-wide">班厝故事館</h1>
+                            <h1 className="font-bold text-base text-[#181818] tracking-wide">{language === 'zh' ? '班厝故事館' : 'Rumah Papan Story House'}</h1>
                             <span className="font-serif text-[10px] text-[#181818] tracking-widest leading-none">RUMAH PAPAN</span>
                         </div>
                     </Link>
@@ -127,7 +127,7 @@ export const HomeNavbar: React.FC = () => {
                     <Link to="/home" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
                         <BrandLogo className="w-8 h-8 text-[#181818]" />
                         <div className="flex flex-col">
-                            <h1 className="font-bold text-base text-[#181818] tracking-wide">班厝故事館</h1>
+                            <h1 className="font-bold text-base text-[#181818] tracking-wide">{language === 'zh' ? '班厝故事館' : 'Rumah Papan Story House'}</h1>
                             <span className="font-serif text-[10px] text-[#181818] tracking-widest leading-none">RUMAH PAPAN</span>
                         </div>
                     </Link>

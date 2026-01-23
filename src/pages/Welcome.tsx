@@ -171,7 +171,7 @@ export const Welcome: React.FC = () => {
                     <div className="flex items-center gap-3">
                         <BrandLogo className="w-10 h-10 text-[#181818]" />
                         <div className="flex flex-col">
-                            <h1 className="font-bold text-lg text-[#181818]">班厝故事館</h1>
+                            <h1 className="font-bold text-lg text-[#181818]">{language === 'zh' ? '班厝故事館' : 'Rumah Papan Story House'}</h1>
                             <span className="font-serif text-[10px] text-[#181818]">RUMAH PAPAN</span>
                         </div>
                     </div>
@@ -185,10 +185,14 @@ export const Welcome: React.FC = () => {
                     {/* Hero Mobile (Spans 2 cols on Tablet) */}
                     <div className="md:col-span-2 text-center flex flex-col items-center mb-4">
                         <div className="hero-text-vertical-mobile flex gap-2 mb-2 font-bold text-2xl text-[#181818]">
-                            <span>歡</span><span>迎</span><span>來</span><span>到</span>
+                            {language === 'zh' ? (
+                                <><span>歡</span><span>迎</span><span>來</span><span>到</span></>
+                            ) : (
+                                <span>Welcome</span>
+                            )}
                         </div>
-                        <h2 className="hero-text-row-1-mobile font-serif font-semibold text-3xl text-[#000000cc]">Welcome to</h2>
-                        <h1 className="hero-text-row-2-mobile font-black text-5xl text-[#F1592C] mt-1">班達馬蘭</h1>
+                        <h2 className="hero-text-row-1-mobile font-serif font-semibold text-3xl text-[#000000cc]">{language === 'zh' ? 'Welcome to' : 'to'}</h2>
+                        <h1 className="hero-text-row-2-mobile font-black text-5xl text-[#F1592C] mt-1">{language === 'zh' ? '班達馬蘭' : 'Pandamaran'}</h1>
                         <h3 className="hero-text-row-3-mobile font-serif font-semibold text-xl text-[#000000cc] mt-2">Selamat datang di</h3>
                         <h2 className="hero-text-row-4-mobile font-serif font-semibold text-4xl text-[#F1592C] mt-1">Rumah Papan</h2>
                     </div>
@@ -281,7 +285,7 @@ export const Welcome: React.FC = () => {
                             {/* Polaroid 2: 走進新村 (Left, Bottom) */}
                             <Polaroid
                                 src={images[0]}
-                                alt="走進新村"
+                                alt={language === 'zh' ? '走進新村' : 'Explore'}
                                 caption={getPolaroidContent("走進新村", language).caption}
                                 description={getPolaroidContent("走進新村", language).desc}
                                 rotation={-10.61}
@@ -390,7 +394,7 @@ export const Welcome: React.FC = () => {
                                 <BrandLogo className="w-full h-full text-[#181818]" />
                             </div>
                             <div className="flex flex-col justify-start items-start">
-                                <div className="whitespace-nowrap justify-start text-neutral-900 text-3xl font-bold font-sans leading-10">班厝故事館</div>
+                                <div className="whitespace-nowrap justify-start text-neutral-900 text-3xl font-bold font-sans leading-10">{language === 'zh' ? '班厝故事館' : 'Rumah Papan Story House'}</div>
                                 <div className="whitespace-nowrap justify-start text-neutral-900 text-xl font-normal font-serif leading-7 tracking-[0.1em]">RUMAH PAPAN</div>
                             </div>
                         </div>
@@ -413,20 +417,28 @@ export const Welcome: React.FC = () => {
                         <div className="flex justify-start gap-[10px] items-stretch w-full pr-0 pointer-events-auto">
                             {/* Left: Vertical Text (Justified to match Right Stack Height) */}
                             <div className="hero-text-vertical flex flex-col justify-between h-full text-black/80 text-[56px] font-bold font-sans leading-none">
-                                <span>歡</span><span>迎</span><span>來</span><span>到</span>
+                                {language === 'zh' ? (
+                                    <><span>歡</span><span>迎</span><span>來</span><span>到</span></>
+                                ) : (
+                                    <span className="text-[40px] leading-[45px] tracking-tight">WELCOME</span>
+                                )}
                             </div>
 
                             {/* Right: Horizontal Text Stack - Flexible Width to fill remaining space of 470px */}
                             <div className="flex flex-col flex-1 gap-1">
                                 {/* Line 1: Welcome to */}
                                 <div className="hero-text-row-1 flex justify-between w-full text-black/80 text-7xl font-semibold font-serif leading-none">
-                                    <span>Welcome</span>
-                                    <span>to</span>
+                                    <span>{language === 'zh' ? 'Welcome' : 'to'}</span>
+                                    <span>{language === 'zh' ? 'to' : ''}</span>
                                 </div>
 
                                 {/* Line 2: 班達馬蘭 */}
                                 <div className="hero-text-row-2 flex justify-between w-full text-[#F1592C] text-8xl font-black font-sans leading-none mt-[-5px]">
-                                    <span>班</span><span>達</span><span>馬</span><span>蘭</span>
+                                    {language === 'zh' ? (
+                                        <><span>班</span><span>達</span><span>馬</span><span>蘭</span></>
+                                    ) : (
+                                        <span className="text-7xl">PANDAMARAN</span>
+                                    )}
                                 </div>
 
                                 {/* Line 3: Selamat datang di */}

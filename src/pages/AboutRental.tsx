@@ -158,7 +158,7 @@ export const AboutRental: React.FC = () => {
                                         alt={item.title}
                                     />
                                     {/* Bottom Left Gradient/Overlay */}
-                                    <div className="absolute inset-0 pointer-events-none" style={{background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 50%)'}} />
+                                    <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 50%)' }} />
                                 </div>
 
                                 {/* Text Content - Bottom Left - Scaled Padding */}
@@ -304,7 +304,7 @@ export const AboutRental: React.FC = () => {
                         {/* Left Contact Card */}
                         <div className="w-full desktop:w-[301px] bg-white rounded-[27px] p-[30px] flex flex-col justify-between shrink-0 h-auto desktop:h-full gap-8 desktop:gap-0">
                             <div>
-                                <h3 className="text-black text-[18px] font-serif font-medium leading-[1.45]">Contact us</h3>
+                                <h3 className="text-black text-[18px] font-serif font-medium leading-[1.45]">{language === 'zh' ? '聯繫我們' : 'Contact us'}</h3>
                                 <h2 className="text-black text-[37.5px] font-bold font-['Noto_Sans_TC'] mt-[6px] leading-[1.4]">{labels.contactTitle}</h2>
                             </div>
                             <p className="text-black text-[18px] font-bold font-['Noto_Sans_TC'] leading-[1.4]">
