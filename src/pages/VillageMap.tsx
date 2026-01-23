@@ -42,9 +42,6 @@ export const VillageMap: React.FC = () => {
     const [searchParams] = useSearchParams();
     const isAdmin = searchParams.get('admin') === 'true' || searchParams.get('mode')?.toLowerCase() === 'admin';
 
-    const MAP_PAGE_TITLE = getLocalized(cmsMap?.title, cmsMap?.title_en, getMapPageTitle(language));
-    const MAP_PAGE_SUBTITLE = getLocalized(cmsMap?.subtitle, cmsMap?.subtitle_en, getMapPageSubtitle(language));
-
     const [cmsData, setCmsData] = useState<MapCMS | null>(null);
     const [activeCategory, setActiveCategory] = useState<LocationCategory>('all');
     const containerRef = useRef<HTMLDivElement>(null);
@@ -82,6 +79,10 @@ export const VillageMap: React.FC = () => {
         if (language === 'en') return en || zh || fallback;
         return zh || fallback;
     }, [language]);
+
+    // These must be defined AFTER getLocalized and cmsMap
+    const MAP_PAGE_TITLE = getLocalized(cmsMap?.title, cmsMap?.title_en, getMapPageTitle(language));
+    const MAP_PAGE_SUBTITLE = getLocalized(cmsMap?.subtitle, cmsMap?.subtitle_en, getMapPageSubtitle(language));
 
     // Get static locations based on language
     const staticLocations = useMemo(() => {
