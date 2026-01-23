@@ -3,6 +3,7 @@ import { type LocationItem, type LocationCategory } from '../../data/villageMapD
 import { Phone, ExternalLink, X } from 'lucide-react';
 import villageMapImage from '../../assets/images/pandamaran_tourist_map.jpg';
 import { sanitizeUrl } from '../../utils/security';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const MAP_PLACEHOLDER_URL = villageMapImage;
 
@@ -14,6 +15,7 @@ interface MapViewerProps {
 }
 
 export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations = [], mapImage, isAdmin }) => {
+    const { language } = useLanguage();
     const [selectedLocation, setSelectedLocation] = useState<LocationItem | null>(null);
     const [lastCoords, setLastCoords] = useState<{ x: number; y: number } | null>(null);
 
@@ -152,7 +154,7 @@ export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations 
                                                 className="mt-2 w-full bg-[#F1592C] text-white py-2.5 rounded-xl text-center text-sm font-bold flex items-center justify-center gap-2 hover:bg-[#D44A24] transition-colors"
                                             >
                                                 <ExternalLink className="w-4 h-4" />
-                                                在 Google 地圖中查看
+                                                {language === 'zh' ? '在 Google 地圖中查看' : 'View on Google Maps'}
                                             </a>
                                         )}
                                     </div>
@@ -227,7 +229,7 @@ export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations 
                                         className="mt-2 w-full bg-[#F1592C] text-white py-3.5 rounded-xl text-center text-base font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform"
                                     >
                                         <ExternalLink className="w-5 h-5" />
-                                        開啟 Google 地圖
+                                        {language === 'zh' ? '開啟 Google 地圖' : 'Open Google Maps'}
                                     </a>
                                 )}
                             </div>
@@ -238,7 +240,7 @@ export const MapViewer: React.FC<MapViewerProps> = ({ activeCategory, locations 
             {/* Legend / Overlay */}
             <div className="absolute top-4 left-4 md:top-6 md:left-6 pointer-events-none flex flex-col gap-2">
                 <span className="bg-white/90 px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold text-[#242527] backdrop-blur-sm shadow-sm border border-[#242527]/5">
-                    {isAdmin ? 'Admin: Click anywhere to pick coordinates' : '點擊標記查看詳情'}
+                    {isAdmin ? 'Admin: Click anywhere to pick coordinates' : (language === 'zh' ? '點擊標記查看詳情' : 'Click marker for details')}
                 </span>
 
                 {isAdmin && lastCoords && (

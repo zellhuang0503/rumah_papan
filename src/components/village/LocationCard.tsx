@@ -2,12 +2,15 @@ import React from 'react';
 import type { LocationItem } from '../../data/villageMapData';
 import { MapPin, Phone, ExternalLink } from 'lucide-react';
 import { sanitizeUrl } from '../../utils/security';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface LocationCardProps {
     item: LocationItem;
 }
 
 export const LocationCard: React.FC<LocationCardProps> = ({ item }) => {
+    const { language } = useLanguage();
+
     return (
         <div className="w-full h-[400px] desktop:h-[445px] relative rounded-[16px] overflow-hidden group shadow-md location-card-item border border-[#242527]/5">
             {/* Background Image */}
@@ -57,7 +60,7 @@ export const LocationCard: React.FC<LocationCardProps> = ({ item }) => {
                 <div className="flex flex-col gap-6 overflow-y-auto custom-scrollbar pr-2">
                     <div className="flex flex-col gap-2">
                         <h4 className="text-orange-100 text-2xl font-bold font-noto-sans-tc">
-                            {item.featureTitle || '特色亮點'}
+                            {item.featureTitle || (language === 'zh' ? '特色亮點' : 'Highlights')}
                         </h4>
                         <div className="w-10 h-1 bg-[#F1592C] rounded-full"></div>
                     </div>
@@ -109,7 +112,7 @@ export const LocationCard: React.FC<LocationCardProps> = ({ item }) => {
                         className="mt-6 w-full bg-[#F1592C] text-white py-3 rounded-xl text-center font-bold flex items-center justify-center gap-2 hover:bg-white hover:text-[#F1592C] transition-all duration-300"
                     >
                         <ExternalLink className="w-5 h-5" />
-                        開啟 Google 地圖導航
+                        {language === 'zh' ? '開啟 Google 地圖導航' : 'Open Google Maps Navigation'}
                     </a>
                 )}
             </div>
