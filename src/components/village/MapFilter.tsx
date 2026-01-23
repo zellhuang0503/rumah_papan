@@ -37,9 +37,10 @@ export const MapFilter: React.FC<MapFilterProps> = ({ activeCategory, onCategory
                     key={cat.id}
                     onClick={() => onCategoryChange(activeCategory === cat.id ? 'all' : cat.id)}
                     className={`
-                        relative overflow-hidden group rounded-[20px] px-5 py-3 md:px-6 md:py-4 lg:px-8 lg:py-5
-                        flex items-center justify-between
-                        text-lg md:text-xl lg:text-2xl font-bold tracking-wider font-noto-sans-tc
+                        relative overflow-hidden group rounded-[20px] 
+                        ${language === 'zh' ? 'px-5 py-3 md:px-6 md:py-4 lg:px-8 lg:py-5' : 'px-4 py-3 md:px-4 md:py-4 lg:px-6 lg:py-5'}
+                        flex items-center justify-between gap-1
+                        ${language === 'zh' ? 'text-lg md:text-xl lg:text-2xl' : 'text-base md:text-lg lg:text-xl'} font-bold tracking-wider font-noto-sans-tc
                         border-[2px] transition-all duration-300
                         ${activeCategory === cat.id
                             ? 'bg-[#242527] text-[#F3E3CB] border-[#242527]'

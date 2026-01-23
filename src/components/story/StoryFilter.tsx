@@ -27,7 +27,7 @@ export const StoryFilter: React.FC<StoryFilterProps> = ({ activeCategory, onCate
                             ${isActive ? 'bg-[#242527] text-white' : 'bg-transparent text-[#242527] hover:bg-[#242527]/10'}
                         `}
                     >
-                        <span className="text-[18px] font-bold font-noto-sans-tc leading-[24px]">
+                        <span className={`font-bold font-noto-sans-tc ${language === 'zh' ? 'text-[18px] leading-[24px]' : 'text-[16px] leading-tight'}`}>
                             {category.label}
                         </span>
                     </button>

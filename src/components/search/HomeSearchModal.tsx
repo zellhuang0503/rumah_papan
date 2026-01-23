@@ -204,7 +204,7 @@ export const HomeSearchModal: React.FC<HomeSearchModalProps> = ({ isOpen, onClos
                                 <button
                                     key={tag.label}
                                     onClick={() => setQuery(tag.label)}
-                                    className="px-6 py-2 rounded-full border border-neutral-800 flex justify-center items-center gap-2 hover:bg-neutral-800 hover:text-white transition-all duration-300 group"
+                                    className={`${language === 'zh' ? 'px-6 py-2' : 'px-4 py-1.5'} rounded-full border border-neutral-800 flex justify-center items-center gap-2 hover:bg-neutral-800 hover:text-white transition-all duration-300 group`}
                                 >
                                     <span className="text-sm font-medium font-['Noto_Sans_TC']">
                                         {tag.label}
