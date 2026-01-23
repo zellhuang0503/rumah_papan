@@ -18,7 +18,7 @@ export const Polaroid: React.FC<PolaroidProps> = ({
     src,
     alt,
     caption,
-    description = "白天幫忙打理故事館，夜裡在班達馬蘭星空下交換故事。", // Default/Fallback description
+    description = "", // Default empty to avoid hardcoded language
     rotation = 0,
     className = "",
     disableEntryAnim = false,
@@ -68,127 +68,126 @@ export const Polaroid: React.FC<PolaroidProps> = ({
 
         // Peek Animation
         // Text card rotates and slides out slightly
-        gsap.to(textCardRef.current, {
-            rotation: 6,
-            x: 20,
-            y: 5,
-            duration: 0.4,
-            ease: "back.out(1.7)"
-        });
+        rotation: 6,
+            x: 40, // Increased from 20
+                y: 10, // Increased from 5
+                    duration: 0.4,
+                        ease: "back.out(1.7)"
+    });
 
-        // Lift container slightly
-        gsap.to(containerRef.current, {
-            scale: 1.05,
-            zIndex: 50,
-            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-            duration: 0.3
-        });
-    };
+    // Lift container slightly
+    gsap.to(containerRef.current, {
+        scale: 1.05,
+        zIndex: 50,
+        boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+        duration: 0.3
+    });
+};
 
-    const handleMouseLeave = () => {
-        setState('idle');
+const handleMouseLeave = () => {
+    setState('idle');
 
-        // Reset Container
-        gsap.to(containerRef.current, {
-            scale: 1,
-            zIndex: 1,
-            boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
-            duration: 0.4
-        });
+    // Reset Container
+    gsap.to(containerRef.current, {
+        scale: 1,
+        zIndex: 1,
+        boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
+        duration: 0.4
+    });
 
-        // Reset Cards positions
-        gsap.to([photoCardRef.current, textCardRef.current], {
-            x: 0,
-            y: 0,
-            rotation: 0,
-            duration: 0.4,
-            ease: "power2.out"
-        });
+    // Reset Cards positions
+    gsap.to([photoCardRef.current, textCardRef.current], {
+        x: 0,
+        y: 0,
+        rotation: 0,
+        duration: 0.4,
+        ease: "power2.out"
+    });
 
-        // Ensure Z-Index reset (Photo on top)
-        if (photoCardRef.current && textCardRef.current) {
-            photoCardRef.current.style.zIndex = "2";
-            textCardRef.current.style.zIndex = "1";
-        }
-    };
+    // Ensure Z-Index reset (Photo on top)
+    if (photoCardRef.current && textCardRef.current) {
+        photoCardRef.current.style.zIndex = "2";
+        textCardRef.current.style.zIndex = "1";
+    }
+};
 
-    const handleClick = () => {
-        if (state === 'hover' || state === 'idle') {
-            // Perform Swap: Text to Front
-            setState('swapped');
-            performSwapAnimation(textCardRef.current, photoCardRef.current);
-        } else if (state === 'swapped') {
-            // Perform Swap: Photo to Front
-            setState('hover'); // Return to hover state essentially
-            performSwapAnimation(photoCardRef.current, textCardRef.current);
-        }
-    };
+const handleClick = () => {
+    if (state === 'hover' || state === 'idle') {
+        // Perform Swap: Text to Front
+        setState('swapped');
+        performSwapAnimation(textCardRef.current, photoCardRef.current);
+    } else if (state === 'swapped') {
+        // Perform Swap: Photo to Front
+        setState('hover'); // Return to hover state essentially
+        performSwapAnimation(photoCardRef.current, textCardRef.current);
+    }
+};
 
-    const performSwapAnimation = (toFront: HTMLDivElement | null, toBack: HTMLDivElement | null) => {
-        if (!toFront || !toBack) return;
+const performSwapAnimation = (toFront: HTMLDivElement | null, toBack: HTMLDivElement | null) => {
+    if (!toFront || !toBack) return;
 
-        const tl = gsap.timeline();
+    const tl = gsap.timeline();
 
-        // 1. Separate cards (Cut the deck)
-        tl.to(toFront, { x: 60, rotation: 10, duration: 0.25, ease: "power1.in" }, 0)
-            .to(toBack, { x: -60, rotation: -10, duration: 0.25, ease: "power1.in" }, 0)
+    // 1. Separate cards (Cut the deck)
+    tl.to(toFront, { x: 60, rotation: 10, duration: 0.25, ease: "power1.in" }, 0)
+        .to(toBack, { x: -60, rotation: -10, duration: 0.25, ease: "power1.in" }, 0)
 
-            // 2. Swap Z-Index in the middle of movement
-            .call(() => {
-                toFront.style.zIndex = "2";
-                toBack.style.zIndex = "1";
-            })
+        // 2. Swap Z-Index in the middle of movement
+        .call(() => {
+            toFront.style.zIndex = "2";
+            toBack.style.zIndex = "1";
+        })
 
-            // 3. Stack back together
-            .to(toFront, { x: 0, rotation: 0, duration: 0.35, ease: "back.out(1.2)" }, 0.25)
-            .to(toBack, { x: 0, rotation: 0, duration: 0.35, ease: "back.out(1.2)" }, 0.25);
-    };
+        // 3. Stack back together
+        .to(toFront, { x: 0, rotation: 0, duration: 0.35, ease: "back.out(1.2)" }, 0.25)
+        .to(toBack, { x: 0, rotation: 0, duration: 0.35, ease: "back.out(1.2)" }, 0.25);
+};
 
-    return (
+return (
+    <div
+        ref={containerRef}
+        className={`relative bg-transparent ${className} cursor-pointer perspective-1000`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleClick}
+    >
+        {/* PHOTO CARD (Default z-index: 2) */}
         <div
-            ref={containerRef}
-            className={`relative bg-transparent ${className} cursor-pointer perspective-1000`}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onClick={handleClick}
+            ref={photoCardRef}
+            className="absolute top-0 left-0 w-full h-full p-5 bg-white shadow-lg flex flex-col justify-between z-20 origin-center will-change-transform"
         >
-            {/* PHOTO CARD (Default z-index: 2) */}
-            <div
-                ref={photoCardRef}
-                className="absolute top-0 left-0 w-full h-full p-5 bg-white shadow-lg flex flex-col justify-between z-20 origin-center will-change-transform"
-            >
-                <div className="w-full aspect-square bg-gray-100 overflow-hidden mb-2 relative">
-                    <img
-                        src={src}
-                        alt={alt}
-                        className="w-full h-full object-cover"
-                        style={{
-                            objectPosition: imgPosition,
-                            transform: `scale(${imgScale})`
-                        }}
-                    />
-                </div>
-                <div className="flex-1 flex items-end justify-center pb-1 opacity-60">
-                    <BrandLogo className="h-10 w-auto text-[#242527]" />
-                </div>
+            <div className="w-full aspect-square bg-gray-100 overflow-hidden mb-2 relative">
+                <img
+                    src={src}
+                    alt={alt}
+                    className="w-full h-full object-cover"
+                    style={{
+                        objectPosition: imgPosition,
+                        transform: `scale(${imgScale})`
+                    }}
+                />
             </div>
-
-            {/* TEXT CARD (Default z-index: 1) */}
-            <div
-                ref={textCardRef}
-                className="absolute top-0 left-0 w-full h-full p-5 bg-white shadow-lg flex flex-col items-center justify-center text-center z-10 origin-center will-change-transform"
-            >
-                <div className="flex flex-col items-center justify-center gap-4 h-full">
-                    <h3 className="font-bold text-2xl text-[#242527] tracking-widest">{caption || "技能換宿"}</h3>
-                    <div className="w-8 h-1 bg-[#F1592C] rounded-full"></div>
-                    <p className="text-[#364153] text-base leading-relaxed font-medium whitespace-pre-line">
-                        {description}
-                    </p>
-                </div>
-                <div className="absolute bottom-4 opacity-60">
-                    <BrandLogo className="h-6 w-auto text-[#242527]" />
-                </div>
+            <div className="flex-1 flex items-end justify-center pb-1 opacity-60">
+                <BrandLogo className="h-10 w-auto text-[#242527]" />
             </div>
         </div>
-    );
+
+        {/* TEXT CARD (Default z-index: 1) */}
+        <div
+            ref={textCardRef}
+            className="absolute top-0 left-0 w-full h-full p-5 bg-white shadow-lg flex flex-col items-center justify-center text-center z-10 origin-center will-change-transform"
+        >
+            <div className="flex flex-col items-center justify-center gap-4 h-full">
+                <h3 className="font-bold text-2xl text-[#242527] tracking-widest">{caption || "技能換宿"}</h3>
+                <div className="w-8 h-1 bg-[#F1592C] rounded-full"></div>
+                <p className="text-[#364153] text-base leading-relaxed font-medium whitespace-pre-line">
+                    {description}
+                </p>
+            </div>
+            <div className="absolute bottom-4 opacity-60">
+                <BrandLogo className="h-6 w-auto text-[#242527]" />
+            </div>
+        </div>
+    </div>
+);
 };
