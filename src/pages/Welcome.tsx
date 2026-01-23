@@ -33,6 +33,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export const Welcome: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const { language, setLanguage } = useLanguage();
 
     const [scale, setScale] = useState(1);
 
@@ -155,9 +156,6 @@ export const Welcome: React.FC = () => {
         homePolaroid6, // 5: 肉骨茶
         homePolaroid7  // 6: 木鱉果
     ];
-
-    // Use Language Context
-    const { language, setLanguage } = useLanguage();
 
     const toggleLanguage = () => {
         setLanguage(language === 'zh' ? 'en' : 'zh');
