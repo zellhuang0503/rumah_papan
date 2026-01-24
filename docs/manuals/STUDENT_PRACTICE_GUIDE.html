@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>班厝故事館 - 學生專屬沙盒演練手冊</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #ec4899;
+            --bg: #020617;
+            --card-bg: rgba(15, 23, 42, 0.8);
+            --text-main: #f1f5f9;
+            --text-dim: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .bg-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid var(--primary);
+            border-radius: 100px;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-dim);
+            font-weight: 300;
+        }
+
+        .step-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 50px;
+            margin-bottom: 40px;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .step-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .step-num {
+            position: absolute;
+            top: -20px;
+            left: 50px;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+
+        ul,
+        ol {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 12px;
+            color: var(--text-dim);
+        }
+
+        b {
+            color: var(--text-main);
+        }
+
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--success);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .code-block {
+            background: #000;
+            padding: 20px;
+            border-radius: 16px;
+            margin: 20px 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            color: #d1d5db;
+            border: 1px solid var(--glass-border);
+            overflow-x: auto;
+        }
+
+        .warning-box {
+            background: rgba(234, 179, 8, 0.1);
+            border: 1px solid rgba(234, 179, 8, 0.3);
+            padding: 20px;
+            border-radius: 16px;
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .tip-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 20px;
+            border-radius: 16px;
+            margin-top: 30px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 100px 0;
+            opacity: 0.5;
+            font-size: 0.85rem;
+        }
+
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: gap 0.3s ease;
+        }
+
+        .btn-link:hover {
+            gap: 15px;
+            text-decoration: underline;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-card {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-glow"></div>
+
+    <div class="container">
+        <header>
+            <div class="badge">LEARNING SANDBOX</div>
+            <h1>班厝故事館：學生專屬演練指南</h1>
+            <p class="subtitle">建立獨立的沙盒環境，在不影響正式版的情況下盡情探索。</p>
+        </header>
+
+        <div class="step-card" style="animation-delay: 0.1s;">
+            <div class="step-num">1</div>
+            <h2>將程式碼 Fork 到您的帳號</h2>
+            <p>首先，您需要這兩個專案的個人副本，以便自由修改及嘗試。</p>
+            <ul>
+                <li>前往前端專案：<a href="https://github.com/zellhuang0503/rumah_papan" class="btn-link"
+                        target="_blank">rumah_papan <span>→</span></a></li>
+                <li>前往後台專案：<a href="https://github.com/zellhuang0503/rumah_papan_studio" class="btn-link"
+                        target="_blank">rumah_papan_studio <span>→</span></a></li>
+            </ul>
+            <p>點擊頁面右上角的 <b>Fork</b> 按鈕，這會將整個專案複製到您自己的 GitHub 帳號。</p>
+        </div>
+
+        <div class="step-card" style="animation-delay: 0.2s;">
+            <div class="step-num">2</div>
+            <h2>建立個人的 Sanity 雲端空間</h2>
+            <p>為了確保資料庫也是獨立的，請建立您專屬的 Sanity 專案：</p>
+            <ol>
+                <li>前往 <a href="https://www.sanity.io" class="btn-link" target="_blank">Sanity.io 官網</a> 並註冊登入。</li>
+                <li>進入 Dashboard，點擊 <b>"Create new project"</b>。</li>
+                <li>專案名稱建議命名為 <code>Rumah-Papan-Lab</code>。</li>
+                <li>建立完成後，請記下儀表板顯示的 <b>Project ID</b>（這就像是資料庫的身分證）。</li>
+            </ol>
+        </div>
+
+        <div class="step-card" style="animation-delay: 0.3s;">
+            <div class="step-num">3</div>
+            <h2>設定後台連結 (Studio)</h2>
+            <p>將您剛剛 Fork 的 <code>rumah_papan_studio</code> 與您自己的雲端空間連線：</p>
+            <ul>
+                <li>使用 VS Code 開啟 <code>rumah_papan_studio</code> 資料夾。</li>
+                <li>找到 <code>sanity.config.ts</code> 與 <code>sanity.cli.ts</code> 兩支檔案。</li>
+                <li>將其中的 <code>projectId</code> 替換為<b>您剛剛第 2 步產生的 ID</b>。</li>
+            </ul>
+            <div class="tip-box">
+                💡 <b>啟動開發者介面：</b><br>
+                在終端機輸入 <code>npm install</code> (僅第一次)，接著輸入 <code>npm run dev</code>。<br>
+                開啟 <code>http://localhost:3333</code>，這就是您的專屬資料管理後台。
+            </div>
+        </div>
+
+        <div class="step-card" style="animation-delay: 0.4s;">
+            <div class="step-num">4</div>
+            <h2>連動前端網站 (Frontend)</h2>
+            <p>最後一步，讓前端網站讀取您自己資料庫的內容：</p>
+            <ol>
+                <li>使用 VS Code 開啟代碼 <code>rumah_papan</code> 資料夾。</li>
+                <li>在根目錄新增一個檔案，命之為 <code>.env</code>。</li>
+                <li>輸入以下內容（替換成您的 ID）：</li>
+            </ol>
+            <div class="code-block">
+                VITE_SANITY_PROJECT_ID=您的專案ID<br>
+                VITE_SANITY_DATASET=production
+            </div>
+            <p>輸入 <code>npm run dev</code> 啟動。現在，前端網站顯示的資料將完全由您自己的 Sanity 後台控制！</p>
+        </div>
+
+        <div class="step-card" style="animation-delay: 0.5s;">
+            <div class="step-num">✨</div>
+            <h2>完成！您可以開始練習了</h2>
+            <p>在這個環境中，您可以：</p>
+            <ul>
+                <li><b>嘗試新增內容</b>：去後台填寫新的村落景點，看前台會如何變化。</li>
+                <li><b>修改樣式設計</b>：調整 CSS 檔，創造出屬於您的視覺風格。</li>
+                <li><b>學習資料關聯</b>：研究 Schema 是如何定義出這套精美的 Headless 架構。</li>
+            </ul>
+            <div class="warning-box">
+                <div style="font-size: 1.5rem;">⚠️</div>
+                <div>
+                    <b>重要提醒：</b><br>
+                    此為獨立演練環境，您的任何更動<b>不會</b>影響到黃老闆的正式官網，請大膽嘗試，不必擔心改壞資料！
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>文件版本：v1.0 | 梵亞行銷技術團隊 製作</p>
+            <p>&copy; 2026 Rumah Papan Klang Training Materials</p>
+        </div>
+    </div>
+</body>
+
+</html>
