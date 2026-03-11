@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Modify this domain to match your actual production domain
-const DOMAIN = process.env.VITE_SITE_URL || 'https://rumah-papan.com';
+const DOMAIN = process.env.VITE_SITE_URL || 'https://rumahpapanklang.com';
 
 const routes = [
   '/',
