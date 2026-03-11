@@ -68,21 +68,22 @@ export const Polaroid: React.FC<PolaroidProps> = ({
 
         // Peek Animation
         // Text card rotates and slides out slightly
-        rotation: 6,
+        gsap.to(textCardRef.current, {
+            rotation: 6,
             x: 40, // Increased from 20
-                y: 10, // Increased from 5
-                    duration: 0.4,
-                        ease: "back.out(1.7)"
-    });
+            y: 10, // Increased from 5
+            duration: 0.4,
+            ease: "back.out(1.7)"
+        });
 
-    // Lift container slightly
-    gsap.to(containerRef.current, {
-        scale: 1.05,
-        zIndex: 50,
-        boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-        duration: 0.3
-    });
-};
+        // Lift container slightly
+        gsap.to(containerRef.current, {
+            scale: 1.05,
+            zIndex: 50,
+            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+            duration: 0.3
+        });
+    };
 
 const handleMouseLeave = () => {
     setState('idle');
