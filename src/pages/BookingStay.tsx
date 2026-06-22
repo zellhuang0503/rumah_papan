@@ -141,6 +141,17 @@ export const BookingStay: React.FC = () => {
                 body: JSON.stringify(sanitizedData),
             });
 
+            // Guard against non-JSON responses (e.g. an HTML error/SPA page)
+            // so users get a clear message instead of a raw JSON parse error.
+            const contentType = response.headers.get('content-type') || '';
+            if (!contentType.includes('application/json')) {
+                throw new Error(
+                    language === 'zh'
+                        ? '伺服器回應異常，請稍後再試或直接聯繫我們。'
+                        : 'Unexpected server response. Please try again later or contact us directly.'
+                );
+            }
+
             const result = await response.json();
 
             if (!response.ok) {
