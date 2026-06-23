@@ -28,10 +28,22 @@ export default async function handler(request, response) {
             return response.status(400).json({ error: 'Missing required fields' });
         }
 
-        // Initialize Sanity Client with Write Token
+        // Fail fast with a clear message if the write token is not configured,
+        // otherwise Sanity throws a generic "Unauthorized" that is hard to debug.
+        if (!process.env.SANITY_API_WRITE_TOKEN) {
+            console.error('Booking submission error: SANITY_API_WRITE_TOKEN is not set');
+            return response.status(500).json({
+                error: 'Server is not configured to accept bookings yet (missing write token). Please contact us directly.',
+            });
+        }
+
+        // Initialize Sanity Client with Write Token.
+        // projectId/dataset fall back to the same defaults used by the frontend
+        // so the function still works if those env vars are scoped only to a
+        // different environment.
         const client = createClient({
-            projectId: process.env.VITE_SANITY_PROJECT_ID,
-            dataset: process.env.VITE_SANITY_DATASET,
+            projectId: process.env.VITE_SANITY_PROJECT_ID || 'vm3p10fe',
+            dataset: process.env.VITE_SANITY_DATASET || 'production',
             apiVersion: '2024-03-24',
             token: process.env.SANITY_API_WRITE_TOKEN, // Protected token for writing
             useCdn: false,
