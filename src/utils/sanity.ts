@@ -10,6 +10,19 @@ export const client = createClient({
 
 const builder = imageUrlBuilder(client);
 
+// Defensive wrapper: a single malformed CMS image reference (e.g. an
+// incomplete asset _ref like "image-828x384") must never crash the whole
+// page. We build the URL lazily and swallow any error, returning '' so the
+// <img> simply renders empty instead of throwing during render.
 export function urlFor(source: any) {
-    return builder.image(source);
+    return {
+        url: (): string => {
+            try {
+                return builder.image(source).url();
+            } catch (error) {
+                console.warn('[urlFor] Skipping invalid image reference:', (error as Error)?.message);
+                return '';
+            }
+        },
+    };
 }
