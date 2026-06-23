@@ -8,6 +8,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useLanguage } from '../contexts/LanguageContext';
 import { isValidEmail, isValidPhone, sanitizeInput, validateNumberRange } from '../utils/security';
 
+// Bookings are delivered by email via FormSubmit — a free service that works
+// on static hosting (GitHub Pages) with no backend. The first submission sends
+// a one-time activation email to this address; click "Activate" once and all
+// future bookings arrive automatically. (Swap in a FormSubmit alias code later
+// to keep the address out of the public source.)
+const BOOKING_EMAIL_ENDPOINT = 'https://formsubmit.co/ajax/rumahpapanklang01@gmail.com';
+
 // Type definitions for booking form
 export interface BookingStayFormData {
     // Basic Info
@@ -132,30 +139,40 @@ export const BookingStay: React.FC = () => {
                 roomCount: validateNumberRange(formData.roomCount, 1, 20, 1),
             };
 
-            // Call Vercel Serverless Function
-            const response = await fetch('/api/submitBooking', {
+            // Email the booking via FormSubmit (no backend required).
+            const response = await fetch(BOOKING_EMAIL_ENDPOINT, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Accept: 'application/json',
                 },
-                body: JSON.stringify(sanitizedData),
+                body: JSON.stringify({
+                    _subject: `新住宿預約申請 / New Booking - ${sanitizedData.name}`,
+                    _template: 'table',
+                    _captcha: 'false',
+                    '姓名 Name': sanitizedData.name,
+                    'Email': sanitizedData.email,
+                    '電話 Phone': sanitizedData.phone,
+                    '國籍 Nationality': sanitizedData.nationality,
+                    '入住日期 Check-in Date': sanitizedData.checkInDate,
+                    '入住時間 Check-in Time': sanitizedData.checkInTime,
+                    '退房日期 Check-out Date': sanitizedData.checkOutDate,
+                    '退房時間 Check-out Time': sanitizedData.checkOutTime,
+                    '房間數 Rooms': String(sanitizedData.roomCount),
+                    '床型 Bed Type': sanitizedData.preferredBedType,
+                    '付款方式 Payment Method': sanitizedData.paymentMethod,
+                    '備註 Remarks': sanitizedData.remarks || '—',
+                }),
             });
 
-            // Guard against non-JSON responses (e.g. an HTML error/SPA page)
-            // so users get a clear message instead of a raw JSON parse error.
-            const contentType = response.headers.get('content-type') || '';
-            if (!contentType.includes('application/json')) {
+            const result = await response.json().catch(() => null);
+            const succeeded = result && (result.success === 'true' || result.success === true);
+
+            if (!response.ok || !succeeded) {
                 throw new Error(
-                    language === 'zh'
-                        ? '伺服器回應異常，請稍後再試或直接聯繫我們。'
-                        : 'Unexpected server response. Please try again later or contact us directly.'
+                    (result && result.message) ||
+                    (language === 'zh' ? '提交失敗，請稍後再試' : 'Submission failed, please try again')
                 );
-            }
-
-            const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error(result.error || 'Submission failed');
             }
 
             console.log('[BookingStay] Application submitted successfully:', result);
