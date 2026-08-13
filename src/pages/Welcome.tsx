@@ -193,7 +193,7 @@ export const Welcome: React.FC = () => {
                         </div>
                         <h2 className="hero-text-row-1-mobile font-serif font-semibold text-3xl text-[#000000cc]">{language === 'zh' ? 'Welcome to' : 'to'}</h2>
                         <h1 className="hero-text-row-2-mobile font-black text-5xl text-[#F1592C] mt-1">{language === 'zh' ? '班達馬蘭' : 'Pandamaran'}</h1>
-                        <h3 className="hero-text-row-3-mobile font-serif font-semibold text-xl text-[#000000cc] mt-2">Selamat datang di</h3>
+                        <h3 className="hero-text-row-3-mobile font-serif font-semibold text-xl text-[#000000cc] mt-2">Selamat Datang Ke</h3>
                         <h2 className="hero-text-row-4-mobile font-serif font-semibold text-4xl text-[#F1592C] mt-1">Rumah Papan</h2>
                     </div>
 
@@ -441,11 +441,11 @@ export const Welcome: React.FC = () => {
                                     )}
                                 </div>
 
-                                {/* Line 3: Selamat datang di */}
+                                {/* Line 3: Selamat Datang Ke */}
                                 <div className="hero-text-row-3 flex justify-between w-full text-black/80 text-5xl font-semibold font-serif leading-none mt-1">
                                     <span>Selamat</span>
-                                    <span>datang</span>
-                                    <span>di</span>
+                                    <span>Datang</span>
+                                    <span>Ke</span>
                                 </div>
                             </div>
                         </div>

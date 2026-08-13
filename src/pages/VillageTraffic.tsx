@@ -20,7 +20,6 @@ interface TrafficCMS {
         methods?: Array<{
             type?: string; type_en?: string;
             title?: string; title_en?: string;
-            note?: string; note_en?: string;
             steps?: Array<{ id?: string; action?: string; action_en?: string; desc?: string; desc_en?: string; }>;
         }>;
     };
@@ -77,7 +76,6 @@ export const VillageTraffic: React.FC = () => {
             return {
                 type: getLocalized(item.type, item.type_en, staticItem?.type),
                 title: getLocalized(item.title, item.title_en, staticItem?.title),
-                note: getLocalized(item.note, item.note_en, staticItem?.note),
                 steps: (item.steps || []).map((step: any, si: number) => {
                     const staticStep = staticItem?.steps?.[si];
                     return {
@@ -194,13 +192,6 @@ export const VillageTraffic: React.FC = () => {
                                             </div>
                                         ))}
                                     </div>
-
-                                    {/* Note for Shuttle */}
-                                    {method.note && (
-                                        <p className="text-neutral-900/60 text-sm desktop:text-[13.5px] font-medium font-['Noto_Sans_TC'] mt-0 desktop:mt-[-10px]">
-                                            {method.note}
-                                        </p>
-                                    )}
                                 </div>
                             </div>
                         ))

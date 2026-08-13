@@ -189,24 +189,24 @@ export const NEWS_DATA = NEWS_DATA_ZH;
 
 const INTRO_SLIDES_ZH = [
     { title: "厝邊頭尾導覽", desc: "館長親自帶路，沒有標準路線，只有厝邊頭尾的推薦——好吃的、好聊的、有故事的新村人情味，等你慢慢走、慢慢聽。" },
-    { title: "雞公碗", desc: "馬來西亞最大的華人新村入口，用一碗白飯和雞公碗，向每個來訪的人打招呼。" },
+    { title: "雞公碗", desc: "馬來西亞最大的福建人新村入口，用一碗白飯和雞公碗，向每個來訪的人打招呼。" },
     { title: "拜天公", desc: "神壇、供品和煙火，把幾代福建人對天公與祖先的心意都放在這一夜。" },
     { title: "班厝故事館", desc: "故事館裡收著新村記憶、展覽與飯桌，每次推門，都是班達馬蘭的新一頁。" },
     { title: "班達馬蘭新村街景", desc: "海鮮店、肉骨茶與老招牌，把班達馬蘭最日常的生活節奏排成街景。" },
     { title: "技能換宿", desc: "帶著專長來幫忙，新村用飯桌、人情和故事，換給你一段住在這裡的日常。" },
     { title: "新村市集", desc: "一攤攤新村美食與手作，把人情味和好味道一起打包，讓你帶回家。" },
-    { title: "漢白玉佛祖像", desc: "全馬最大漢白玉佛像立在蓮花清人寺，成了班達馬蘭最安定的祝福地標。" },
+    { title: "漢白玉佛祖像", desc: "全馬最大漢白玉佛像立在佛祖慈善院，成了班達馬蘭最安定的祝福地標。" },
 ];
 
 const INTRO_SLIDES_EN = [
     { title: "Neighborhood Tour", desc: "Personally guided by the curator, with no standard route, only neighborhood recommendations—delicious food, great conversations, and stories of the New Village's human warmth, waiting for you to walk leisurely and listen." },
-    { title: "Rooster Bowl", desc: "The entrance to Malaysia's largest Chinese new village greets every visitor with a bowl of rice and a rooster bowl." },
+    { title: "Rooster Bowl", desc: "The entrance to Malaysia's largest Hokkien Community Chinese New Village greets every visitor with a bowl of rice and a rooster bowl." },
     { title: "Praying to the Jade Emperor", desc: "Altars, offerings, and fireworks—placing the devotion of generations of Hokkien people to the Jade Emperor and ancestors into this one night." },
     { title: "Rumah Papan Story House", desc: "The story house collects village memories, exhibitions, and a dining table. Every time you push the door open, it's a new page of Pandamaran." },
     { title: "Pandamaran Village Street View", desc: "Seafood shops, Bak Kut Teh, and old signboards arrange the most daily rhythm of Pandamaran into a street view." },
     { title: "Work Swap", desc: "Bring your skills to help. The village trades a dining table, human warmth, and stories for a daily life lived here." },
     { title: "Village Market", desc: "Stalls of village food and handmade goods, packing up the human touch and good taste for you to take home." },
-    { title: "White Jade Buddha Statue", desc: "The largest white jade Buddha statue in Malaysia stands at the Lotus Ching Ren Temple, becoming the most stable blessing landmark in Pandamaran." },
+    { title: "White Jade Buddha Statue", desc: "The largest white jade Buddha statue in Malaysia stands at the Buddha Temple, becoming the most stable blessing landmark in Pandamaran." },
 ];
 
 export const getIntroSlides = (lang: 'zh' | 'en') => lang === 'zh' ? INTRO_SLIDES_ZH : INTRO_SLIDES_EN;
@@ -220,7 +220,7 @@ const FOOTER_DATA_ZH = {
         region: "Malaysia Selangor Klang",
         phone: "+60 16-219 8920",
         email: "rumahpapanklang@gmail.com",
-        address: "124, Jalan Kemanis, 42000 Pelabuhan Klang, Klang, Malaysia, 42000"
+        address: "124, Jalan Kemanis, Pandamaran, 42000 Pelabuhan Klang, Selangor, 馬來西亞"
     },
     socials: [
         { id: 'facebook', url: 'https://www.facebook.com/RumahPapanPandamaran/', icon: 'fi fi-brands-facebook' },
@@ -237,7 +237,7 @@ const FOOTER_DATA_EN = {
         region: "Malaysia Selangor Klang",
         phone: "+60 16-219 8920",
         email: "rumahpapanklang@gmail.com",
-        address: "124, Jalan Kemanis, 42000 Pelabuhan Klang, Klang, Malaysia, 42000"
+        address: "124, Jalan Kemanis, Pandamaran, 42000 Pelabuhan Klang, Selangor, Malaysia"
     },
     socials: [
         { id: 'facebook', url: 'https://www.facebook.com/RumahPapanPandamaran/', icon: 'fi fi-brands-facebook' },

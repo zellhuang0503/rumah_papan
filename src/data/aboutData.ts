@@ -284,7 +284,7 @@ const RENTAL_DATA_ZH = {
     contact: {
         title: "聯繫班厝",
         desc: "告訴我們你想拍什麼、辦什麼活動，我們會在 3–5 個工作天內回覆。",
-        address: "124, Jalan Kemanis, 42000 Pelabuhan Klang, Klang, Malaysia, 42000",
+        address: "124, Jalan Kemanis, Pandamaran, 42000 Pelabuhan Klang, Selangor, 馬來西亞",
         phone: "+60 16-219 8920",
         email: "rumahpapanklang@gmail.com",
         serviceArea: "Malaysia Selangor Klang"
@@ -356,7 +356,7 @@ const RENTAL_DATA_EN = {
     contact: {
         title: "Contact Rumah Papan",
         desc: "Tell us what you want to film or hold, we reply in 3–5 working days.",
-        address: "124, Jalan Kemanis, 42000 Pelabuhan Klang, Klang, Malaysia, 42000",
+        address: "124, Jalan Kemanis, Pandamaran, 42000 Pelabuhan Klang, Selangor, Malaysia",
         phone: "+60 16-219 8920",
         email: "rumahpapanklang@gmail.com",
         serviceArea: "Malaysia Selangor Klang"

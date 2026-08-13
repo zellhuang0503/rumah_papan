@@ -395,8 +395,7 @@ const TRAFFIC_DATA_ZH = {
             steps: [
                 { id: "01", action: "步行至 Free Shuttle Bus", desc: "出站後步行至 Free Shuttle Bus 免費接駁巴士月台" },
                 { id: "02", action: "搭乘免費接駁巴士", desc: "Subang → KTM Klang（巴士站）（約 30 分鐘）" }
-            ],
-            note: "（此接駁為鐵路維修期間的暫時性服務，建議出發前先確認班次）"
+            ]
         }
     ]
 };
@@ -426,8 +425,7 @@ const TRAFFIC_DATA_EN = {
             steps: [
                 { id: "01", action: "Walk to Shuttle Bus", desc: "Walk to Free Shuttle Bus platform after exiting station" },
                 { id: "02", action: "Take Free Bus", desc: "Subang → KTM Klang (Bus Station) (approx. 30 mins)" }
-            ],
-            note: "(Temporary service during railway maintenance, please check schedule beforehand)"
+            ]
         }
     ]
 };
