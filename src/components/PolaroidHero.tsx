@@ -101,7 +101,7 @@ export const PolaroidHero: React.FC = () => {
                         <div className="flex flex-col items-start lg:items-start text-left">
                             <h2 className="text-4xl lg:text-5xl font-bold text-[#242527] mb-2 tracking-tight">Welcome to</h2>
                             <h1 className="text-6xl lg:text-7xl font-bold text-[#EA580C] mb-4 tracking-tight leading-none">班達馬蘭</h1>
-                            <h3 className="text-3xl lg:text-4xl font-bold text-[#242527] mb-1">Selamat datang di</h3>
+                            <h3 className="text-3xl lg:text-4xl font-bold text-[#242527] mb-1">Selamat Datang Ke</h3>
                             <h1 className="text-5xl lg:text-6xl font-bold text-[#EA580C] tracking-tight leading-none">Rumah Papan</h1>
 
                             {/* Mobile only vertical text fallback */}
