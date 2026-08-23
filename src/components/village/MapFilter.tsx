@@ -15,7 +15,7 @@ export const MapFilter: React.FC<MapFilterProps> = ({ activeCategory, onCategory
     const categories: { id: LocationCategory; label: string; icon: React.ReactNode }[] = [
         {
             id: 'food',
-            label: language === 'zh' ? '肉骨茶' : 'Bak Kut Teh',
+            label: language === 'zh' ? '美食' : 'Food',
             icon: <Soup size={28} strokeWidth={2} />
         },
         {
