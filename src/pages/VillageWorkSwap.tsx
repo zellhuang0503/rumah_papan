@@ -161,7 +161,7 @@ export const VillageWorkSwap: React.FC = () => {
                         </h2>
 
                         {/* Outline Button */}
-                        <Link to="/booking/stay" className="px-6 py-3 desktop:px-[24px] desktop:py-[12px] rounded-full border-[2.4px] border-neutral-800 flex justify-center items-center gap-[6px] hover:bg-neutral-50 transition-colors">
+                        <Link to="/booking/work-swap" className="px-6 py-3 desktop:px-[24px] desktop:py-[12px] rounded-full border-[2.4px] border-neutral-800 flex justify-center items-center gap-[6px] hover:bg-neutral-50 transition-colors">
                             <div className="w-[24px] h-[24px] relative flex justify-center items-center">
                                 {/* Pen Icon SVG */}
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
