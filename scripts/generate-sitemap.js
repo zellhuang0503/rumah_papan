@@ -23,6 +23,7 @@ const routes = [
   '/village/map',
   '/products',
   '/booking/stay',
+  '/booking/work-swap',
   '/contact'
 ];
 
